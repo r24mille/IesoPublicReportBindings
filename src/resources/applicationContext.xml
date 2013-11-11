@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/oxm
+    http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd">
+
+	<bean id="genOutputCapabilityURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/GenOutputCapability/PUB_GenOutputCapability.xml" />
+	</bean>
+
+	<bean id="genOutputCapabilityClient"
+		class="name.reidmiller.parseieso.client.GenOutputCapabilityClient">
+		<constructor-arg ref="genOutputCapabilityURL" />
+		<constructor-arg ref="imoMarshaller" />
+		<constructor-arg ref="imoMarshaller" />
+	</bean>
+
+	<bean id="vgForecastSummaryURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/VGForecastSummary/PUB_VGForecastSummary.xml" />
+	</bean>
+
+	<bean id="vgForecastSummaryClient"
+		class="name.reidmiller.parseieso.client.VGForecastSummaryClient">
+		<constructor-arg ref="vgForecastSummaryURL" />
+		<constructor-arg ref="iesoMarshaller" />
+		<constructor-arg ref="iesoMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="imoMarshaller"
+		contextPath="com.theimo.schema" />
+
+	<oxm:jaxb2-marshaller id="iesoMarshaller"
+		contextPath="ca.ieso.schema" />
+</beans>
