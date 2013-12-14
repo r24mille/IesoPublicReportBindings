@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.theimo.schema.IMODocument;
+import ca.ieso.reports.schema.genoutputcapability.IMODocument;
 
 public class GenOutputCapabilityClientTest {
 	private ApplicationContext appContext;

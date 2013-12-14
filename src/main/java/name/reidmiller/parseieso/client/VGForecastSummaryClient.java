@@ -11,9 +11,9 @@ import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.XmlMappingException;
 
-import ca.ieso.schema.DocBody;
-import ca.ieso.schema.DocHeader;
-import ca.ieso.schema.Document;
+import ca.ieso.reports.schema.vgforecastsummary.DocBody;
+import ca.ieso.reports.schema.vgforecastsummary.DocHeader;
+import ca.ieso.reports.schema.vgforecastsummary.Document;
 
 /**
  * Reads the current "Variable Generation Forecast Summary Report" from

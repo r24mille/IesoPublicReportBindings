@@ -36,3 +36,5 @@ local.properties
 
 ### Java ###
 target/*
+/bin
+/target

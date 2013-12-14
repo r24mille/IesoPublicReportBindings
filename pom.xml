@@ -41,31 +41,46 @@
 			<plugin>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<goals> -->
-<!-- 							<goal>generate</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-				<configuration>
-					<forceRegenerate>true</forceRegenerate>
-					<generateDirectory>src/main/java</generateDirectory>
-					<schemas>
-						<schema>
-							<url>http://reports.ieso.ca/docrefs/schema/GenOutputCapability_r2.xsd</url>
-						</schema>
-						<schema>
-							<url>http://reports.ieso.ca/docrefs/schema/IMODocument_r1.xsd</url>
-						</schema>
-						<schema>
-							<url>http://reports.ieso.ca/docrefs/schema/VGForecastSummary_r1.xsd</url>
-						</schema>
-						<schema>
-							<url>http://reports.ieso.ca/docrefs/schema/Document_r1.xsd</url>
-						</schema>
-					</schemas>
-				</configuration>
+				<executions>
+					<execution>
+						<id>execution-genoutputcapapbility</id>
+						<configuration>
+							<forceRegenerate>true</forceRegenerate>
+							<generateDirectory>src/main/java</generateDirectory>
+							<generatePackage>ca.ieso.reports.schema.genoutputcapability</generatePackage>
+							<schemas>
+								<schema>
+									<url>http://reports.ieso.ca/docrefs/schema/GenOutputCapability_r2.xsd</url>
+								</schema>
+								<schema>
+									<url>http://reports.ieso.ca/docrefs/schema/IMODocument_r1.xsd</url>
+								</schema>
+							</schemas>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>execution-vgforecastsummary</id>
+						<configuration>
+							<forceRegenerate>true</forceRegenerate>
+							<generateDirectory>src/main/java</generateDirectory>
+							<generatePackage>ca.ieso.reports.schema.vgforecastsummary</generatePackage>
+							<schemas>
+								<schema>
+									<url>http://reports.ieso.ca/docrefs/schema/VGForecastSummary_r1.xsd</url>
+								</schema>
+								<schema>
+									<url>http://reports.ieso.ca/docrefs/schema/Document_r1.xsd</url>
+								</schema>
+							</schemas>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>

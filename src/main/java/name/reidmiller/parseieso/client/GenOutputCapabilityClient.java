@@ -11,9 +11,9 @@ import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.XmlMappingException;
 
-import com.theimo.schema.IMODocBody;
-import com.theimo.schema.IMODocHeader;
-import com.theimo.schema.IMODocument;
+import ca.ieso.reports.schema.genoutputcapability.IMODocBody;
+import ca.ieso.reports.schema.genoutputcapability.IMODocHeader;
+import ca.ieso.reports.schema.genoutputcapability.IMODocument;
 
 public class GenOutputCapabilityClient {
 	private URL genOutputCapabilityURL;

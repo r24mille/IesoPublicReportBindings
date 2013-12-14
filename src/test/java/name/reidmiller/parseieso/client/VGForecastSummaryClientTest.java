@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import ca.ieso.schema.Document;
+import ca.ieso.reports.schema.vgforecastsummary.Document;
 
 public class VGForecastSummaryClientTest {
 	private ApplicationContext appContext;
