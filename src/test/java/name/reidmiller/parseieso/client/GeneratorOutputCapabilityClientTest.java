@@ -27,7 +27,7 @@ public class GeneratorOutputCapabilityClientTest {
 	public void testUnmarshal() {
 		try {
 			assertTrue(
-					"GeneratorOutputCapability did not unmaral an IMODocument",
+					"GeneratorOutputCapabilityClient did not unmaral a ca.ieso.reports.schema.genoutputcapability.IMODocument",
 					generatorOutputCapabilityClient.unmarshal() instanceof IMODocument);
 		} catch (ClassCastException e) {
 			fail(e.getMessage());
@@ -36,13 +36,15 @@ public class GeneratorOutputCapabilityClientTest {
 
 	@Test
 	public void testGetIMODocHeader() {
-		assertNotNull("IMODocHeader could not be retrieved from XML",
+		assertNotNull(
+				"ca.ieso.reports.schema.genoutputcapability.IMODocHeader could not be retrieved from XML",
 				generatorOutputCapabilityClient.getIMODocHeader());
 	}
 
 	@Test
 	public void testGetIMODocBody() {
-		assertNotNull("IMODocBody could not be retrieved from XML",
+		assertNotNull(
+				"ca.ieso.reports.schema.genoutputcapability.IMODocBody could not be retrieved from XML",
 				generatorOutputCapabilityClient.getIMODocBody());
 	}
 }

@@ -27,7 +27,7 @@ public class VariableGenerationForecastSummaryClientTest {
 	public void testUnmarshal() {
 		try {
 			assertTrue(
-					"VariableGenerationForecastSummary did not unmaral an Document",
+					"VariableGenerationForecastSummary did not unmaral a ca.ieso.reports.schema.vgforecastsummary.Document",
 					variableGenerationForecastSummaryClient.unmarshal() instanceof Document);
 		} catch (ClassCastException e) {
 			fail(e.getMessage());
@@ -36,13 +36,13 @@ public class VariableGenerationForecastSummaryClientTest {
 
 	@Test
 	public void testGetDocHeader() {
-		assertNotNull("DocHeader could not be retrieved from XML",
+		assertNotNull("ca.ieso.reports.schema.vgforecastsummary.DocHeader could not be retrieved from XML",
 				variableGenerationForecastSummaryClient.getDocHeader());
 	}
 
 	@Test
 	public void testGetDocBody() {
-		assertNotNull("DocBody could not be retrieved from XML",
+		assertNotNull("ca.ieso.reports.schema.vgforecastsummary.DocBody could not be retrieved from XML",
 				variableGenerationForecastSummaryClient.getDocBody());
 	}
 
