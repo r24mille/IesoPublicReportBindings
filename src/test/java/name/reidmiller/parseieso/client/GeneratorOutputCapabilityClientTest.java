@@ -11,24 +11,24 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import ca.ieso.reports.schema.genoutputcapability.IMODocument;
 
-public class GenOutputCapabilityClientTest {
+public class GeneratorOutputCapabilityClientTest {
 	private ApplicationContext appContext;
-	private GenOutputCapabilityClient genOutputCapabilityClient;
+	private GeneratorOutputCapabilityClient generatorOutputCapabilityClient;
 
 	@Before
 	public void setUp() throws Exception {
 		appContext = new ClassPathXmlApplicationContext(
 				"applicationContext.xml");
-		genOutputCapabilityClient = (GenOutputCapabilityClient) appContext
-				.getBean("genOutputCapabilityClient");
+		generatorOutputCapabilityClient = (GeneratorOutputCapabilityClient) appContext
+				.getBean("generatorOutputCapabilityClient");
 	}
 
 	@Test
 	public void testUnmarshal() {
 		try {
 			assertTrue(
-					"GenOutputCapability did not unmaral an IMODocument",
-					genOutputCapabilityClient.unmarshal() instanceof IMODocument);
+					"GeneratorOutputCapability did not unmaral an IMODocument",
+					generatorOutputCapabilityClient.unmarshal() instanceof IMODocument);
 		} catch (ClassCastException e) {
 			fail(e.getMessage());
 		}
@@ -37,12 +37,12 @@ public class GenOutputCapabilityClientTest {
 	@Test
 	public void testGetIMODocHeader() {
 		assertNotNull("IMODocHeader could not be retrieved from XML",
-				genOutputCapabilityClient.getIMODocHeader());
+				generatorOutputCapabilityClient.getIMODocHeader());
 	}
 
 	@Test
 	public void testGetIMODocBody() {
 		assertNotNull("IMODocBody could not be retrieved from XML",
-				genOutputCapabilityClient.getIMODocBody());
+				generatorOutputCapabilityClient.getIMODocBody());
 	}
 }

@@ -15,12 +15,12 @@ import ca.ieso.reports.schema.genoutputcapability.IMODocBody;
 import ca.ieso.reports.schema.genoutputcapability.IMODocHeader;
 import ca.ieso.reports.schema.genoutputcapability.IMODocument;
 
-public class GenOutputCapabilityClient {
+public class GeneratorOutputCapabilityClient {
 	private URL genOutputCapabilityURL;
 	private Marshaller marshaller;
 	private Unmarshaller unmarshaller;
 
-	public GenOutputCapabilityClient(URL genOutputCapabilityURL,
+	public GeneratorOutputCapabilityClient(URL genOutputCapabilityURL,
 			Marshaller marshaller, Unmarshaller unmarshaller) {
 		this.genOutputCapabilityURL = genOutputCapabilityURL;
 		this.marshaller = marshaller;
@@ -78,7 +78,7 @@ public class GenOutputCapabilityClient {
 	}
 
 	/**
-	 * Calls {@link #unmarshal()} and returns onl the {@link IMODocBody} portion
+	 * Calls {@link #unmarshal()} and returns only the {@link IMODocBody} portion
 	 * of the {@link IMODocument}.
 	 * 
 	 * @return {@link IMODocBody}

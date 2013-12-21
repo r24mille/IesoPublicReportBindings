@@ -11,23 +11,24 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import ca.ieso.reports.schema.vgforecastsummary.Document;
 
-public class VGForecastSummaryClientTest {
+public class VariableGenerationForecastSummaryClientTest {
 	private ApplicationContext appContext;
-	private VGForecastSummaryClient vgForecastSummaryClient;
+	private VariableGenerationForecastSummaryClient variableGenerationForecastSummaryClient;
 
 	@Before
 	public void setUp() throws Exception {
 		appContext = new ClassPathXmlApplicationContext(
 				"applicationContext.xml");
-		vgForecastSummaryClient = (VGForecastSummaryClient) appContext
-				.getBean("vgForecastSummaryClient");
+		variableGenerationForecastSummaryClient = (VariableGenerationForecastSummaryClient) appContext
+				.getBean("variableGenerationForecastSummaryClient");
 	}
 
 	@Test
 	public void testUnmarshal() {
 		try {
-			assertTrue("VGForecastSummary did not unmaral an Document",
-					vgForecastSummaryClient.unmarshal() instanceof Document);
+			assertTrue(
+					"VariableGenerationForecastSummary did not unmaral an Document",
+					variableGenerationForecastSummaryClient.unmarshal() instanceof Document);
 		} catch (ClassCastException e) {
 			fail(e.getMessage());
 		}
@@ -36,13 +37,13 @@ public class VGForecastSummaryClientTest {
 	@Test
 	public void testGetDocHeader() {
 		assertNotNull("DocHeader could not be retrieved from XML",
-				vgForecastSummaryClient.getDocHeader());
+				variableGenerationForecastSummaryClient.getDocHeader());
 	}
 
 	@Test
 	public void testGetDocBody() {
 		assertNotNull("DocBody could not be retrieved from XML",
-				vgForecastSummaryClient.getDocBody());
+				variableGenerationForecastSummaryClient.getDocBody());
 	}
 
 }

@@ -11,22 +11,18 @@ import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.XmlMappingException;
 
-import ca.ieso.reports.schema.vgforecastsummary.DocBody;
-import ca.ieso.reports.schema.vgforecastsummary.DocHeader;
-import ca.ieso.reports.schema.vgforecastsummary.Document;
+import ca.ieso.reports.schema.daareaopresshortfall.DocBody;
+import ca.ieso.reports.schema.daareaopresshortfall.DocHeader;
+import ca.ieso.reports.schema.daareaopresshortfall.Document;
 
-/**
- * Reads the current "Variable Generation Forecast Summary Report" from
- * Ontario's Independent Electricity System Operator (IESO).
- */
-public class VGForecastSummaryClient {
-	private URL vgForecastSummaryURL;
+public class DayAheadAreaOperatingReserveShortfallClient {
+	private URL url;
 	private Marshaller marshaller;
 	private Unmarshaller unmarshaller;
 
-	public VGForecastSummaryClient(URL vgForecastSummaryURL,
+	public DayAheadAreaOperatingReserveShortfallClient(URL url,
 			Marshaller marshaller, Unmarshaller unmarshaller) {
-		this.vgForecastSummaryURL = vgForecastSummaryURL;
+		this.url = url;
 		this.marshaller = marshaller;
 		this.unmarshaller = unmarshaller;
 	}
@@ -41,7 +37,7 @@ public class VGForecastSummaryClient {
 		Object unmarshalledObj = null;
 
 		try {
-			InputStream input = this.vgForecastSummaryURL.openStream();
+			InputStream input = this.url.openStream();
 			StreamSource source = new StreamSource(input);
 			unmarshalledObj = this.unmarshaller.unmarshal(source);
 		} catch (XmlMappingException e) {
@@ -66,18 +62,18 @@ public class VGForecastSummaryClient {
 	 * @return {@link DocHeader}
 	 */
 	public DocHeader getDocHeader() {
-		Document document = this.unmarshal();
-		List<Object> headerAndBody = document.getDocHeaderAndDocBody();
+		Document Document = this.unmarshal();
+		List<Object> imoHeaderAndBody = Document.getDocHeaderAndDocBody();
 
-		DocHeader docHeader = null;
-		for (Object part : headerAndBody) {
-			if (part instanceof DocHeader) {
-				docHeader = (DocHeader) part;
+		DocHeader DocHeader = null;
+		for (Object imoPart : imoHeaderAndBody) {
+			if (imoPart instanceof DocHeader) {
+				DocHeader = (DocHeader) imoPart;
 				break;
 			}
 		}
 
-		return docHeader;
+		return DocHeader;
 	}
 
 	/**
@@ -87,17 +83,17 @@ public class VGForecastSummaryClient {
 	 * @return {@link DocBody}
 	 */
 	public DocBody getDocBody() {
-		Document document = this.unmarshal();
-		List<Object> headerAndBody = document.getDocHeaderAndDocBody();
+		Document Document = this.unmarshal();
+		List<Object> imoHeaderAndBody = Document.getDocHeaderAndDocBody();
 
-		DocBody docBody = null;
-		for (Object part : headerAndBody) {
-			if (part instanceof DocBody) {
-				docBody = (DocBody) part;
+		DocBody DocBody = null;
+		for (Object imoPart : imoHeaderAndBody) {
+			if (imoPart instanceof DocBody) {
+				DocBody = (DocBody) imoPart;
 				break;
 			}
 		}
 
-		return docBody;
+		return DocBody;
 	}
 }
