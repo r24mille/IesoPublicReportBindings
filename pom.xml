@@ -232,6 +232,63 @@
 							<goal>generate</goal>
 						</goals>
 					</execution>
+					<execution>
+						<id>execution-dispareaopresandenergycalled</id>
+						<configuration>
+							<forceRegenerate>true</forceRegenerate>
+							<generateDirectory>src/main/java</generateDirectory>
+							<generatePackage>ca.ieso.reports.schema.dispareaopresandenergycalled</generatePackage>
+							<schemas>
+								<schema>
+									<url>http://reports.ieso.ca/docrefs/schema/DispAreaOpResAndEnergyCalled_r1.xsd</url>
+								</schema>
+								<schema>
+									<url>http://reports.ieso.ca/docrefs/schema/Document_r1.xsd</url>
+								</schema>
+							</schemas>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>execution-dispareaopresshortfalls</id>
+						<configuration>
+							<forceRegenerate>true</forceRegenerate>
+							<generateDirectory>src/main/java</generateDirectory>
+							<generatePackage>ca.ieso.reports.schema.dispareaopresshortfalls</generatePackage>
+							<schemas>
+								<schema>
+									<url>http://reports.ieso.ca/docrefs/schema/DispAreaOpResShortfalls_r1.xsd</url>
+								</schema>
+								<schema>
+									<url>http://reports.ieso.ca/docrefs/schema/Document_r1.xsd</url>
+								</schema>
+							</schemas>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>execution-dispsecurityconstraints</id>
+						<configuration>
+							<forceRegenerate>true</forceRegenerate>
+							<generateDirectory>src/main/java</generateDirectory>
+							<generatePackage>ca.ieso.reports.schema.dispsecurityconstraints</generatePackage>
+							<schemas>
+								<schema>
+									<url>http://reports.ieso.ca/docrefs/schema/DispSecurityConstraints_r1.xsd</url>
+								</schema>
+								<schema>
+									<url>http://reports.ieso.ca/docrefs/schema/Document_r1.xsd</url>
+								</schema>
+							</schemas>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
 				</executions>
 			</plugin>
 			<plugin>
