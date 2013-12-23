@@ -235,6 +235,38 @@
 	<oxm:jaxb2-marshaller id="globalAdjustmentRatesMarshaller"
 		contextPath="ca.ieso.reports.schema.globaladjustment" />
 
+	<!-- Historical Transmission Outages -->
+	<bean id="historicalTransmissionOutagesURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/IOMSPublicHistoricOutageHour/PUB_IOMSPublicHistoricOutageHour.xml" />
+	</bean>
+
+	<bean id="historicalTransmissionOutagesClient"
+		class="name.reidmiller.parseieso.client.HistoricalTransmissionOutagesClient">
+		<constructor-arg ref="historicalTransmissionOutagesURL" />
+		<constructor-arg ref="historicalTransmissionOutagesMarshaller" />
+		<constructor-arg ref="historicalTransmissionOutagesMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="historicalTransmissionOutagesMarshaller"
+		contextPath="ca.ieso.reports.schema.iomspublichistoricoutagehour" />
+
+	<!-- Planned Transmission Outages (Day) -->
+	<bean id="plannedTransmissionOutagesDayURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/IOMSPublicPlannedOutageDay/PUB_IOMSPublicPlannedOutageDay.xml" />
+	</bean>
+
+	<bean id="plannedTransmissionOutagesDayClient"
+		class="name.reidmiller.parseieso.client.PlannedTransmissionOutagesDayClient">
+		<constructor-arg ref="plannedTransmissionOutagesDayURL" />
+		<constructor-arg ref="plannedTransmissionOutagesDayMarshaller" />
+		<constructor-arg ref="plannedTransmissionOutagesDayMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="plannedTransmissionOutagesDayMarshaller"
+		contextPath="ca.ieso.reports.schema.iomspublicplannedoutageday" />
+
 	<!-- Variable Generation Forecast Summary -->
 	<bean id="variableGenerationForecastSummaryURL" class="java.net.URL">
 		<constructor-arg

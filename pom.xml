@@ -327,6 +327,44 @@
 							<goal>generate</goal>
 						</goals>
 					</execution>
+					<execution>
+						<id>execution-iomspublichistoricoutagehour</id>
+						<configuration>
+							<forceRegenerate>true</forceRegenerate>
+							<generateDirectory>src/main/java</generateDirectory>
+							<generatePackage>ca.ieso.reports.schema.iomspublichistoricoutagehour</generatePackage>
+							<schemas>
+								<schema>
+									<url>http://reports.ieso.ca/docrefs/schema/IOMSPublicHistoricOutageHour_r1.xsd</url>
+								</schema>
+								<schema>
+									<url>http://reports.ieso.ca/docrefs/schema/Document_r1.xsd</url>
+								</schema>
+							</schemas>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>execution-iomspublicplannedoutageday</id>
+						<configuration>
+							<forceRegenerate>true</forceRegenerate>
+							<generateDirectory>src/main/java</generateDirectory>
+							<generatePackage>ca.ieso.reports.schema.iomspublicplannedoutageday</generatePackage>
+							<schemas>
+								<schema>
+									<url>http://reports.ieso.ca/docrefs/schema/IOMSPublicPlannedOutageDay_r1.xsd</url>
+								</schema>
+								<schema>
+									<url>http://reports.ieso.ca/docrefs/schema/Document_r1.xsd</url>
+								</schema>
+							</schemas>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
 				</executions>
 			</plugin>
 			<plugin>
