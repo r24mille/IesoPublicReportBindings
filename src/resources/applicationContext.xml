@@ -17,7 +17,7 @@
 		<constructor-arg ref="adequacyMarshaller" />
 		<constructor-arg ref="adequacyMarshaller" />
 	</bean>
-	
+
 	<oxm:jaxb2-marshaller id="adequacyMarshaller"
 		contextPath="ca.ieso.reports.schema.adequacy" />
 
@@ -32,7 +32,7 @@
 		<constructor-arg ref="dayAheadAdequacyMarshaller" />
 		<constructor-arg ref="dayAheadAdequacyMarshaller" />
 	</bean>
-	
+
 	<oxm:jaxb2-marshaller id="dayAheadAdequacyMarshaller"
 		contextPath="ca.ieso.reports.schema.daadequacy" />
 
@@ -48,7 +48,7 @@
 		<constructor-arg ref="dayAheadAreaOperatingReserveShortfallMarshaller" />
 		<constructor-arg ref="dayAheadAreaOperatingReserveShortfallMarshaller" />
 	</bean>
-	
+
 	<oxm:jaxb2-marshaller id="dayAheadAreaOperatingReserveShortfallMarshaller"
 		contextPath="ca.ieso.reports.schema.daareaopresshortfall" />
 
@@ -64,7 +64,7 @@
 		<constructor-arg ref="dayAheadAreaReserveConstraintsMarshaller" />
 		<constructor-arg ref="dayAheadAreaReserveConstraintsMarshaller" />
 	</bean>
-	
+
 	<oxm:jaxb2-marshaller id="dayAheadAreaReserveConstraintsMarshaller"
 		contextPath="ca.ieso.reports.schema.daareareserveconst" />
 
@@ -80,7 +80,7 @@
 		<constructor-arg ref="dayAheadConstrainedTotalsMarshaller" />
 		<constructor-arg ref="dayAheadConstrainedTotalsMarshaller" />
 	</bean>
-	
+
 	<oxm:jaxb2-marshaller id="dayAheadConstrainedTotalsMarshaller"
 		contextPath="ca.ieso.reports.schema.daconsttotals" />
 
@@ -96,7 +96,7 @@
 		<constructor-arg ref="dayAheadIntertieSchedulingLimitsMarshaller" />
 		<constructor-arg ref="dayAheadIntertieSchedulingLimitsMarshaller" />
 	</bean>
-	
+
 	<oxm:jaxb2-marshaller id="dayAheadIntertieSchedulingLimitsMarshaller"
 		contextPath="ca.ieso.reports.schema.daintertieschedlimits" />
 
@@ -112,7 +112,7 @@
 		<constructor-arg ref="dayAheadSecurityConstraintsMarshaller" />
 		<constructor-arg ref="dayAheadSecurityConstraintsMarshaller" />
 	</bean>
-	
+
 	<oxm:jaxb2-marshaller id="dayAheadSecurityConstraintsMarshaller"
 		contextPath="ca.ieso.reports.schema.dasecurityconstraints" />
 
@@ -128,9 +128,80 @@
 		<constructor-arg ref="dayAheadShadowPricesMarshaller" />
 		<constructor-arg ref="dayAheadShadowPricesMarshaller" />
 	</bean>
-	
+
 	<oxm:jaxb2-marshaller id="dayAheadShadowPricesMarshaller"
 		contextPath="ca.ieso.reports.schema.dashadowprices" />
+
+	<!-- Dispatch Area Operating Reserve: Total Scheduled and Total Energy Called -->
+	<bean
+		id="dispatchAreaOperatingReserveTotalScheduledAndTotalEnergyCalledURL"
+		class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/DispAreaOpResAndEnergyCalled/PUB_DispAreaOpResAndEnergyCalled.xml" />
+	</bean>
+
+	<bean
+		id="dispatchAreaOperatingReserveTotalScheduledAndTotalEnergyCalledClient"
+		class="name.reidmiller.parseieso.client.DispatchAreaOperatingReserveTotalScheduledAndTotalEnergyCalledClient">
+		<constructor-arg
+			ref="dispatchAreaOperatingReserveTotalScheduledAndTotalEnergyCalledURL" />
+		<constructor-arg
+			ref="dispatchAreaOperatingReserveTotalScheduledAndTotalEnergyCalledMarshaller" />
+		<constructor-arg
+			ref="dispatchAreaOperatingReserveTotalScheduledAndTotalEnergyCalledMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller
+		id="dispatchAreaOperatingReserveTotalScheduledAndTotalEnergyCalledMarshaller"
+		contextPath="ca.ieso.reports.schema.dispareaopresandenergycalled" />
+
+	<!-- Dispatch Area Operating Reserve Shortfalls -->
+	<bean id="dispatchAreaOperatingReserveShortfallsURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/DispAreaOpResShortfalls/PUB_DispAreaOpResShortfalls.xml" />
+	</bean>
+
+	<bean id="dispatchAreaOperatingReserveShortfallsClient"
+		class="name.reidmiller.parseieso.client.DispatchAreaOperatingReserveShortfallsClient">
+		<constructor-arg ref="dispatchAreaOperatingReserveShortfallsURL" />
+		<constructor-arg ref="dispatchAreaOperatingReserveShortfallsMarshaller" />
+		<constructor-arg ref="dispatchAreaOperatingReserveShortfallsMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller
+		id="dispatchAreaOperatingReserveShortfallsMarshaller" contextPath="ca.ieso.reports.schema.dispareaopresshortfalls" />
+
+	<!-- Dispatch Security Constraints -->
+	<bean id="dispatchSecurityConstraintsURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/DispSecurityConstraints/PUB_DispSecurityConstraints.xml" />
+	</bean>
+
+	<bean id="dispatchSecurityConstraintsClient"
+		class="name.reidmiller.parseieso.client.DispatchSecurityConstraintsClient">
+		<constructor-arg ref="dispatchSecurityConstraintsURL" />
+		<constructor-arg ref="dispatchSecurityConstraintsMarshaller" />
+		<constructor-arg ref="dispatchSecurityConstraintsMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="dispatchSecurityConstraintsMarshaller"
+		contextPath="ca.ieso.reports.schema.dispsecurityconstraints" />
+
+	<!-- Hourly Ontario Energy Price (HOEP) Report -->
+	<bean id="hourlyOntarioEnergyPriceReportURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/DispUnconsHOEP/PUB_DispUnconsHOEP.xml" />
+	</bean>
+
+	<bean id="hourlyOntarioEnergyPriceReportClient"
+		class="name.reidmiller.parseieso.client.HourlyOntarioEnergyPriceReportClient">
+		<constructor-arg ref="hourlyOntarioEnergyPriceReportURL" />
+		<constructor-arg ref="hourlyOntarioEnergyPriceReportMarshaller" />
+		<constructor-arg ref="hourlyOntarioEnergyPriceReportMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="hourlyOntarioEnergyPriceReportMarshaller"
+		contextPath="ca.ieso.reports.schema.dispunconshoep" />
 
 	<!-- Generator Output Capability -->
 	<bean id="generatorOutputCapabilityURL" class="java.net.URL">
@@ -144,9 +215,25 @@
 		<constructor-arg ref="generatorOutputCapabilityMarshaller" />
 		<constructor-arg ref="generatorOutputCapabilityMarshaller" />
 	</bean>
-	
+
 	<oxm:jaxb2-marshaller id="generatorOutputCapabilityMarshaller"
 		contextPath="ca.ieso.reports.schema.genoutputcapability" />
+
+	<!-- IESO Global Adjustment Class B Rates -->
+	<bean id="globalAdjustmentRatesURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/GlobalAdjustment/PUB_GlobalAdjustment.xml" />
+	</bean>
+
+	<bean id="globalAdjustmentRatesClient"
+		class="name.reidmiller.parseieso.client.GlobalAdjustmentRatesClient">
+		<constructor-arg ref="globalAdjustmentRatesURL" />
+		<constructor-arg ref="globalAdjustmentRatesMarshaller" />
+		<constructor-arg ref="globalAdjustmentRatesMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="globalAdjustmentRatesMarshaller"
+		contextPath="ca.ieso.reports.schema.globaladjustment" />
 
 	<!-- Variable Generation Forecast Summary -->
 	<bean id="variableGenerationForecastSummaryURL" class="java.net.URL">
