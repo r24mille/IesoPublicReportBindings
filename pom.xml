@@ -289,6 +289,44 @@
 							<goal>generate</goal>
 						</goals>
 					</execution>
+					<execution>
+						<id>execution-dispunconshoep</id>
+						<configuration>
+							<forceRegenerate>true</forceRegenerate>
+							<generateDirectory>src/main/java</generateDirectory>
+							<generatePackage>ca.ieso.reports.schema.dispunconshoep</generatePackage>
+							<schemas>
+								<schema>
+									<url>http://reports.ieso.ca/docrefs/schema/DispUnconsHOEP_r1.xsd</url>
+								</schema>
+								<schema>
+									<url>http://reports.ieso.ca/docrefs/schema/IMODocument_r1.xsd</url>
+								</schema>
+							</schemas>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>execution-globaladjustment</id>
+						<configuration>
+							<forceRegenerate>true</forceRegenerate>
+							<generateDirectory>src/main/java</generateDirectory>
+							<generatePackage>ca.ieso.reports.schema.globaladjustment</generatePackage>
+							<schemas>
+								<schema>
+									<url>http://reports.ieso.ca/docrefs/schema/GlobalAdjustment_r1.xsd</url>
+								</schema>
+								<schema>
+									<url>http://reports.ieso.ca/docrefs/schema/Document_r1.xsd</url>
+								</schema>
+							</schemas>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
 				</executions>
 			</plugin>
 			<plugin>
