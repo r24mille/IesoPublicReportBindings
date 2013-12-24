@@ -27,7 +27,7 @@ public class DispatchAreaOperatingReserveTotalScheduledAndTotalEnergyCalledClien
 	public void testUnmarshal() {
 		try {
 			assertTrue(
-					"AdequacyClient did not unmaral a ca.ieso.reports.schema.dispareaopresandenergycalled.Document",
+					"Could not unmarshal a ca.ieso.reports.schema.dispareaopresandenergycalled.Document",
 					dispatchAreaOperatingReserveTotalScheduledAndTotalEnergyCalledClient
 							.unmarshal() instanceof Document);
 		} catch (ClassCastException e) {

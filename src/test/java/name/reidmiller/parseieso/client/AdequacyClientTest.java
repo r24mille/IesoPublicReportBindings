@@ -26,7 +26,7 @@ public class AdequacyClientTest {
 	public void testUnmarshal() {
 		try {
 			assertTrue(
-					"AdequacyClient did not unmaral a ca.ieso.reports.schema.adequacy.Document",
+					"Could not unmaral a ca.ieso.reports.schema.adequacy.Document",
 					adequacyClient.unmarshal() instanceof Document);
 		} catch (ClassCastException e) {
 			fail(e.getMessage());

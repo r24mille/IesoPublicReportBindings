@@ -28,7 +28,7 @@ public class DispatchSecurityConstraintsClientTest {
 	public void testUnmarshal() {
 		try {
 			assertTrue(
-					"AdequacyClient did not unmaral a ca.ieso.reports.schema.dispsecurityconstraints.Document",
+					"Could not unmarshal a ca.ieso.reports.schema.dispsecurityconstraints.Document",
 					dispatchSecurityConstraintsClient.unmarshal() instanceof Document);
 		} catch (ClassCastException e) {
 			fail(e.getMessage());

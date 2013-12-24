@@ -24,7 +24,7 @@ public class DayAheadAreaReserveConstraintsClientTest {
 	public void testUnmarshal() {
 		try {
 			assertTrue(
-					"AdequacyClient did not unmaral a ca.ieso.reports.schema.daareareserveconst.Document",
+					"Could not unmarshal a ca.ieso.reports.schema.daareareserveconst.Document",
 					dayAheadAreaReserveConstraintsClient.unmarshal() instanceof Document);
 		} catch (ClassCastException e) {
 			fail(e.getMessage());

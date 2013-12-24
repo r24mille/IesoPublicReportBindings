@@ -25,7 +25,7 @@ public class PlannedTransmissionOutagesMonthClientTest {
 	public void testUnmarshal() {
 		try {
 			assertTrue(
-					"AdequacyClient did not unmaral a ca.ieso.reports.schema.iomspublicplanneodutagemonth.Document",
+					"Could not unmarshal a ca.ieso.reports.schema.iomspublicplanneodutagemonth.Document",
 					plannedTransmissionOutagesMonthClient.unmarshal() instanceof Document);
 		} catch (ClassCastException e) {
 			fail(e.getMessage());

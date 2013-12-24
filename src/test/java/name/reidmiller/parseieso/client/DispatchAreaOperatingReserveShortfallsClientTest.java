@@ -27,7 +27,7 @@ public class DispatchAreaOperatingReserveShortfallsClientTest {
 	public void testUnmarshal() {
 		try {
 			assertTrue(
-					"AdequacyClient did not unmaral a ca.ieso.reports.schema.dispareaopresshortfalls.Document",
+					"Could not unmarshal a ca.ieso.reports.schema.dispareaopresshortfalls.Document",
 					dispatchAreaOperatingReserveShortfallsClient.unmarshal() instanceof Document);
 		} catch (ClassCastException e) {
 			fail(e.getMessage());

@@ -27,7 +27,7 @@ public class GeneratorOutputCapabilityClientTest {
 	public void testUnmarshal() {
 		try {
 			assertTrue(
-					"GeneratorOutputCapabilityClient did not unmaral a ca.ieso.reports.schema.genoutputcapability.IMODocument",
+					"Could not unmaral a ca.ieso.reports.schema.genoutputcapability.IMODocument",
 					generatorOutputCapabilityClient.unmarshal() instanceof IMODocument);
 		} catch (ClassCastException e) {
 			fail(e.getMessage());

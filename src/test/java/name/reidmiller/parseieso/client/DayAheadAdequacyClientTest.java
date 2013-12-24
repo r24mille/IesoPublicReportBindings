@@ -26,7 +26,7 @@ public class DayAheadAdequacyClientTest {
 	public void testUnmarshal() {
 		try {
 			assertTrue(
-					"AdequacyClient did not unmaral a ca.ieso.reports.schema.daadequacy.Document",
+					"Could not unmaral a ca.ieso.reports.schema.daadequacy.Document",
 					dayAheadAdequacyClient.unmarshal() instanceof Document);
 		} catch (ClassCastException e) {
 			fail(e.getMessage());

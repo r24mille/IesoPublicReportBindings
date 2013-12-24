@@ -27,7 +27,7 @@ public class DayAheadAreaOperatingReserveShortfallClientTest {
 	public void testUnmarshal() {
 		try {
 			assertTrue(
-					"AdequacyClient did not unmaral a ca.ieso.reports.schema.daareaopresshortfall.Document",
+					"Could not unmarshal a ca.ieso.reports.schema.daareaopresshortfall.Document",
 					dayAheadAreaOperatingReserveShortfallClient.unmarshal() instanceof Document);
 		} catch (ClassCastException e) {
 			fail(e.getMessage());

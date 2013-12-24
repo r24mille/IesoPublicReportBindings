@@ -27,7 +27,7 @@ public class DayAheadConstrainedTotalsClientTest {
 	public void testUnmarshal() {
 		try {
 			assertTrue(
-					"AdequacyClient did not unmaral a ca.ieso.reports.schema.daconsttotals.Document",
+					"Could not unmarshal a ca.ieso.reports.schema.daconsttotals.Document",
 					dayAheadConstrainedTotalsClient.unmarshal() instanceof Document);
 		} catch (ClassCastException e) {
 			fail(e.getMessage());

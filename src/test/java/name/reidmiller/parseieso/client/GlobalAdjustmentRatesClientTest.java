@@ -27,7 +27,7 @@ public class GlobalAdjustmentRatesClientTest {
 	public void testUnmarshal() {
 		try {
 			assertTrue(
-					"AdequacyClient did not unmaral a ca.ieso.reports.schema.globaladjustment.Document",
+					"Could not unmarshal a ca.ieso.reports.schema.globaladjustment.Document",
 					globalAdjustmentRatesClient.unmarshal() instanceof Document);
 		} catch (ClassCastException e) {
 			fail(e.getMessage());

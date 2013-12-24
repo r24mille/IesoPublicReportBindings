@@ -27,7 +27,7 @@ public class DayAheadShadowPricesClientTest {
 	public void testUnmarshal() {
 		try {
 			assertTrue(
-					"AdequacyClient did not unmaral a ca.ieso.reports.schema.dashadowprices.Document",
+					"Could not unmarshal a ca.ieso.reports.schema.dashadowprices.Document",
 					dayAheadShadowPricesClient.unmarshal() instanceof Document);
 		} catch (ClassCastException e) {
 			fail(e.getMessage());
