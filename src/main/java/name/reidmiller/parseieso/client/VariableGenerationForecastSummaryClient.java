@@ -20,13 +20,13 @@ import ca.ieso.reports.schema.vgforecastsummary.Document;
  * Ontario's Independent Electricity System Operator (IESO).
  */
 public class VariableGenerationForecastSummaryClient {
-	private URL vgForecastSummaryURL;
+	private URL url;
 	private Marshaller marshaller;
 	private Unmarshaller unmarshaller;
 
-	public VariableGenerationForecastSummaryClient(URL vgForecastSummaryURL,
+	public VariableGenerationForecastSummaryClient(URL url,
 			Marshaller marshaller, Unmarshaller unmarshaller) {
-		this.vgForecastSummaryURL = vgForecastSummaryURL;
+		this.url = url;
 		this.marshaller = marshaller;
 		this.unmarshaller = unmarshaller;
 	}
@@ -41,7 +41,7 @@ public class VariableGenerationForecastSummaryClient {
 		Object unmarshalledObj = null;
 
 		try {
-			InputStream input = this.vgForecastSummaryURL.openStream();
+			InputStream input = this.url.openStream();
 			StreamSource source = new StreamSource(input);
 			unmarshalledObj = this.unmarshaller.unmarshal(source);
 		} catch (XmlMappingException e) {
@@ -66,11 +66,11 @@ public class VariableGenerationForecastSummaryClient {
 	 * @return {@link DocHeader}
 	 */
 	public DocHeader getDocHeader() {
-		Document document = this.unmarshal();
-		List<Object> headerAndBody = document.getDocHeaderAndDocBody();
+		Document Document = this.unmarshal();
+		List<Object> docHeaderAndDocBody = Document.getDocHeaderAndDocBody();
 
 		DocHeader docHeader = null;
-		for (Object part : headerAndBody) {
+		for (Object part : docHeaderAndDocBody) {
 			if (part instanceof DocHeader) {
 				docHeader = (DocHeader) part;
 				break;
@@ -87,11 +87,11 @@ public class VariableGenerationForecastSummaryClient {
 	 * @return {@link DocBody}
 	 */
 	public DocBody getDocBody() {
-		Document document = this.unmarshal();
-		List<Object> headerAndBody = document.getDocHeaderAndDocBody();
+		Document Document = this.unmarshal();
+		List<Object> docHeaderAndDocBody = Document.getDocHeaderAndDocBody();
 
 		DocBody docBody = null;
-		for (Object part : headerAndBody) {
+		for (Object part : docHeaderAndDocBody) {
 			if (part instanceof DocBody) {
 				docBody = (DocBody) part;
 				break;

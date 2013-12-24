@@ -63,11 +63,11 @@ public class GeneratorOutputCapabilityClient {
 	 */
 	public IMODocHeader getIMODocHeader() {
 		IMODocument imoDocument = this.unmarshal();
-		List<Object> imoHeaderAndBody = imoDocument
+		List<Object> imoDocHeaderAndDocBody = imoDocument
 				.getIMODocHeaderAndIMODocBody();
 
 		IMODocHeader imoDocHeader = null;
-		for (Object imoPart : imoHeaderAndBody) {
+		for (Object imoPart : imoDocHeaderAndDocBody) {
 			if (imoPart instanceof IMODocHeader) {
 				imoDocHeader = (IMODocHeader) imoPart;
 				break;
@@ -78,18 +78,18 @@ public class GeneratorOutputCapabilityClient {
 	}
 
 	/**
-	 * Calls {@link #unmarshal()} and returns only the {@link IMODocBody} portion
-	 * of the {@link IMODocument}.
+	 * Calls {@link #unmarshal()} and returns only the {@link IMODocBody}
+	 * portion of the {@link IMODocument}.
 	 * 
 	 * @return {@link IMODocBody}
 	 */
 	public IMODocBody getIMODocBody() {
 		IMODocument imoDocument = this.unmarshal();
-		List<Object> imoHeaderAndBody = imoDocument
+		List<Object> imoDocHeaderAndDocBody = imoDocument
 				.getIMODocHeaderAndIMODocBody();
 
 		IMODocBody imoDocBody = null;
-		for (Object imoPart : imoHeaderAndBody) {
+		for (Object imoPart : imoDocHeaderAndDocBody) {
 			if (imoPart instanceof IMODocBody) {
 				imoDocBody = (IMODocBody) imoPart;
 				break;

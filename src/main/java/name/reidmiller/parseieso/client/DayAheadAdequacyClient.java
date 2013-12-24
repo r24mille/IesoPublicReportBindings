@@ -63,17 +63,17 @@ public class DayAheadAdequacyClient {
 	 */
 	public DocHeader getDocHeader() {
 		Document Document = this.unmarshal();
-		List<Object> imoHeaderAndBody = Document.getDocHeaderAndDocBody();
+		List<Object> docHeaderAndDocBody = Document.getDocHeaderAndDocBody();
 
-		DocHeader DocHeader = null;
-		for (Object imoPart : imoHeaderAndBody) {
-			if (imoPart instanceof DocHeader) {
-				DocHeader = (DocHeader) imoPart;
+		DocHeader docHeader = null;
+		for (Object part : docHeaderAndDocBody) {
+			if (part instanceof DocHeader) {
+				docHeader = (DocHeader) part;
 				break;
 			}
 		}
 
-		return DocHeader;
+		return docHeader;
 	}
 
 	/**
@@ -84,16 +84,16 @@ public class DayAheadAdequacyClient {
 	 */
 	public DocBody getDocBody() {
 		Document Document = this.unmarshal();
-		List<Object> imoHeaderAndBody = Document.getDocHeaderAndDocBody();
+		List<Object> docHeaderAndDocBody = Document.getDocHeaderAndDocBody();
 
-		DocBody DocBody = null;
-		for (Object imoPart : imoHeaderAndBody) {
-			if (imoPart instanceof DocBody) {
-				DocBody = (DocBody) imoPart;
+		DocBody docBody = null;
+		for (Object part : docHeaderAndDocBody) {
+			if (part instanceof DocBody) {
+				docBody = (DocBody) part;
 				break;
 			}
 		}
 
-		return DocBody;
+		return docBody;
 	}
 }
