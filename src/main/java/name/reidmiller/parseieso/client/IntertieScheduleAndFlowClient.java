@@ -11,12 +11,9 @@ import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.XmlMappingException;
 
-import ca.ieso.reports.schema.genoutputcapability.IMODocBody;
-import ca.ieso.reports.schema.genoutputcapability.IMODocHeader;
-import ca.ieso.reports.schema.genoutputcapability.IMODocument;
-import ca.ieso.reports.schema.intertiescheduleflow.DocBody;
-import ca.ieso.reports.schema.intertiescheduleflow.DocHeader;
-import ca.ieso.reports.schema.intertiescheduleflow.Document;
+import ca.ieso.reports.schema.intertiescheduleflow.IMODocBody;
+import ca.ieso.reports.schema.intertiescheduleflow.IMODocHeader;
+import ca.ieso.reports.schema.intertiescheduleflow.IMODocument;
 
 public class IntertieScheduleAndFlowClient {
 	private URL genOutputCapabilityURL;
