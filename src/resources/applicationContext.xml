@@ -344,8 +344,8 @@
 		<constructor-arg ref="predispatchAreaOperatingReserveShortfallsMarshaller" />
 	</bean>
 
-	<oxm:jaxb2-marshaller id="predispatchAreaOperatingReserveShortfallsMarshaller"
-		contextPath="ca.ieso.reports.schema.predispareaopresshortfalls" />
+	<oxm:jaxb2-marshaller
+		id="predispatchAreaOperatingReserveShortfallsMarshaller" contextPath="ca.ieso.reports.schema.predispareaopresshortfalls" />
 
 	<!-- Predispatch Area Reserve Constraints Report -->
 	<bean id="predispatchAreaReserveConstraintsURL" class="java.net.URL">
@@ -426,6 +426,214 @@
 
 	<oxm:jaxb2-marshaller id="predispatchMarketTotalsMarshaller"
 		contextPath="ca.ieso.reports.schema.predispmkttotals" />
+
+	<!-- Predispatch Security Constraints -->
+	<bean id="predispatchSecurityConstraintsURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/PredispSecurityConstraints/PUB_PredispSecurityConstraints.xml" />
+	</bean>
+
+	<bean id="predispatchSecurityConstraintsClient"
+		class="name.reidmiller.parseieso.client.PredispatchSecurityConstraintsClient">
+		<constructor-arg ref="predispatchSecurityConstraintsURL" />
+		<constructor-arg ref="predispatchSecurityConstraintsMarshaller" />
+		<constructor-arg ref="predispatchSecurityConstraintsMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="predispatchSecurityConstraintsMarshaller"
+		contextPath="ca.ieso.reports.schema.predispsecurityconstraints" />
+
+	<!-- Predispatch Shadow Prices Report -->
+	<bean id="predispatchShadowPricesURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/PredispShadowPrices/PUB_PredispShadowPrices.xml" />
+	</bean>
+
+	<bean id="predispatchShadowPricesClient"
+		class="name.reidmiller.parseieso.client.PredispatchShadowPricesClient">
+		<constructor-arg ref="predispatchShadowPricesURL" />
+		<constructor-arg ref="predispatchShadowPricesMarshaller" />
+		<constructor-arg ref="predispatchShadowPricesMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="predispatchShadowPricesMarshaller"
+		contextPath="ca.ieso.reports.schema.predispshadowprices" />
+
+	<!-- Realtime Area Reserve Constraints Report -->
+	<bean id="realtimeAreaReserveConstraintsURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/RealtimeAreaReserveConst/PUB_RealtimeAreaReserveConst.xml" />
+	</bean>
+
+	<bean id="realtimeAreaReserveConstraintsClient"
+		class="name.reidmiller.parseieso.client.RealtimeAreaReserveConstraintsClient">
+		<constructor-arg ref="realtimeAreaReserveConstraintsURL" />
+		<constructor-arg ref="realtimeAreaReserveConstraintsMarshaller" />
+		<constructor-arg ref="realtimeAreaReserveConstraintsMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="realtimeAreaReserveConstraintsMarshaller"
+		contextPath="ca.ieso.reports.schema.realtimeareareserveconst" />
+
+	<!-- Realtime Constrained Totals Report -->
+	<bean id="realtimeConstrainedTotalsURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/RealtimeConstTotals/PUB_RealtimeConstTotals.xml" />
+	</bean>
+
+	<bean id="realtimeConstrainedTotalsClient"
+		class="name.reidmiller.parseieso.client.RealtimeConstrainedTotalsClient">
+		<constructor-arg ref="realtimeConstrainedTotalsURL" />
+		<constructor-arg ref="realtimeConstrainedTotalsMarshaller" />
+		<constructor-arg ref="realtimeConstrainedTotalsMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="realtimeConstrainedTotalsMarshaller"
+		contextPath="ca.ieso.reports.schema.realtimeconsttotals" />
+
+	<!-- Realtime Intertie Scheduling Limits Report -->
+	<bean id="realtimeIntertieSchedulingLimitsURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/RealtimeIntertieSchedLimits/PUB_RealtimeIntertieSchedLimits.xml" />
+	</bean>
+
+	<bean id="realtimeIntertieSchedulingLimitsClient"
+		class="name.reidmiller.parseieso.client.RealtimeIntertieSchedulingLimitsClient">
+		<constructor-arg ref="realtimeIntertieSchedulingLimitsURL" />
+		<constructor-arg ref="realtimeIntertieSchedulingLimitsMarshaller" />
+		<constructor-arg ref="realtimeIntertieSchedulingLimitsMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="realtimeIntertieSchedulingLimitsMarshaller"
+		contextPath="ca.ieso.reports.schema.realtimeintertieschedlimits" />
+
+	<!-- Realtime Market Price Report -->
+	<bean id="realtimeMarketPriceURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/RealtimeMktPrice/PUB_RealtimeMktPrice.xml" />
+	</bean>
+
+	<bean id="realtimeMarketPriceClient"
+		class="name.reidmiller.parseieso.client.RealtimeMarketPriceClient">
+		<constructor-arg ref="realtimeMarketPriceURL" />
+		<constructor-arg ref="realtimeMarketPriceMarshaller" />
+		<constructor-arg ref="realtimeMarketPriceMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="realtimeMarketPriceMarshaller"
+		contextPath="ca.ieso.reports.schema.realtimemktprice" />
+
+	<!-- Realtime Market Totals Report -->
+	<bean id="realtimeMarketTotalsURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/PredispMktTotals/PUB_PredispMktTotals.xml" />
+	</bean>
+
+	<bean id="realtimeMarketTotalsClient"
+		class="name.reidmiller.parseieso.client.RealtimeMarketTotalsClient">
+		<constructor-arg ref="realtimeMarketTotalsURL" />
+		<constructor-arg ref="realtimeMarketTotalsMarshaller" />
+		<constructor-arg ref="realtimeMarketTotalsMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="realtimeMarketTotalsMarshaller"
+		contextPath="ca.ieso.reports.schema.realtimemkttotals" />
+
+	<!-- Realtime Operating Reserve In Market Report -->
+	<bean id="realtimeOperatingReserveInMarketURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/RealtimeORIM/PUB_RealtimeORIM.xml" />
+	</bean>
+
+	<bean id="realtimeOperatingReserveInMarketClient"
+		class="name.reidmiller.parseieso.client.RealtimeOperatingReserveInMarketClient">
+		<constructor-arg ref="realtimeOperatingReserveInMarketURL" />
+		<constructor-arg ref="realtimeOperatingReserveInMarketMarshaller" />
+		<constructor-arg ref="realtimeOperatingReserveInMarketMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="realtimeOperatingReserveInMarketMarshaller"
+		contextPath="ca.ieso.reports.schema.realtimeorim" />
+		
+	<!-- Realtime Shadow Prices Report -->
+	<bean id="realtimeShadowPricesURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/RealtimeShadowPrices/PUB_RealtimeShadowPrices.xml" />
+	</bean>
+
+	<bean id="realtimeShadowPricesClient"
+		class="name.reidmiller.parseieso.client.RealtimeShadowPricesClient">
+		<constructor-arg ref="realtimeShadowPricesURL" />
+		<constructor-arg ref="realtimeShadowPricesMarshaller" />
+		<constructor-arg ref="realtimeShadowPricesMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="realtimeShadowPricesMarshaller"
+		contextPath="ca.ieso.reports.schema.realtimeshadowprices" />
+		
+	<!-- TRA Post Auction MCP LT Round 1 Report -->
+	<bean id="traPostAuctionMcpLtRoundOneURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/TRAPostauctionMCPLTr1/PUB_TRAPostauctionMCPLTr1.xml" />
+	</bean>
+
+	<bean id="traPostAuctionMcpLtRoundOneClient"
+		class="name.reidmiller.parseieso.client.TraPostAuctionMcpLtRoundOneClient">
+		<constructor-arg ref="traPostAuctionMcpLtRoundOneURL" />
+		<constructor-arg ref="traPostAuctionMcpLtRoundOneMarshaller" />
+		<constructor-arg ref="traPostAuctionMcpLtRoundOneMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="traPostAuctionMcpLtRoundOneMarshaller"
+		contextPath="ca.ieso.reports.schema.trapostauctionmcpltr1" />
+		
+	<!-- Post Auction MCP LT Round 2 Report -->
+	<bean id="postAuctionMcpLtRoundTwoURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/TRAPostauctionMCPLTr2/PUB_TRAPostauctionMCPLTr2.xml" />
+	</bean>
+
+	<bean id="postAuctionMcpLtRoundTwoClient"
+		class="name.reidmiller.parseieso.client.PostAuctionMcpLtRoundTwoClient">
+		<constructor-arg ref="postAuctionMcpLtRoundTwoURL" />
+		<constructor-arg ref="postAuctionMcpLtRoundTwoMarshaller" />
+		<constructor-arg ref="postAuctionMcpLtRoundTwoMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="postAuctionMcpLtRoundTwoMarshaller"
+		contextPath="ca.ieso.reports.schema.trapostauctionmcpltr2" />
+		
+	<!-- Post Auction MCP ST Round 1 Report -->
+	<bean id="postAuctionMcpStRoundOneURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/TRAPostauctionMCPSTr1/PUB_TRAPostauctionMCPSTr1.xml" />
+	</bean>
+
+	<bean id="postAuctionMcpStRoundOneClient"
+		class="name.reidmiller.parseieso.client.PostAuctionMcpStRoundOneClient">
+		<constructor-arg ref="postAuctionMcpStRoundOneURL" />
+		<constructor-arg ref="postAuctionMcpStRoundOneMarshaller" />
+		<constructor-arg ref="postAuctionMcpStRoundOneMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="postAuctionMcpStRoundOneMarshaller"
+		contextPath="ca.ieso.reports.schema.trapostauctionmcpstr1" />
+		
+	<!-- TR Hourly Zonal Price Report (Monthly) -->
+	<bean id="trHourlyZonalPriceMonthlyURL" class="java.net.URL">
+		<constructor-arg
+			value="http://reports.ieso.ca/public/TRAPreauctionHZMCPMonthly/PUB_TRAPreauctionHZMCPMonthly.xml" />
+	</bean>
+
+	<bean id="trHourlyZonalPriceMonthlyClient"
+		class="name.reidmiller.parseieso.client.TrHourlyZonalPriceMonthlyClient">
+		<constructor-arg ref="trHourlyZonalPriceMonthlyURL" />
+		<constructor-arg ref="trHourlyZonalPriceMonthlyMarshaller" />
+		<constructor-arg ref="trHourlyZonalPriceMonthlyMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="trHourlyZonalPriceMonthlyMarshaller"
+		contextPath="ca.ieso.reports.schema.trapreauctionhzmcpmonthly" />
 
 	<!-- Variable Generation Forecast Summary -->
 	<bean id="variableGenerationForecastSummaryURL" class="java.net.URL">
