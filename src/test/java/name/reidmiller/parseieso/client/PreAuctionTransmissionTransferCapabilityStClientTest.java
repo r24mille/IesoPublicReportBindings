@@ -1,0 +1,51 @@
+package name.reidmiller.parseieso.client;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import ca.ieso.reports.schema.trapreauctionttcst.Document;
+
+public class PreAuctionTransmissionTransferCapabilityStClientTest {
+	private ApplicationContext appContext;
+	private PreAuctionTransmissionTransferCapabilityStClient preAuctionTransmissionTransferCapabilityStClient;
+
+	@Before
+	public void setUp() throws Exception {
+		appContext = new ClassPathXmlApplicationContext(
+				"applicationContext.xml");
+		preAuctionTransmissionTransferCapabilityStClient = (PreAuctionTransmissionTransferCapabilityStClient) appContext
+				.getBean("preAuctionTransmissionTransferCapabilityStClient");
+	}
+
+	@Test
+	public void testUnmarshal() {
+		try {
+			assertTrue(
+					"Could not unmaral a ca.ieso.reports.schema.trapreauctionttcst.Document",
+					preAuctionTransmissionTransferCapabilityStClient
+							.unmarshal() instanceof Document);
+		} catch (ClassCastException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testGetDocHeader() {
+		assertNotNull(
+				"ca.ieso.reports.schema.trapreauctionttcst.DocHeader could not be retrieved from XML",
+				preAuctionTransmissionTransferCapabilityStClient.getDocHeader());
+	}
+
+	@Test
+	public void testGetDocBody() {
+		assertNotNull(
+				"ca.ieso.reports.schema.trapreauctionttcst.DocBody could not be retrieved from XML",
+				preAuctionTransmissionTransferCapabilityStClient.getDocBody());
+	}
+}

@@ -1,5 +1,4 @@
 package name.reidmiller.parseieso.client;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -11,16 +10,16 @@ import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.XmlMappingException;
 
-import ca.ieso.reports.schema.trapreauctionhzmcpmonthly.DocBody;
-import ca.ieso.reports.schema.trapreauctionhzmcpmonthly.DocHeader;
-import ca.ieso.reports.schema.trapreauctionhzmcpmonthly.Document;
+import ca.ieso.reports.schema.trapreauctionttclt.DocHeader;
+import ca.ieso.reports.schema.trapreauctionttclt.Document;
 
-public class TraHourlyZonalPriceMonthlyClient {
+
+public class PreAuctionTransmissionTransferCapabilityLtClient {
 	private URL url;
 	private Marshaller marshaller;
 	private Unmarshaller unmarshaller;
 
-	public TraHourlyZonalPriceMonthlyClient(URL url, Marshaller marshaller,
+	public PreAuctionTransmissionTransferCapabilityLtClient(URL url, Marshaller marshaller,
 			Unmarshaller unmarshaller) {
 		this.url = url;
 		this.marshaller = marshaller;
@@ -77,19 +76,19 @@ public class TraHourlyZonalPriceMonthlyClient {
 	}
 
 	/**
-	 * Calls {@link #unmarshal()} and returns only the {@link DocBody} portion
+	 * Calls {@link #unmarshal()} and returns only the {@link Document.DocBody} portion
 	 * of the {@link Document}.
 	 * 
-	 * @return {@link DocBody}
+	 * @return {@link Document.DocBody}
 	 */
-	public DocBody getDocBody() {
+	public Document.DocBody getDocBody() {
 		Document Document = this.unmarshal();
 		List<Object> docHeaderAndDocBody = Document.getDocHeaderAndDocBody();
 
-		DocBody docBody = null;
+		Document.DocBody docBody = null;
 		for (Object part : docHeaderAndDocBody) {
-			if (part instanceof DocBody) {
-				docBody = (DocBody) part;
+			if (part instanceof Document.DocBody) {
+				docBody = (Document.DocBody) part;
 				break;
 			}
 		}
