@@ -11,16 +11,16 @@ import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.XmlMappingException;
 
-import ca.ieso.reports.schema.trapostauctionmcpltr2.DocBody;
-import ca.ieso.reports.schema.trapostauctionmcpltr2.DocHeader;
-import ca.ieso.reports.schema.trapostauctionmcpltr2.Document;
+import ca.ieso.reports.schema.trapostauctionmcpstr1.DocBody;
+import ca.ieso.reports.schema.trapostauctionmcpstr1.DocHeader;
+import ca.ieso.reports.schema.trapostauctionmcpstr1.Document;
 
-public class PostAuctionMcpLtRoundTwoClient {
+public class TraPostAuctionMcpStRoundOneClient {
 	private URL url;
 	private Marshaller marshaller;
 	private Unmarshaller unmarshaller;
 
-	public PostAuctionMcpLtRoundTwoClient(URL url, Marshaller marshaller,
+	public TraPostAuctionMcpStRoundOneClient(URL url, Marshaller marshaller,
 			Unmarshaller unmarshaller) {
 		this.url = url;
 		this.marshaller = marshaller;

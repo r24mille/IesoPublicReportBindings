@@ -587,52 +587,52 @@
 	<oxm:jaxb2-marshaller id="traPostAuctionMcpLtRoundOneMarshaller"
 		contextPath="ca.ieso.reports.schema.trapostauctionmcpltr1" />
 		
-	<!-- Post Auction MCP LT Round 2 Report -->
-	<bean id="postAuctionMcpLtRoundTwoURL" class="java.net.URL">
+	<!-- TRA Post Auction MCP LT Round 2 Report -->
+	<bean id="traPostAuctionMcpLtRoundTwoURL" class="java.net.URL">
 		<constructor-arg
 			value="http://reports.ieso.ca/public/TRAPostauctionMCPLTr2/PUB_TRAPostauctionMCPLTr2.xml" />
 	</bean>
 
-	<bean id="postAuctionMcpLtRoundTwoClient"
-		class="name.reidmiller.parseieso.client.PostAuctionMcpLtRoundTwoClient">
-		<constructor-arg ref="postAuctionMcpLtRoundTwoURL" />
-		<constructor-arg ref="postAuctionMcpLtRoundTwoMarshaller" />
-		<constructor-arg ref="postAuctionMcpLtRoundTwoMarshaller" />
+	<bean id="traPostAuctionMcpLtRoundTwoClient"
+		class="name.reidmiller.parseieso.client.TraPostAuctionMcpLtRoundTwoClient">
+		<constructor-arg ref="traPostAuctionMcpLtRoundTwoURL" />
+		<constructor-arg ref="traPostAuctionMcpLtRoundTwoMarshaller" />
+		<constructor-arg ref="traPostAuctionMcpLtRoundTwoMarshaller" />
 	</bean>
 
-	<oxm:jaxb2-marshaller id="postAuctionMcpLtRoundTwoMarshaller"
+	<oxm:jaxb2-marshaller id="traPostAuctionMcpLtRoundTwoMarshaller"
 		contextPath="ca.ieso.reports.schema.trapostauctionmcpltr2" />
 		
-	<!-- Post Auction MCP ST Round 1 Report -->
-	<bean id="postAuctionMcpStRoundOneURL" class="java.net.URL">
+	<!-- TRA Post Auction MCP ST Round 1 Report -->
+	<bean id="traPostAuctionMcpStRoundOneURL" class="java.net.URL">
 		<constructor-arg
 			value="http://reports.ieso.ca/public/TRAPostauctionMCPSTr1/PUB_TRAPostauctionMCPSTr1.xml" />
 	</bean>
 
-	<bean id="postAuctionMcpStRoundOneClient"
-		class="name.reidmiller.parseieso.client.PostAuctionMcpStRoundOneClient">
-		<constructor-arg ref="postAuctionMcpStRoundOneURL" />
-		<constructor-arg ref="postAuctionMcpStRoundOneMarshaller" />
-		<constructor-arg ref="postAuctionMcpStRoundOneMarshaller" />
+	<bean id="traPostAuctionMcpStRoundOneClient"
+		class="name.reidmiller.parseieso.client.TraPostAuctionMcpStRoundOneClient">
+		<constructor-arg ref="traPostAuctionMcpStRoundOneURL" />
+		<constructor-arg ref="traPostAuctionMcpStRoundOneMarshaller" />
+		<constructor-arg ref="traPostAuctionMcpStRoundOneMarshaller" />
 	</bean>
 
-	<oxm:jaxb2-marshaller id="postAuctionMcpStRoundOneMarshaller"
+	<oxm:jaxb2-marshaller id="traPostAuctionMcpStRoundOneMarshaller"
 		contextPath="ca.ieso.reports.schema.trapostauctionmcpstr1" />
 		
-	<!-- TR Hourly Zonal Price Report (Monthly) -->
-	<bean id="trHourlyZonalPriceMonthlyURL" class="java.net.URL">
+	<!-- TRA Hourly Zonal Price Report (Monthly) -->
+	<bean id="traHourlyZonalPriceMonthlyURL" class="java.net.URL">
 		<constructor-arg
 			value="http://reports.ieso.ca/public/TRAPreauctionHZMCPMonthly/PUB_TRAPreauctionHZMCPMonthly.xml" />
 	</bean>
 
-	<bean id="trHourlyZonalPriceMonthlyClient"
-		class="name.reidmiller.parseieso.client.TrHourlyZonalPriceMonthlyClient">
-		<constructor-arg ref="trHourlyZonalPriceMonthlyURL" />
-		<constructor-arg ref="trHourlyZonalPriceMonthlyMarshaller" />
-		<constructor-arg ref="trHourlyZonalPriceMonthlyMarshaller" />
+	<bean id="traHourlyZonalPriceMonthlyClient"
+		class="name.reidmiller.parseieso.client.TraHourlyZonalPriceMonthlyClient">
+		<constructor-arg ref="traHourlyZonalPriceMonthlyURL" />
+		<constructor-arg ref="traHourlyZonalPriceMonthlyMarshaller" />
+		<constructor-arg ref="traHourlyZonalPriceMonthlyMarshaller" />
 	</bean>
 
-	<oxm:jaxb2-marshaller id="trHourlyZonalPriceMonthlyMarshaller"
+	<oxm:jaxb2-marshaller id="traHourlyZonalPriceMonthlyMarshaller"
 		contextPath="ca.ieso.reports.schema.trapreauctionhzmcpmonthly" />
 
 	<!-- Variable Generation Forecast Summary -->

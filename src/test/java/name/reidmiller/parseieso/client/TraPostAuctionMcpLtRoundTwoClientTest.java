@@ -9,26 +9,26 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import ca.ieso.reports.schema.trapreauctionhzmcpmonthly.Document;
+import ca.ieso.reports.schema.trapostauctionmcpltr2.Document;
 
-public class TrHourlyZonalPriceMonthlyClientTest {
+public class TraPostAuctionMcpLtRoundTwoClientTest {
 	private ApplicationContext appContext;
-	private TrHourlyZonalPriceMonthlyClient trHourlyZonalPriceMonthlyClient;
+	private TraPostAuctionMcpLtRoundTwoClient traPostAuctionMcpLtRoundTwoClient;
 
 	@Before
 	public void setUp() throws Exception {
 		appContext = new ClassPathXmlApplicationContext(
 				"applicationContext.xml");
-		trHourlyZonalPriceMonthlyClient = (TrHourlyZonalPriceMonthlyClient) appContext
-				.getBean("trHourlyZonalPriceMonthlyClient");
+		traPostAuctionMcpLtRoundTwoClient = (TraPostAuctionMcpLtRoundTwoClient) appContext
+				.getBean("traPostAuctionMcpLtRoundTwoClient");
 	}
 
 	@Test
 	public void testUnmarshal() {
 		try {
 			assertTrue(
-					"Could not unmaral a ca.ieso.reports.schema.trapreauctionhzmcpmonthly.Document",
-					trHourlyZonalPriceMonthlyClient.unmarshal() instanceof Document);
+					"Could not unmaral a ca.ieso.reports.schema.trapostauctionmcpltr2.Document",
+					traPostAuctionMcpLtRoundTwoClient.unmarshal() instanceof Document);
 		} catch (ClassCastException e) {
 			fail(e.getMessage());
 		}
@@ -37,14 +37,14 @@ public class TrHourlyZonalPriceMonthlyClientTest {
 	@Test
 	public void testGetDocHeader() {
 		assertNotNull(
-				"ca.ieso.reports.schema.trapreauctionhzmcpmonthly.DocHeader could not be retrieved from XML",
-				trHourlyZonalPriceMonthlyClient.getDocHeader());
+				"ca.ieso.reports.schema.trapostauctionmcpltr2.DocHeader could not be retrieved from XML",
+				traPostAuctionMcpLtRoundTwoClient.getDocHeader());
 	}
 
 	@Test
 	public void testGetDocBody() {
 		assertNotNull(
-				"ca.ieso.reports.schema.trapreauctionhzmcpmonthly.DocBody could not be retrieved from XML",
-				trHourlyZonalPriceMonthlyClient.getDocBody());
+				"ca.ieso.reports.schema.trapostauctionmcpltr2.DocBody could not be retrieved from XML",
+				traPostAuctionMcpLtRoundTwoClient.getDocBody());
 	}
 }
