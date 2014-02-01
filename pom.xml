@@ -708,6 +708,22 @@
 						</goals>
 					</execution>
 					<execution>
+						<id>execution-sbg</id>
+						<configuration>
+							<forceRegenerate>true</forceRegenerate>
+							<generateDirectory>src/main/java</generateDirectory>
+							<generatePackage>ca.ieso.reports.schema.sbg</generatePackage>
+							<schemas>
+								<schema>
+									<url>http://www.ieso.ca/docrefs/schema/SBG_r1.xsd</url>
+								</schema>
+							</schemas>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
 						<id>execution-trapostauctionmcptr1</id>
 						<configuration>
 							<forceRegenerate>true</forceRegenerate>
