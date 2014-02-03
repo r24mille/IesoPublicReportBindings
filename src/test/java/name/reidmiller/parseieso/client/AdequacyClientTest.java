@@ -3,23 +3,19 @@ package name.reidmiller.parseieso.client;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import name.reidmiller.parseieso.IesoPublicReportBindingsClientConfig;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import ca.ieso.reports.schema.adequacy.Document;
 
 public class AdequacyClientTest {
-	private ApplicationContext appContext;
 	private AdequacyClient adequacyClient;
 
 	@Before
 	public void setUp() throws Exception {
-		appContext = new ClassPathXmlApplicationContext(
-				"applicationContext.xml");
-		adequacyClient = (AdequacyClient) appContext.getBean("adequacyClient");
+		adequacyClient = IesoPublicReportBindingsClientConfig.adequacyClient();
 	}
 
 	@Test

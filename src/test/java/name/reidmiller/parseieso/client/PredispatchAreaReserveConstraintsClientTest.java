@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import ca.ieso.reports.schema.predispareareserveconst.Document;
 
@@ -15,8 +15,8 @@ public class PredispatchAreaReserveConstraintsClientTest {
 
 	@Before
 	public void setUp() throws Exception {
-		appContext = new ClassPathXmlApplicationContext(
-				"applicationContext.xml");
+		appContext = new FileSystemXmlApplicationContext(
+				"src/resources/spring/applicationContext.xml");
 		predispatchAreaReserveConstraintsClient = (PredispatchAreaReserveConstraintsClient) appContext.getBean("predispatchAreaReserveConstraintsClient");
 	}
 

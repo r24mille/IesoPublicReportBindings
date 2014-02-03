@@ -1,27 +1,36 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<groupId>name.reidmiller</groupId>
 	<artifactId>ieso-public-report-bindings</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	
+
 	<name>IESO Public Report Bindings</name>
 	<description>Java bindings for public IESO XML reports.</description>
 	<url>https://github.com/r24mille/IesoPublicReportBindings</url>
-	
+
 	<issueManagement>
-        <url>https://github.com/r24mille/IesoPublicReportBindings/issues</url>
-        <system>GitHub</system>
-    </issueManagement>
+		<url>https://github.com/r24mille/IesoPublicReportBindings/issues</url>
+		<system>GitHub</system>
+	</issueManagement>
 
 	<properties>
 		<org.springframework.version>3.2.7.RELEASE</org.springframework.version>
 		<spring-ws-core.version>2.1.4.RELEASE</spring-ws-core.version>
-		<log4j.version>1.2.17</log4j.version>
+		<log4j.version>2.0-beta9</log4j.version>
 		<context.path>IesoPublicReportBindings</context.path>
+		<internal.repo.branch>gh-pages</internal.repo.branch>
 	</properties>
+
+	<distributionManagement>
+		<repository>
+			<id>internal.repo</id>
+			<name>Temporary Staging Repository</name>
+			<url>file://${project.build.directory}/${internal.repo.branch}</url>
+		</repository>
+	</distributionManagement>
 
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -31,7 +40,19 @@
 			</resource>
 		</resources>
 		<testSourceDirectory>src/test/java</testSourceDirectory>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+			</testResource>
+		</testResources>
 		<plugins>
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.1</version>
+				<configuration>
+					<altDeploymentRepository>internal.repo::default::file://${project.build.directory}/${internal.repo.branch}</altDeploymentRepository>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
@@ -960,8 +981,18 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-1.2-api</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
 		<dependency>

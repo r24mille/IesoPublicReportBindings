@@ -7,7 +7,7 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import ca.ieso.reports.schema.trapreauctionttclt.Document;
 
@@ -17,8 +17,8 @@ public class PreAuctionTransmissionTransferCapabilityLtClientTest {
 
 	@Before
 	public void setUp() throws Exception {
-		appContext = new ClassPathXmlApplicationContext(
-				"applicationContext.xml");
+		appContext = new FileSystemXmlApplicationContext(
+				"src/resources/spring/applicationContext.xml");
 		preAuctionTransmissionTransferCapabilityLtClient = (PreAuctionTransmissionTransferCapabilityLtClient) appContext.getBean("preAuctionTransmissionTransferCapabilityLtClient");
 	}
 
