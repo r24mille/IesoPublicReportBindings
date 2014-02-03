@@ -2,18 +2,25 @@ package name.reidmiller.parseieso;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import ca.ieso.reports.schema.daadequacy.DocBody.System.Demands.AverageDemand;
 import ca.ieso.reports.schema.daadequacy.HourlyValue;
 import name.reidmiller.parseieso.client.DayAheadAdequacyClient;
 
 public class Main {
+	static Logger logger = LogManager.getLogger(Main.class.getName());
 
 	public static void main(String[] args) {
-		ApplicationContext appContext = new ClassPathXmlApplicationContext(
-				"applicationContext.xml");
+		logger.debug("derpin debug");
+		logger.info("infuriatin info");
+		logger.error("errorneous error");
+		
+		ApplicationContext appContext = new FileSystemXmlApplicationContext(
+				"src/main/resources/spring/applicationContext.xml");
 		DayAheadAdequacyClient dayAheadAdequacyClient = (DayAheadAdequacyClient) appContext.getBean("dayAheadAdequacyClient");
 		List<ca.ieso.reports.schema.daadequacy.DocBody.System> systems = dayAheadAdequacyClient.getDocBody().getSystem();
 		for (ca.ieso.reports.schema.daadequacy.DocBody.System system : systems) {
