@@ -571,6 +571,27 @@
 	<oxm:jaxb2-marshaller id="realtimeShadowPricesMarshaller"
 		contextPath="ca.ieso.reports.schema.realtimeshadowprices" />
 
+	<!-- Surplus Baseload Generation Report -->
+	<bean id="surplusBaseloadGenerationDateFormat" class="java.text.SimpleDateFormat">
+		<constructor-arg value="yyyyMMdd" />
+	</bean>
+
+	<bean id="surplusBaseloadGenerationDate" class="java.util.Date" />
+
+	<bean id="surplusBaseloadGenerationClient"
+		class="name.reidmiller.parseieso.client.SurplusBaseloadGenerationClient">
+		<constructor-arg ref="surplusBaseloadGenerationDateFormat" />
+		<constructor-arg ref="surplusBaseloadGenerationDate" />
+		<constructor-arg
+			value="http://www.ieso.ca/weather/mkt4/sbg/PUB_SurplusBaseloadGen_" />
+		<constructor-arg value="_v1.xml" />
+		<constructor-arg ref="surplusBaseloadGenerationMarshaller" />
+		<constructor-arg ref="surplusBaseloadGenerationMarshaller" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="surplusBaseloadGenerationMarshaller"
+		contextPath="ca.ieso.reports.schema.sbg" />
+
 	<!-- Transmission Rights Auction (TRA) Post Auction MCP LT Round 1 Report -->
 	<bean id="traPostAuctionMcpLtRoundOneURL" class="java.net.URL">
 		<constructor-arg
