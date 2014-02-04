@@ -1,8 +1,11 @@
 package name.reidmiller.iesoreports;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import name.reidmiller.iesoreports.client.AdequacyClient;
@@ -20,11 +23,16 @@ import name.reidmiller.iesoreports.client.GeneratorOutputCapabilityClient;
 import name.reidmiller.iesoreports.client.GlobalAdjustmentRatesClient;
 import name.reidmiller.iesoreports.client.HistoricalTransmissionOutagesClient;
 import name.reidmiller.iesoreports.client.HourlyOntarioEnergyPriceReportClient;
+import name.reidmiller.iesoreports.client.HourlyUpliftAndIntertieOfferGuaranteeEstimatesClient;
 import name.reidmiller.iesoreports.client.IntertieScheduleAndFlowClient;
 import name.reidmiller.iesoreports.client.NetInterchangeSchedulingLimitClient;
 import name.reidmiller.iesoreports.client.PlannedTransmissionOutagesDayClient;
 import name.reidmiller.iesoreports.client.PlannedTransmissionOutagesMonthClient;
 import name.reidmiller.iesoreports.client.PlannedTransmissionOutagesSixMonthsClient;
+import name.reidmiller.iesoreports.client.PreAuctionMcpLtClient;
+import name.reidmiller.iesoreports.client.PreAuctionMcpStClient;
+import name.reidmiller.iesoreports.client.PreAuctionTransmissionTransferCapabilityLtClient;
+import name.reidmiller.iesoreports.client.PreAuctionTransmissionTransferCapabilityStClient;
 import name.reidmiller.iesoreports.client.PredispatchAreaOperatingReserveShortfallsClient;
 import name.reidmiller.iesoreports.client.PredispatchAreaReserveConstraintsClient;
 import name.reidmiller.iesoreports.client.PredispatchConstrainedTotalsClient;
@@ -41,7 +49,13 @@ import name.reidmiller.iesoreports.client.RealtimeMarketTotalsClient;
 import name.reidmiller.iesoreports.client.RealtimeOperatingReserveInMarketClient;
 import name.reidmiller.iesoreports.client.RealtimeShadowPricesClient;
 import name.reidmiller.iesoreports.client.SurplusBaseloadGenerationClient;
+import name.reidmiller.iesoreports.client.TrHistoricalInterfaceMonthlyClient;
+import name.reidmiller.iesoreports.client.TrHourlyZonalPriceMonthlyClient;
 import name.reidmiller.iesoreports.client.TraPostAuctionMcpLtRoundOneClient;
+import name.reidmiller.iesoreports.client.TraPostAuctionMcpLtRoundTwoClient;
+import name.reidmiller.iesoreports.client.TraPostAuctionMcpStRoundOneClient;
+import name.reidmiller.iesoreports.client.VariableGenerationForecastSummaryClient;
+import name.reidmiller.iesoreports.client.VariableGenerationTieBreakingRankingsClient;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -446,7 +460,7 @@ public class IesoPublicReportBindingsConfig {
 			netInterchangeSchedulingLimitClient = new NetInterchangeSchedulingLimitClient(
 					buildURL("http://reports.ieso.ca/public/NISLShadowPrices/PUB_NISLShadowPrices.xml"),
 					buildMarshaller("ca.ieso.reports.schema.nislshadowprices"),
-					buildMarshaller("ca.ieso.reports.schema.nislshadowpricess"));
+					buildMarshaller("ca.ieso.reports.schema.nislshadowprices"));
 		} catch (MalformedURLException e) {
 			logger.error(e.getLocalizedMessage());
 		}
@@ -755,18 +769,67 @@ public class IesoPublicReportBindingsConfig {
 	}
 
 	/**
+	 * <p>
 	 * Surplus Baseload Generation Report
+	 * </p>
+	 * <p>
+	 * The URL for the XML is variable. The client tries today's date by
+	 * default. If no report exists it will check five days into the past for a
+	 * valid report XML location.
+	 * </p>
+	 * <p>
+	 * If a different date is desired just adjust
+	 * {@link SurplusBaseloadGenerationClient#setUrlDate(Date)} and the
+	 * marshaller will be adjusted appropriaftely.
+	 * </p>
 	 * 
 	 * @return
 	 */
 	@Bean
 	public static SurplusBaseloadGenerationClient surplusBaseloadGenerationClient() {
+		String urlBase = "http://www.ieso.ca/weather/mkt4/sbg/PUB_SurplusBaseloadGen_";
+		String urlTail = "_v1.xml";
+		Calendar urlCalendar = Calendar.getInstance();
 		SurplusBaseloadGenerationClient surplusBaseloadGenerationClient = null;
 
+		// Check URL for today, if not then check up to five days in the past.
+		for (int i = 0; i < 5; i++) {
+			boolean success = false;
+			String urlString = urlBase
+					+ surplusBaseloadGenerationDateFormat().format(
+							urlCalendar.getTime()) + urlTail;
+
+			try {
+				HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(
+						urlString).openConnection();
+				httpURLConnection.setRequestMethod("HEAD");
+				int responseCode = httpURLConnection.getResponseCode();
+				if (responseCode == 200) {
+					break;
+				}
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			if (success) {
+				break;
+			} else {
+				urlCalendar.roll(Calendar.DATE, false);
+			}
+
+		}
+
+		logger.debug("Default Date used to set urlDate "
+				+ urlCalendar.getTime().toString());
+
 		surplusBaseloadGenerationClient = new SurplusBaseloadGenerationClient(
-				surplusBaseloadGenerationDateFormat(), new Date(),
-				"http://www.ieso.ca/weather/mkt4/sbg/PUB_SurplusBaseloadGen_",
-				"_v1.xml", buildMarshaller("ca.ieso.reports.schema.sbg"),
+				surplusBaseloadGenerationDateFormat(), urlCalendar.getTime(),
+				urlBase, urlTail,
+				buildMarshaller("ca.ieso.reports.schema.sbg"),
 				buildMarshaller("ca.ieso.reports.schema.sbg"));
 
 		return surplusBaseloadGenerationClient;
@@ -797,6 +860,226 @@ public class IesoPublicReportBindingsConfig {
 		return traPostAuctionMcpLtRoundOneClient;
 	}
 
+	/**
+	 * Transmission Rights Auction (TRA) Post Auction MCP LT Round 2 Report
+	 * 
+	 * @return
+	 */
+	@Bean
+	public static TraPostAuctionMcpLtRoundTwoClient traPostAuctionMcpLtRoundTwoClient() {
+		TraPostAuctionMcpLtRoundTwoClient traPostAuctionMcpLtRoundTwoClient = null;
+		try {
+			traPostAuctionMcpLtRoundTwoClient = new TraPostAuctionMcpLtRoundTwoClient(
+					buildURL("http://reports.ieso.ca/public/TRAPostauctionMCPLTr2/PUB_TRAPostauctionMCPLTr2.xml"),
+					buildMarshaller("ca.ieso.reports.schema.trapostauctionmcpltr2"),
+					buildMarshaller("ca.ieso.reports.schema.trapostauctionmcpltr2"));
+		} catch (MalformedURLException e) {
+			logger.error(e.getLocalizedMessage());
+		}
+
+		return traPostAuctionMcpLtRoundTwoClient;
+	}
+
+	/**
+	 * Transmission Rights Auction (TRA) Post Auction MCP ST Round 1 Report
+	 * 
+	 * @return
+	 */
+	@Bean
+	public static TraPostAuctionMcpStRoundOneClient traPostAuctionMcpStRoundOneClient() {
+		TraPostAuctionMcpStRoundOneClient traPostAuctionMcpStRoundOneClient = null;
+		try {
+			traPostAuctionMcpStRoundOneClient = new TraPostAuctionMcpStRoundOneClient(
+					buildURL("http://reports.ieso.ca/public/TRAPostauctionMCPSTr1/PUB_TRAPostauctionMCPSTr1.xml"),
+					buildMarshaller("ca.ieso.reports.schema.trapostauctionmcpstr1"),
+					buildMarshaller("ca.ieso.reports.schema.trapostauctionmcpstr1"));
+		} catch (MalformedURLException e) {
+			logger.error(e.getLocalizedMessage());
+		}
+
+		return traPostAuctionMcpStRoundOneClient;
+	}
+
+	/**
+	 * Transmission Rights (TR) Hourly Zonal Price Report (Monthly)
+	 * 
+	 * @return
+	 */
+	@Bean
+	public static TrHourlyZonalPriceMonthlyClient trHourlyZonalPriceMonthlyClient() {
+		TrHourlyZonalPriceMonthlyClient trHourlyZonalPriceMonthlyClient = null;
+		try {
+			trHourlyZonalPriceMonthlyClient = new TrHourlyZonalPriceMonthlyClient(
+					buildURL("http://reports.ieso.ca/public/TRAPreauctionHZMCPMonthly/PUB_TRAPreauctionHZMCPMonthly.xml"),
+					buildMarshaller("ca.ieso.reports.schema.trapreauctionhzmcpmonthly"),
+					buildMarshaller("ca.ieso.reports.schema.trapreauctionhzmcpmonthly"));
+		} catch (MalformedURLException e) {
+			logger.error(e.getLocalizedMessage());
+		}
+
+		return trHourlyZonalPriceMonthlyClient;
+	}
+
+	/**
+	 * Transmission Rights (TR) Historical Interface (Monthly)
+	 * 
+	 * @return
+	 */
+	@Bean
+	public static TrHistoricalInterfaceMonthlyClient trHistoricalInterfaceMonthlyClient() {
+		TrHistoricalInterfaceMonthlyClient trHistoricalInterfaceMonthlyClient = null;
+		try {
+			trHistoricalInterfaceMonthlyClient = new TrHistoricalInterfaceMonthlyClient(
+					buildURL("http://reports.ieso.ca/public/TRAPreauctionInterfaceHistoryMonthly/PUB_TRAPreauctionInterfaceHistoryMonthly.xml"),
+					buildMarshaller("ca.ieso.reports.schema.trapreauctioninterfacehistorymonthly"),
+					buildMarshaller("ca.ieso.reports.schema.trapreauctioninterfacehistorymonthly"));
+		} catch (MalformedURLException e) {
+			logger.error(e.getLocalizedMessage());
+		}
+
+		return trHistoricalInterfaceMonthlyClient;
+	}
+
+	/**
+	 * Pre Auction MCP LT
+	 * 
+	 * @return
+	 */
+	@Bean
+	public static PreAuctionMcpLtClient preAuctionMcpLtClient() {
+		PreAuctionMcpLtClient preAuctionMcpLtClient = null;
+		try {
+			preAuctionMcpLtClient = new PreAuctionMcpLtClient(
+					buildURL("http://reports.ieso.ca/public/TRAPreauctionMCPLT/PUB_TRAPreauctionMCPLT.xml"),
+					buildMarshaller("ca.ieso.reports.schema.trapreauctionmcplt"),
+					buildMarshaller("ca.ieso.reports.schema.trapreauctionmcplt"));
+		} catch (MalformedURLException e) {
+			logger.error(e.getLocalizedMessage());
+		}
+
+		return preAuctionMcpLtClient;
+	}
+
+	/**
+	 * Pre Auction MCP ST
+	 * 
+	 * @return
+	 */
+	@Bean
+	public static PreAuctionMcpStClient preAuctionMcpStClient() {
+		PreAuctionMcpStClient preAuctionMcpStClient = null;
+		try {
+			preAuctionMcpStClient = new PreAuctionMcpStClient(
+					buildURL("http://reports.ieso.ca/public/TRAPreauctionMCPST/PUB_TRAPreauctionMCPST.xml"),
+					buildMarshaller("ca.ieso.reports.schema.trapreauctionmcpst"),
+					buildMarshaller("ca.ieso.reports.schema.trapreauctionmcpst"));
+		} catch (MalformedURLException e) {
+			logger.error(e.getLocalizedMessage());
+		}
+
+		return preAuctionMcpStClient;
+	}
+
+	/**
+	 * Pre Auction Transmission Transfer Capability (TTC) LT
+	 * 
+	 * @return
+	 */
+	@Bean
+	public static PreAuctionTransmissionTransferCapabilityLtClient preAuctionTransmissionTransferCapabilityLtClient() {
+		PreAuctionTransmissionTransferCapabilityLtClient preAuctionTransmissionTransferCapabilityLtClient = null;
+		try {
+			preAuctionTransmissionTransferCapabilityLtClient = new PreAuctionTransmissionTransferCapabilityLtClient(
+					buildURL("http://reports.ieso.ca/public/TRAPreauctionTTCLT/PUB_TRAPreauctionTTCLT.xml"),
+					buildMarshaller("ca.ieso.reports.schema.trapreauctionttclt"),
+					buildMarshaller("ca.ieso.reports.schema.trapreauctionttclt"));
+		} catch (MalformedURLException e) {
+			logger.error(e.getLocalizedMessage());
+		}
+
+		return preAuctionTransmissionTransferCapabilityLtClient;
+	}
+
+	/**
+	 * Pre Auction Transmission Transfer Capability (TTC) ST
+	 * 
+	 * @return
+	 */
+	@Bean
+	public static PreAuctionTransmissionTransferCapabilityStClient preAuctionTransmissionTransferCapabilityStClient() {
+		PreAuctionTransmissionTransferCapabilityStClient preAuctionTransmissionTransferCapabilityStClient = null;
+		try {
+			preAuctionTransmissionTransferCapabilityStClient = new PreAuctionTransmissionTransferCapabilityStClient(
+					buildURL("http://reports.ieso.ca/public/TRAPreauctionTTCST/PUB_TRAPreauctionTTCST.xml"),
+					buildMarshaller("ca.ieso.reports.schema.trapreauctionttcst"),
+					buildMarshaller("ca.ieso.reports.schema.trapreauctionttcst"));
+		} catch (MalformedURLException e) {
+			logger.error(e.getLocalizedMessage());
+		}
+
+		return preAuctionTransmissionTransferCapabilityStClient;
+	}
+
+	/**
+	 * Hourly Uplift and Intertie Offer Guarantee Estimates
+	 * 
+	 * @return
+	 */
+	@Bean
+	public static HourlyUpliftAndIntertieOfferGuaranteeEstimatesClient hourlyUpliftAndIntertieOfferGuaranteeEstimatesClient() {
+		HourlyUpliftAndIntertieOfferGuaranteeEstimatesClient hourlyUpliftAndIntertieOfferGuaranteeEstimatesClient = null;
+		try {
+			hourlyUpliftAndIntertieOfferGuaranteeEstimatesClient = new HourlyUpliftAndIntertieOfferGuaranteeEstimatesClient(
+					buildURL("http://reports.ieso.ca/public/Uplift/PUB_Uplift.xml"),
+					buildMarshaller("ca.ieso.reports.schema.uplift"),
+					buildMarshaller("ca.ieso.reports.schema.uplift"));
+		} catch (MalformedURLException e) {
+			logger.error(e.getLocalizedMessage());
+		}
+
+		return hourlyUpliftAndIntertieOfferGuaranteeEstimatesClient;
+	}
+
+	/**
+	 * Variable Generation Forecast Summary
+	 * 
+	 * @return
+	 */
+	@Bean
+	public static VariableGenerationForecastSummaryClient variableGenerationForecastSummaryClient() {
+		VariableGenerationForecastSummaryClient variableGenerationForecastSummaryClient = null;
+		try {
+			variableGenerationForecastSummaryClient = new VariableGenerationForecastSummaryClient(
+					buildURL("http://reports.ieso.ca/public/VGForecastSummary/PUB_VGForecastSummary.xml"),
+					buildMarshaller("ca.ieso.reports.schema.vgforecastsummary"),
+					buildMarshaller("ca.ieso.reports.schema.vgforecastsummary"));
+		} catch (MalformedURLException e) {
+			logger.error(e.getLocalizedMessage());
+		}
+
+		return variableGenerationForecastSummaryClient;
+	}
+
+	/**
+	 * Variable Generation Tie-Breaking Rankings
+	 * 
+	 * @return
+	 */
+	@Bean
+	public static VariableGenerationTieBreakingRankingsClient variableGenerationTieBreakingRankingsClient() {
+		VariableGenerationTieBreakingRankingsClient variableGenerationTieBreakingRankingsClient = null;
+		try {
+			variableGenerationTieBreakingRankingsClient = new VariableGenerationTieBreakingRankingsClient(
+					buildURL("http://reports.ieso.ca/public/VGTieBreakingRankings/PUB_VGTieBreakingRankings.xml"),
+					buildMarshaller("ca.ieso.reports.schema.vgtiebreakingrankings"),
+					buildMarshaller("ca.ieso.reports.schema.vgtiebreakingrankings"));
+		} catch (MalformedURLException e) {
+			logger.error(e.getLocalizedMessage());
+		}
+
+		return variableGenerationTieBreakingRankingsClient;
+	}
+
 	private static Jaxb2Marshaller buildMarshaller(String contextPath) {
 		Jaxb2Marshaller jaxb2Marshaller = new Jaxb2Marshaller();
 		jaxb2Marshaller.setContextPath(contextPath);
@@ -804,8 +1087,7 @@ public class IesoPublicReportBindingsConfig {
 	}
 
 	private static URL buildURL(String urlString) throws MalformedURLException {
-		URL url = new URL(
-				"http://reports.ieso.ca/public/Adequacy/PUB_Adequacy.xml");
+		URL url = new URL(urlString);
 		return url;
 	}
 }
