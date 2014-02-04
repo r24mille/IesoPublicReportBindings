@@ -22,5 +22,6 @@ I've now set up a poor-man's Maven repository that I am using for my projects wh
 		<version>0.0.3-SNAPSHOT</version>
 	</dependency>
 </dependencies>
+```
 
 This open source project was started by Reid Miller, a graduate student at the University of Waterloo. The libraries have not been reviewed or approved by the IESO. I'm just working with public data and sharing my work.
