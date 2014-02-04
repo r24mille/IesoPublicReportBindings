@@ -3,24 +3,20 @@ package name.reidmiller.iesoreports.client;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import name.reidmiller.iesoreports.client.PreAuctionTransmissionTransferCapabilityLtClient;
+import name.reidmiller.iesoreports.IesoPublicReportBindingsConfig;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import ca.ieso.reports.schema.trapreauctionttclt.Document;
 
 public class PreAuctionTransmissionTransferCapabilityLtClientTest {
-	private ApplicationContext appContext;
 	private PreAuctionTransmissionTransferCapabilityLtClient preAuctionTransmissionTransferCapabilityLtClient;
 
 	@Before
 	public void setUp() throws Exception {
-		appContext = new FileSystemXmlApplicationContext(
-				"src/resources/spring/applicationContext.xml");
-		preAuctionTransmissionTransferCapabilityLtClient = (PreAuctionTransmissionTransferCapabilityLtClient) appContext.getBean("preAuctionTransmissionTransferCapabilityLtClient");
+		preAuctionTransmissionTransferCapabilityLtClient = IesoPublicReportBindingsConfig
+				.preAuctionTransmissionTransferCapabilityLtClient();
 	}
 
 	@Test
@@ -28,7 +24,8 @@ public class PreAuctionTransmissionTransferCapabilityLtClientTest {
 		try {
 			assertTrue(
 					"Could not unmaral a ca.ieso.reports.schema.trapreauctionttclt.Document",
-					preAuctionTransmissionTransferCapabilityLtClient.unmarshal() instanceof Document);
+					preAuctionTransmissionTransferCapabilityLtClient
+							.unmarshal() instanceof Document);
 		} catch (ClassCastException e) {
 			fail(e.getMessage());
 		}

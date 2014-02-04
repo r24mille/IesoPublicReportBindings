@@ -1,25 +1,22 @@
 package name.reidmiller.iesoreports.client;
 
-import static org.junit.Assert.*;
-import name.reidmiller.iesoreports.client.PlannedTransmissionOutagesMonthClient;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import name.reidmiller.iesoreports.IesoPublicReportBindingsConfig;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import ca.ieso.reports.schema.iomspublicplanneodutagemonth.Document;
 
 public class PlannedTransmissionOutagesMonthClientTest {
-	private ApplicationContext appContext;
 	private PlannedTransmissionOutagesMonthClient plannedTransmissionOutagesMonthClient;
 
 	@Before
 	public void setUp() throws Exception {
-		appContext = new FileSystemXmlApplicationContext(
-				"src/resources/spring/applicationContext.xml");
-		plannedTransmissionOutagesMonthClient = (PlannedTransmissionOutagesMonthClient) appContext
-				.getBean("plannedTransmissionOutagesMonthClient");
+		plannedTransmissionOutagesMonthClient = IesoPublicReportBindingsConfig
+				.plannedTransmissionOutagesMonthClient();
 	}
 
 	@Test

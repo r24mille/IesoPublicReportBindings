@@ -1,24 +1,22 @@
 package name.reidmiller.iesoreports.client;
 
-import static org.junit.Assert.*;
-import name.reidmiller.iesoreports.client.DayAheadAreaReserveConstraintsClient;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import name.reidmiller.iesoreports.IesoPublicReportBindingsConfig;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import ca.ieso.reports.schema.daareareserveconst.Document;
 
 public class DayAheadAreaReserveConstraintsClientTest {
-	private ApplicationContext appContext;
 	private DayAheadAreaReserveConstraintsClient dayAheadAreaReserveConstraintsClient;
 
 	@Before
 	public void setUp() throws Exception {
-		appContext = new FileSystemXmlApplicationContext(
-				"src/resources/spring/applicationContext.xml");
-		dayAheadAreaReserveConstraintsClient = (DayAheadAreaReserveConstraintsClient) appContext.getBean("dayAheadAreaReserveConstraintsClient");
+		dayAheadAreaReserveConstraintsClient = IesoPublicReportBindingsConfig
+				.dayAheadAreaReserveConstraintsClient();
 	}
 
 	@Test

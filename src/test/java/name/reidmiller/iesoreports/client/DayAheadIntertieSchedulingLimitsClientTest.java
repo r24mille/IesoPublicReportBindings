@@ -3,25 +3,20 @@ package name.reidmiller.iesoreports.client;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import name.reidmiller.iesoreports.client.DayAheadIntertieSchedulingLimitsClient;
+import name.reidmiller.iesoreports.IesoPublicReportBindingsConfig;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import ca.ieso.reports.schema.daintertieschedlimits.Document;
 
 public class DayAheadIntertieSchedulingLimitsClientTest {
-	private ApplicationContext appContext;
 	private DayAheadIntertieSchedulingLimitsClient dayAheadIntertieSchedulingLimitsClient;
 
 	@Before
 	public void setUp() throws Exception {
-		appContext = new FileSystemXmlApplicationContext(
-				"src/resources/spring/applicationContext.xml");
-		dayAheadIntertieSchedulingLimitsClient = (DayAheadIntertieSchedulingLimitsClient) appContext
-				.getBean("dayAheadIntertieSchedulingLimitsClient");
+		dayAheadIntertieSchedulingLimitsClient = IesoPublicReportBindingsConfig
+				.dayAheadIntertieSchedulingLimitsClient();
 	}
 
 	@Test

@@ -3,25 +3,20 @@ package name.reidmiller.iesoreports.client;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import name.reidmiller.iesoreports.client.IntertieScheduleAndFlowClient;
+import name.reidmiller.iesoreports.IesoPublicReportBindingsConfig;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import ca.ieso.reports.schema.intertiescheduleflow.IMODocument;
 
 public class IntertieScheduleAndFlowClientTest {
-	private ApplicationContext appContext;
 	private IntertieScheduleAndFlowClient intertieScheduleAndFlowClient;
 
 	@Before
 	public void setUp() throws Exception {
-		appContext = new FileSystemXmlApplicationContext(
-				"src/resources/spring/applicationContext.xml");
-		intertieScheduleAndFlowClient = (IntertieScheduleAndFlowClient) appContext
-				.getBean("intertieScheduleAndFlowClient");
+		intertieScheduleAndFlowClient = IesoPublicReportBindingsConfig
+				.intertieScheduleAndFlowClient();
 	}
 
 	@Test

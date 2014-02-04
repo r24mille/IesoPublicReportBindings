@@ -1,24 +1,22 @@
 package name.reidmiller.iesoreports.client;
 
-import static org.junit.Assert.*;
-import name.reidmiller.iesoreports.client.PredispatchMarketPriceClient;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import name.reidmiller.iesoreports.IesoPublicReportBindingsConfig;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import ca.ieso.reports.schema.predispmktprice.Document;
 
 public class PredispatchMarketPriceClientTest {
-	private ApplicationContext appContext;
 	private PredispatchMarketPriceClient predispatchMarketPriceClient;
 
 	@Before
 	public void setUp() throws Exception {
-		appContext = new FileSystemXmlApplicationContext(
-				"src/resources/spring/applicationContext.xml");
-		predispatchMarketPriceClient = (PredispatchMarketPriceClient) appContext.getBean("predispatchMarketPriceClient");
+		predispatchMarketPriceClient = IesoPublicReportBindingsConfig
+				.predispatchMarketPriceClient();
 	}
 
 	@Test

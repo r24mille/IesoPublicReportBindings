@@ -3,25 +3,20 @@ package name.reidmiller.iesoreports.client;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import name.reidmiller.iesoreports.client.GeneratorOutputCapabilityClient;
+import name.reidmiller.iesoreports.IesoPublicReportBindingsConfig;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import ca.ieso.reports.schema.genoutputcapability.IMODocument;
 
 public class GeneratorOutputCapabilityClientTest {
-	private ApplicationContext appContext;
 	private GeneratorOutputCapabilityClient generatorOutputCapabilityClient;
 
 	@Before
 	public void setUp() throws Exception {
-		appContext = new FileSystemXmlApplicationContext(
-				"src/resources/spring/applicationContext.xml");
-		generatorOutputCapabilityClient = (GeneratorOutputCapabilityClient) appContext
-				.getBean("generatorOutputCapabilityClient");
+		generatorOutputCapabilityClient = IesoPublicReportBindingsConfig
+				.generatorOutputCapabilityClient();
 	}
 
 	@Test

@@ -3,25 +3,20 @@ package name.reidmiller.iesoreports.client;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import name.reidmiller.iesoreports.client.NetInterchangeSchedulingLimitClient;
+import name.reidmiller.iesoreports.IesoPublicReportBindingsConfig;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import ca.ieso.reports.schema.nislshadowprices.Document;
 
 public class NetInterchangeSchedulingLimitClientTest {
-	private ApplicationContext appContext;
 	private NetInterchangeSchedulingLimitClient netInterchangeSchedulingLimitClient;
 
 	@Before
 	public void setUp() throws Exception {
-		appContext = new FileSystemXmlApplicationContext(
-				"src/resources/spring/applicationContext.xml");
-		netInterchangeSchedulingLimitClient = (NetInterchangeSchedulingLimitClient) appContext
-				.getBean("netInterchangeSchedulingLimitClient");
+		netInterchangeSchedulingLimitClient = IesoPublicReportBindingsConfig
+				.netInterchangeSchedulingLimitClient();
 	}
 
 	@Test

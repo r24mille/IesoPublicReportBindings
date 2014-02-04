@@ -3,25 +3,20 @@ package name.reidmiller.iesoreports.client;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import name.reidmiller.iesoreports.client.RealtimeConstrainedTotalsClient;
+import name.reidmiller.iesoreports.IesoPublicReportBindingsConfig;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import ca.ieso.reports.schema.realtimeconsttotals.Document;
 
 public class RealtimeConstrainedTotalsClientTest {
-	private ApplicationContext appContext;
 	private RealtimeConstrainedTotalsClient realtimeConstrainedTotalsClient;
 
 	@Before
 	public void setUp() throws Exception {
-		appContext = new FileSystemXmlApplicationContext(
-				"src/resources/spring/applicationContext.xml");
-		realtimeConstrainedTotalsClient = (RealtimeConstrainedTotalsClient) appContext
-				.getBean("realtimeConstrainedTotalsClient");
+		realtimeConstrainedTotalsClient = IesoPublicReportBindingsConfig
+				.realtimeConstrainedTotalsClient();
 	}
 
 	@Test
