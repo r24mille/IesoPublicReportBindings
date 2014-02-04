@@ -12,7 +12,7 @@
 			value="http://reports.ieso.ca/public/DAAdequacy/PUB_DAAdequacy.xml" />
 	</bean>
 
-	<bean id="dayAheadAdequacyClient" class="name.reidmiller.parseieso.client.DayAheadAdequacyClient">
+	<bean id="dayAheadAdequacyClient" class="name.reidmiller.iesoreports.client.DayAheadAdequacyClient">
 		<constructor-arg ref="dayAheadAdequacyURL" />
 		<constructor-arg ref="dayAheadAdequacyMarshaller" />
 		<constructor-arg ref="dayAheadAdequacyMarshaller" />
@@ -28,7 +28,7 @@
 	</bean>
 
 	<bean id="dayAheadAreaOperatingReserveShortfallClient"
-		class="name.reidmiller.parseieso.client.DayAheadAreaOperatingReserveShortfallClient">
+		class="name.reidmiller.iesoreports.client.DayAheadAreaOperatingReserveShortfallClient">
 		<constructor-arg ref="dayAheadAreaOperatingReserveShortfallURL" />
 		<constructor-arg ref="dayAheadAreaOperatingReserveShortfallMarshaller" />
 		<constructor-arg ref="dayAheadAreaOperatingReserveShortfallMarshaller" />
@@ -44,7 +44,7 @@
 	</bean>
 
 	<bean id="dayAheadAreaReserveConstraintsClient"
-		class="name.reidmiller.parseieso.client.DayAheadAreaReserveConstraintsClient">
+		class="name.reidmiller.iesoreports.client.DayAheadAreaReserveConstraintsClient">
 		<constructor-arg ref="dayAheadAreaReserveConstraintsURL" />
 		<constructor-arg ref="dayAheadAreaReserveConstraintsMarshaller" />
 		<constructor-arg ref="dayAheadAreaReserveConstraintsMarshaller" />
@@ -60,7 +60,7 @@
 	</bean>
 
 	<bean id="dayAheadConstrainedTotalsClient"
-		class="name.reidmiller.parseieso.client.DayAheadConstrainedTotalsClient">
+		class="name.reidmiller.iesoreports.client.DayAheadConstrainedTotalsClient">
 		<constructor-arg ref="dayAheadConstrainedTotalsURL" />
 		<constructor-arg ref="dayAheadConstrainedTotalsMarshaller" />
 		<constructor-arg ref="dayAheadConstrainedTotalsMarshaller" />
@@ -76,7 +76,7 @@
 	</bean>
 
 	<bean id="dayAheadIntertieSchedulingLimitsClient"
-		class="name.reidmiller.parseieso.client.DayAheadIntertieSchedulingLimitsClient">
+		class="name.reidmiller.iesoreports.client.DayAheadIntertieSchedulingLimitsClient">
 		<constructor-arg ref="dayAheadIntertieSchedulingLimitsURL" />
 		<constructor-arg ref="dayAheadIntertieSchedulingLimitsMarshaller" />
 		<constructor-arg ref="dayAheadIntertieSchedulingLimitsMarshaller" />
@@ -92,7 +92,7 @@
 	</bean>
 
 	<bean id="dayAheadSecurityConstraintsClient"
-		class="name.reidmiller.parseieso.client.DayAheadSecurityConstraintsClient">
+		class="name.reidmiller.iesoreports.client.DayAheadSecurityConstraintsClient">
 		<constructor-arg ref="dayAheadSecurityConstraintsURL" />
 		<constructor-arg ref="dayAheadSecurityConstraintsMarshaller" />
 		<constructor-arg ref="dayAheadSecurityConstraintsMarshaller" />
@@ -108,7 +108,7 @@
 	</bean>
 
 	<bean id="dayAheadShadowPricesClient"
-		class="name.reidmiller.parseieso.client.DayAheadShadowPricesClient">
+		class="name.reidmiller.iesoreports.client.DayAheadShadowPricesClient">
 		<constructor-arg ref="dayAheadShadowPricesURL" />
 		<constructor-arg ref="dayAheadShadowPricesMarshaller" />
 		<constructor-arg ref="dayAheadShadowPricesMarshaller" />
@@ -127,7 +127,7 @@
 
 	<bean
 		id="dispatchAreaOperatingReserveTotalScheduledAndTotalEnergyCalledClient"
-		class="name.reidmiller.parseieso.client.DispatchAreaOperatingReserveTotalScheduledAndTotalEnergyCalledClient">
+		class="name.reidmiller.iesoreports.client.DispatchAreaOperatingReserveTotalScheduledAndTotalEnergyCalledClient">
 		<constructor-arg
 			ref="dispatchAreaOperatingReserveTotalScheduledAndTotalEnergyCalledURL" />
 		<constructor-arg
@@ -147,7 +147,7 @@
 	</bean>
 
 	<bean id="dispatchAreaOperatingReserveShortfallsClient"
-		class="name.reidmiller.parseieso.client.DispatchAreaOperatingReserveShortfallsClient">
+		class="name.reidmiller.iesoreports.client.DispatchAreaOperatingReserveShortfallsClient">
 		<constructor-arg ref="dispatchAreaOperatingReserveShortfallsURL" />
 		<constructor-arg ref="dispatchAreaOperatingReserveShortfallsMarshaller" />
 		<constructor-arg ref="dispatchAreaOperatingReserveShortfallsMarshaller" />
@@ -163,7 +163,7 @@
 	</bean>
 
 	<bean id="dispatchSecurityConstraintsClient"
-		class="name.reidmiller.parseieso.client.DispatchSecurityConstraintsClient">
+		class="name.reidmiller.iesoreports.client.DispatchSecurityConstraintsClient">
 		<constructor-arg ref="dispatchSecurityConstraintsURL" />
 		<constructor-arg ref="dispatchSecurityConstraintsMarshaller" />
 		<constructor-arg ref="dispatchSecurityConstraintsMarshaller" />
@@ -179,7 +179,7 @@
 	</bean>
 
 	<bean id="hourlyOntarioEnergyPriceReportClient"
-		class="name.reidmiller.parseieso.client.HourlyOntarioEnergyPriceReportClient">
+		class="name.reidmiller.iesoreports.client.HourlyOntarioEnergyPriceReportClient">
 		<constructor-arg ref="hourlyOntarioEnergyPriceReportURL" />
 		<constructor-arg ref="hourlyOntarioEnergyPriceReportMarshaller" />
 		<constructor-arg ref="hourlyOntarioEnergyPriceReportMarshaller" />
@@ -195,7 +195,7 @@
 	</bean>
 
 	<bean id="generatorOutputCapabilityClient"
-		class="name.reidmiller.parseieso.client.GeneratorOutputCapabilityClient">
+		class="name.reidmiller.iesoreports.client.GeneratorOutputCapabilityClient">
 		<constructor-arg ref="generatorOutputCapabilityURL" />
 		<constructor-arg ref="generatorOutputCapabilityMarshaller" />
 		<constructor-arg ref="generatorOutputCapabilityMarshaller" />
@@ -211,7 +211,7 @@
 	</bean>
 
 	<bean id="globalAdjustmentRatesClient"
-		class="name.reidmiller.parseieso.client.GlobalAdjustmentRatesClient">
+		class="name.reidmiller.iesoreports.client.GlobalAdjustmentRatesClient">
 		<constructor-arg ref="globalAdjustmentRatesURL" />
 		<constructor-arg ref="globalAdjustmentRatesMarshaller" />
 		<constructor-arg ref="globalAdjustmentRatesMarshaller" />
@@ -227,7 +227,7 @@
 	</bean>
 
 	<bean id="historicalTransmissionOutagesClient"
-		class="name.reidmiller.parseieso.client.HistoricalTransmissionOutagesClient">
+		class="name.reidmiller.iesoreports.client.HistoricalTransmissionOutagesClient">
 		<constructor-arg ref="historicalTransmissionOutagesURL" />
 		<constructor-arg ref="historicalTransmissionOutagesMarshaller" />
 		<constructor-arg ref="historicalTransmissionOutagesMarshaller" />
@@ -243,7 +243,7 @@
 	</bean>
 
 	<bean id="plannedTransmissionOutagesDayClient"
-		class="name.reidmiller.parseieso.client.PlannedTransmissionOutagesDayClient">
+		class="name.reidmiller.iesoreports.client.PlannedTransmissionOutagesDayClient">
 		<constructor-arg ref="plannedTransmissionOutagesDayURL" />
 		<constructor-arg ref="plannedTransmissionOutagesDayMarshaller" />
 		<constructor-arg ref="plannedTransmissionOutagesDayMarshaller" />
@@ -259,7 +259,7 @@
 	</bean>
 
 	<bean id="plannedTransmissionOutagesMonthClient"
-		class="name.reidmiller.parseieso.client.PlannedTransmissionOutagesMonthClient">
+		class="name.reidmiller.iesoreports.client.PlannedTransmissionOutagesMonthClient">
 		<constructor-arg ref="plannedTransmissionOutagesMonthURL" />
 		<constructor-arg ref="plannedTransmissionOutagesMonthMarshaller" />
 		<constructor-arg ref="plannedTransmissionOutagesMonthMarshaller" />
@@ -275,7 +275,7 @@
 	</bean>
 
 	<bean id="plannedTransmissionOutagesSixMonthsClient"
-		class="name.reidmiller.parseieso.client.PlannedTransmissionOutagesSixMonthsClient">
+		class="name.reidmiller.iesoreports.client.PlannedTransmissionOutagesSixMonthsClient">
 		<constructor-arg ref="plannedTransmissionOutagesSixMonthsURL" />
 		<constructor-arg ref="plannedTransmissionOutagesSixMonthsMarshaller" />
 		<constructor-arg ref="plannedTransmissionOutagesSixMonthsMarshaller" />
@@ -291,7 +291,7 @@
 	</bean>
 
 	<bean id="intertieScheduleAndFlowClient"
-		class="name.reidmiller.parseieso.client.IntertieScheduleAndFlowClient">
+		class="name.reidmiller.iesoreports.client.IntertieScheduleAndFlowClient">
 		<constructor-arg ref="intertieScheduleAndFlowURL" />
 		<constructor-arg ref="intertieScheduleAndFlowMarshaller" />
 		<constructor-arg ref="intertieScheduleAndFlowMarshaller" />
@@ -307,7 +307,7 @@
 	</bean>
 
 	<bean id="netInterchangeSchedulingLimitClient"
-		class="name.reidmiller.parseieso.client.NetInterchangeSchedulingLimitClient">
+		class="name.reidmiller.iesoreports.client.NetInterchangeSchedulingLimitClient">
 		<constructor-arg ref="netInterchangeSchedulingLimitURL" />
 		<constructor-arg ref="netInterchangeSchedulingLimitMarshaller" />
 		<constructor-arg ref="netInterchangeSchedulingLimitMarshaller" />
@@ -323,7 +323,7 @@
 	</bean>
 
 	<bean id="predispatchAreaOperatingReserveShortfallsClient"
-		class="name.reidmiller.parseieso.client.PredispatchAreaOperatingReserveShortfallsClient">
+		class="name.reidmiller.iesoreports.client.PredispatchAreaOperatingReserveShortfallsClient">
 		<constructor-arg ref="predispatchAreaOperatingReserveShortfallsURL" />
 		<constructor-arg ref="predispatchAreaOperatingReserveShortfallsMarshaller" />
 		<constructor-arg ref="predispatchAreaOperatingReserveShortfallsMarshaller" />
@@ -339,7 +339,7 @@
 	</bean>
 
 	<bean id="predispatchAreaReserveConstraintsClient"
-		class="name.reidmiller.parseieso.client.PredispatchAreaReserveConstraintsClient">
+		class="name.reidmiller.iesoreports.client.PredispatchAreaReserveConstraintsClient">
 		<constructor-arg ref="predispatchAreaReserveConstraintsURL" />
 		<constructor-arg ref="predispatchAreaReserveConstraintsMarshaller" />
 		<constructor-arg ref="predispatchAreaReserveConstraintsMarshaller" />
@@ -355,7 +355,7 @@
 	</bean>
 
 	<bean id="predispatchConstrainedTotalsClient"
-		class="name.reidmiller.parseieso.client.PredispatchConstrainedTotalsClient">
+		class="name.reidmiller.iesoreports.client.PredispatchConstrainedTotalsClient">
 		<constructor-arg ref="predispatchConstrainedTotalsURL" />
 		<constructor-arg ref="predispatchConstrainedTotalsMarshaller" />
 		<constructor-arg ref="predispatchConstrainedTotalsMarshaller" />
@@ -371,7 +371,7 @@
 	</bean>
 
 	<bean id="predispatchIntertieSchedulingLimitsClient"
-		class="name.reidmiller.parseieso.client.PredispatchIntertieSchedulingLimitsClient">
+		class="name.reidmiller.iesoreports.client.PredispatchIntertieSchedulingLimitsClient">
 		<constructor-arg ref="predispatchIntertieSchedulingLimitsURL" />
 		<constructor-arg ref="predispatchIntertieSchedulingLimitsMarshaller" />
 		<constructor-arg ref="predispatchIntertieSchedulingLimitsMarshaller" />
@@ -387,7 +387,7 @@
 	</bean>
 
 	<bean id="predispatchMarketPriceClient"
-		class="name.reidmiller.parseieso.client.PredispatchMarketPriceClient">
+		class="name.reidmiller.iesoreports.client.PredispatchMarketPriceClient">
 		<constructor-arg ref="predispatchMarketPriceURL" />
 		<constructor-arg ref="predispatchMarketPriceMarshaller" />
 		<constructor-arg ref="predispatchMarketPriceMarshaller" />
@@ -403,7 +403,7 @@
 	</bean>
 
 	<bean id="predispatchMarketTotalsClient"
-		class="name.reidmiller.parseieso.client.PredispatchMarketTotalsClient">
+		class="name.reidmiller.iesoreports.client.PredispatchMarketTotalsClient">
 		<constructor-arg ref="predispatchMarketTotalsURL" />
 		<constructor-arg ref="predispatchMarketTotalsMarshaller" />
 		<constructor-arg ref="predispatchMarketTotalsMarshaller" />
@@ -419,7 +419,7 @@
 	</bean>
 
 	<bean id="predispatchSecurityConstraintsClient"
-		class="name.reidmiller.parseieso.client.PredispatchSecurityConstraintsClient">
+		class="name.reidmiller.iesoreports.client.PredispatchSecurityConstraintsClient">
 		<constructor-arg ref="predispatchSecurityConstraintsURL" />
 		<constructor-arg ref="predispatchSecurityConstraintsMarshaller" />
 		<constructor-arg ref="predispatchSecurityConstraintsMarshaller" />
@@ -435,7 +435,7 @@
 	</bean>
 
 	<bean id="predispatchShadowPricesClient"
-		class="name.reidmiller.parseieso.client.PredispatchShadowPricesClient">
+		class="name.reidmiller.iesoreports.client.PredispatchShadowPricesClient">
 		<constructor-arg ref="predispatchShadowPricesURL" />
 		<constructor-arg ref="predispatchShadowPricesMarshaller" />
 		<constructor-arg ref="predispatchShadowPricesMarshaller" />
@@ -451,7 +451,7 @@
 	</bean>
 
 	<bean id="realtimeAreaReserveConstraintsClient"
-		class="name.reidmiller.parseieso.client.RealtimeAreaReserveConstraintsClient">
+		class="name.reidmiller.iesoreports.client.RealtimeAreaReserveConstraintsClient">
 		<constructor-arg ref="realtimeAreaReserveConstraintsURL" />
 		<constructor-arg ref="realtimeAreaReserveConstraintsMarshaller" />
 		<constructor-arg ref="realtimeAreaReserveConstraintsMarshaller" />
@@ -467,7 +467,7 @@
 	</bean>
 
 	<bean id="realtimeConstrainedTotalsClient"
-		class="name.reidmiller.parseieso.client.RealtimeConstrainedTotalsClient">
+		class="name.reidmiller.iesoreports.client.RealtimeConstrainedTotalsClient">
 		<constructor-arg ref="realtimeConstrainedTotalsURL" />
 		<constructor-arg ref="realtimeConstrainedTotalsMarshaller" />
 		<constructor-arg ref="realtimeConstrainedTotalsMarshaller" />
@@ -483,7 +483,7 @@
 	</bean>
 
 	<bean id="realtimeIntertieSchedulingLimitsClient"
-		class="name.reidmiller.parseieso.client.RealtimeIntertieSchedulingLimitsClient">
+		class="name.reidmiller.iesoreports.client.RealtimeIntertieSchedulingLimitsClient">
 		<constructor-arg ref="realtimeIntertieSchedulingLimitsURL" />
 		<constructor-arg ref="realtimeIntertieSchedulingLimitsMarshaller" />
 		<constructor-arg ref="realtimeIntertieSchedulingLimitsMarshaller" />
@@ -499,7 +499,7 @@
 	</bean>
 
 	<bean id="realtimeMarketPriceClient"
-		class="name.reidmiller.parseieso.client.RealtimeMarketPriceClient">
+		class="name.reidmiller.iesoreports.client.RealtimeMarketPriceClient">
 		<constructor-arg ref="realtimeMarketPriceURL" />
 		<constructor-arg ref="realtimeMarketPriceMarshaller" />
 		<constructor-arg ref="realtimeMarketPriceMarshaller" />
@@ -515,7 +515,7 @@
 	</bean>
 
 	<bean id="realtimeMarketTotalsClient"
-		class="name.reidmiller.parseieso.client.RealtimeMarketTotalsClient">
+		class="name.reidmiller.iesoreports.client.RealtimeMarketTotalsClient">
 		<constructor-arg ref="realtimeMarketTotalsURL" />
 		<constructor-arg ref="realtimeMarketTotalsMarshaller" />
 		<constructor-arg ref="realtimeMarketTotalsMarshaller" />
@@ -531,7 +531,7 @@
 	</bean>
 
 	<bean id="realtimeOperatingReserveInMarketClient"
-		class="name.reidmiller.parseieso.client.RealtimeOperatingReserveInMarketClient">
+		class="name.reidmiller.iesoreports.client.RealtimeOperatingReserveInMarketClient">
 		<constructor-arg ref="realtimeOperatingReserveInMarketURL" />
 		<constructor-arg ref="realtimeOperatingReserveInMarketMarshaller" />
 		<constructor-arg ref="realtimeOperatingReserveInMarketMarshaller" />
@@ -547,7 +547,7 @@
 	</bean>
 
 	<bean id="realtimeShadowPricesClient"
-		class="name.reidmiller.parseieso.client.RealtimeShadowPricesClient">
+		class="name.reidmiller.iesoreports.client.RealtimeShadowPricesClient">
 		<constructor-arg ref="realtimeShadowPricesURL" />
 		<constructor-arg ref="realtimeShadowPricesMarshaller" />
 		<constructor-arg ref="realtimeShadowPricesMarshaller" />
@@ -564,7 +564,7 @@
 	<bean id="surplusBaseloadGenerationDate" class="java.util.Date" />
 
 	<bean id="surplusBaseloadGenerationClient"
-		class="name.reidmiller.parseieso.client.SurplusBaseloadGenerationClient">
+		class="name.reidmiller.iesoreports.client.SurplusBaseloadGenerationClient">
 		<constructor-arg ref="surplusBaseloadGenerationDateFormat" />
 		<constructor-arg ref="surplusBaseloadGenerationDate" />
 		<constructor-arg
@@ -584,7 +584,7 @@
 	</bean>
 
 	<bean id="traPostAuctionMcpLtRoundOneClient"
-		class="name.reidmiller.parseieso.client.TraPostAuctionMcpLtRoundOneClient">
+		class="name.reidmiller.iesoreports.client.TraPostAuctionMcpLtRoundOneClient">
 		<constructor-arg ref="traPostAuctionMcpLtRoundOneURL" />
 		<constructor-arg ref="traPostAuctionMcpLtRoundOneMarshaller" />
 		<constructor-arg ref="traPostAuctionMcpLtRoundOneMarshaller" />
@@ -600,7 +600,7 @@
 	</bean>
 
 	<bean id="traPostAuctionMcpLtRoundTwoClient"
-		class="name.reidmiller.parseieso.client.TraPostAuctionMcpLtRoundTwoClient">
+		class="name.reidmiller.iesoreports.client.TraPostAuctionMcpLtRoundTwoClient">
 		<constructor-arg ref="traPostAuctionMcpLtRoundTwoURL" />
 		<constructor-arg ref="traPostAuctionMcpLtRoundTwoMarshaller" />
 		<constructor-arg ref="traPostAuctionMcpLtRoundTwoMarshaller" />
@@ -616,7 +616,7 @@
 	</bean>
 
 	<bean id="traPostAuctionMcpStRoundOneClient"
-		class="name.reidmiller.parseieso.client.TraPostAuctionMcpStRoundOneClient">
+		class="name.reidmiller.iesoreports.client.TraPostAuctionMcpStRoundOneClient">
 		<constructor-arg ref="traPostAuctionMcpStRoundOneURL" />
 		<constructor-arg ref="traPostAuctionMcpStRoundOneMarshaller" />
 		<constructor-arg ref="traPostAuctionMcpStRoundOneMarshaller" />
@@ -632,7 +632,7 @@
 	</bean>
 
 	<bean id="trHourlyZonalPriceMonthlyClient"
-		class="name.reidmiller.parseieso.client.TrHourlyZonalPriceMonthlyClient">
+		class="name.reidmiller.iesoreports.client.TrHourlyZonalPriceMonthlyClient">
 		<constructor-arg ref="trHourlyZonalPriceMonthlyURL" />
 		<constructor-arg ref="trHourlyZonalPriceMonthlyMarshaller" />
 		<constructor-arg ref="trHourlyZonalPriceMonthlyMarshaller" />
@@ -648,7 +648,7 @@
 	</bean>
 
 	<bean id="trHistoricalInterfaceMonthlyClient"
-		class="name.reidmiller.parseieso.client.TrHistoricalInterfaceMonthlyClient">
+		class="name.reidmiller.iesoreports.client.TrHistoricalInterfaceMonthlyClient">
 		<constructor-arg ref="trHistoricalInterfaceMonthlyURL" />
 		<constructor-arg ref="trHistoricalInterfaceMonthlyMarshaller" />
 		<constructor-arg ref="trHistoricalInterfaceMonthlyMarshaller" />
@@ -663,7 +663,7 @@
 			value="http://reports.ieso.ca/public/TRAPreauctionMCPLT/PUB_TRAPreauctionMCPLT.xml" />
 	</bean>
 
-	<bean id="preAuctionMcpLtClient" class="name.reidmiller.parseieso.client.PreAuctionMcpLtClient">
+	<bean id="preAuctionMcpLtClient" class="name.reidmiller.iesoreports.client.PreAuctionMcpLtClient">
 		<constructor-arg ref="preAuctionMcpLtURL" />
 		<constructor-arg ref="preAuctionMcpLtMarshaller" />
 		<constructor-arg ref="preAuctionMcpLtMarshaller" />
@@ -678,7 +678,7 @@
 			value="http://reports.ieso.ca/public/TRAPreauctionMCPST/PUB_TRAPreauctionMCPST.xml" />
 	</bean>
 
-	<bean id="preAuctionMcpStClient" class="name.reidmiller.parseieso.client.PreAuctionMcpStClient">
+	<bean id="preAuctionMcpStClient" class="name.reidmiller.iesoreports.client.PreAuctionMcpStClient">
 		<constructor-arg ref="preAuctionMcpStURL" />
 		<constructor-arg ref="preAuctionMcpStMarshaller" />
 		<constructor-arg ref="preAuctionMcpStMarshaller" />
@@ -694,7 +694,7 @@
 	</bean>
 
 	<bean id="preAuctionTransmissionTransferCapabilityLtClient"
-		class="name.reidmiller.parseieso.client.PreAuctionTransmissionTransferCapabilityLtClient">
+		class="name.reidmiller.iesoreports.client.PreAuctionTransmissionTransferCapabilityLtClient">
 		<constructor-arg ref="preAuctionTransmissionTransferCapabilityLtURL" />
 		<constructor-arg
 			ref="preAuctionTransmissionTransferCapabilityLtMarshaller" />
@@ -712,7 +712,7 @@
 	</bean>
 
 	<bean id="preAuctionTransmissionTransferCapabilityStClient"
-		class="name.reidmiller.parseieso.client.PreAuctionTransmissionTransferCapabilityStClient">
+		class="name.reidmiller.iesoreports.client.PreAuctionTransmissionTransferCapabilityStClient">
 		<constructor-arg ref="preAuctionTransmissionTransferCapabilityStURL" />
 		<constructor-arg
 			ref="preAuctionTransmissionTransferCapabilityStMarshaller" />
@@ -730,7 +730,7 @@
 	</bean>
 
 	<bean id="hourlyUpliftAndIntertieOfferGuaranteeEstimatesClient"
-		class="name.reidmiller.parseieso.client.HourlyUpliftAndIntertieOfferGuaranteeEstimatesClient">
+		class="name.reidmiller.iesoreports.client.HourlyUpliftAndIntertieOfferGuaranteeEstimatesClient">
 		<constructor-arg ref="hourlyUpliftAndIntertieOfferGuaranteeEstimatesURL" />
 		<constructor-arg
 			ref="hourlyUpliftAndIntertieOfferGuaranteeEstimatesMarshaller" />
@@ -749,7 +749,7 @@
 	</bean>
 
 	<bean id="variableGenerationForecastSummaryClient"
-		class="name.reidmiller.parseieso.client.VariableGenerationForecastSummaryClient">
+		class="name.reidmiller.iesoreports.client.VariableGenerationForecastSummaryClient">
 		<constructor-arg ref="variableGenerationForecastSummaryURL" />
 		<constructor-arg ref="variableGenerationMarshaller" />
 		<constructor-arg ref="variableGenerationMarshaller" />
@@ -765,7 +765,7 @@
 	</bean>
 
 	<bean id="variableGenerationTieBreakingRankingsClient"
-		class="name.reidmiller.parseieso.client.VariableGenerationTieBreakingRankingsClient">
+		class="name.reidmiller.iesoreports.client.VariableGenerationTieBreakingRankingsClient">
 		<constructor-arg ref="variableGenerationTieBreakingRankingsURL" />
 		<constructor-arg ref="variableGenerationTieBreakingRankingsMarshaller" />
 		<constructor-arg ref="variableGenerationTieBreakingRankingsMarshaller" />
