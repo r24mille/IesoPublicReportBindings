@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>name.reidmiller</groupId>
+  <artifactId>ieso-public-report-bindings</artifactId>
+  <versioning>
+    <versions>
+      <version>0.0.3-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20140204180648</lastUpdated>
+  </versioning>
+</metadata>
