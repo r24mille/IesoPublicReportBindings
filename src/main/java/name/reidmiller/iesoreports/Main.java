@@ -2,14 +2,13 @@ package name.reidmiller.iesoreports;
 
 import java.util.List;
 
+import name.reidmiller.iesoreports.client.DayAheadAdequacyClient;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import ca.ieso.reports.schema.daadequacy.DocBody.System.Demands.AverageDemand;
 import ca.ieso.reports.schema.daadequacy.HourlyValue;
-import name.reidmiller.iesoreports.client.DayAheadAdequacyClient;
 
 public class Main {
 	static Logger logger = LogManager.getLogger(Main.class.getName());
@@ -19,9 +18,7 @@ public class Main {
 		logger.info("infuriatin info");
 		logger.error("errorneous error");
 		
-		ApplicationContext appContext = new FileSystemXmlApplicationContext(
-				"src/main/resources/spring/applicationContext.xml");
-		DayAheadAdequacyClient dayAheadAdequacyClient = (DayAheadAdequacyClient) appContext.getBean("dayAheadAdequacyClient");
+		DayAheadAdequacyClient dayAheadAdequacyClient = IesoPublicReportBindingsConfig.dayAheadAdequacyClient();
 		List<ca.ieso.reports.schema.daadequacy.DocBody.System> systems = dayAheadAdequacyClient.getDocBody().getSystem();
 		for (ca.ieso.reports.schema.daadequacy.DocBody.System system : systems) {
 			System.out.println("System Name: " + system.getSystemName());
