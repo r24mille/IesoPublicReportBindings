@@ -4,7 +4,7 @@
 
 	<groupId>name.reidmiller</groupId>
 	<artifactId>ieso-public-report-bindings</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>IESO Public Report Bindings</name>
@@ -21,7 +21,10 @@
 		<spring-ws-core.version>2.1.4.RELEASE</spring-ws-core.version>
 		<log4j.version>2.0-beta9</log4j.version>
 		<context.path>IesoPublicReportBindings</context.path>
-		<internal.repo.branch>gh-pages</internal.repo.branch>
+		<internal.repo.branch>mvn-repo</internal.repo.branch>
+
+		<!-- github server corresponds to entry in ~/.m2/settings.xml -->
+		<github.global.server>github</github.global.server>
 	</properties>
 
 	<distributionManagement>
@@ -54,13 +57,40 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>com.github.github</groupId>
+				<artifactId>site-maven-plugin</artifactId>
+				<version>0.8</version>
+				<configuration>
+					<message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
+					<noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
+					<outputDirectory>${project.build.directory}/${internal.repo.branch}</outputDirectory> <!-- matches distribution management repository url above -->
+					<branch>refs/heads/${internal.repo.branch}</branch>                       <!-- remote branch name -->
+					<includes>
+						<include>**/*</include>
+					</includes>
+					<merge>true</merge>
+					<repositoryName>IesoPublicReportBindings</repositoryName>      <!-- github repo name -->
+					<repositoryOwner>r24mille</repositoryOwner>    <!-- github username -->
+				</configuration>
+				<executions>
+					<!-- run site-maven-plugin's 'site' target as part of the build's normal 
+						'deploy' phase -->
+					<execution>
+						<goals>
+							<goal>site</goal>
+						</goals>
+						<phase>deploy</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
 				<executions>
 					<execution>
 						<id>execution-adequacy</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.adequacy</generatePackage>
 							<schemas>
@@ -79,7 +109,7 @@
 					<execution>
 						<id>execution-daadadequacy</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.daadequacy</generatePackage>
 							<schemas>
@@ -98,7 +128,7 @@
 					<execution>
 						<id>execution-daareaopresshortfall</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.daareaopresshortfall</generatePackage>
 							<schemas>
@@ -117,7 +147,7 @@
 					<execution>
 						<id>execution-daareareserveconst</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.daareareserveconst</generatePackage>
 							<schemas>
@@ -136,7 +166,7 @@
 					<execution>
 						<id>execution-daconsttotals</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.daconsttotals</generatePackage>
 							<schemas>
@@ -155,7 +185,7 @@
 					<execution>
 						<id>execution-daintertieschedlimits</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.daintertieschedlimits</generatePackage>
 							<schemas>
@@ -174,7 +204,7 @@
 					<execution>
 						<id>execution-dasecurityconstraints</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.dasecurityconstraints</generatePackage>
 							<schemas>
@@ -193,7 +223,7 @@
 					<execution>
 						<id>execution-dashadowprices</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.dashadowprices</generatePackage>
 							<schemas>
@@ -212,7 +242,7 @@
 					<execution>
 						<id>execution-dispareaopresandenergycalled</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.dispareaopresandenergycalled</generatePackage>
 							<schemas>
@@ -231,7 +261,7 @@
 					<execution>
 						<id>execution-dispareaopresshortfalls</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.dispareaopresshortfalls</generatePackage>
 							<schemas>
@@ -250,7 +280,7 @@
 					<execution>
 						<id>execution-dispsecurityconstraints</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.dispsecurityconstraints</generatePackage>
 							<schemas>
@@ -269,7 +299,7 @@
 					<execution>
 						<id>execution-dispunconshoep</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.dispunconshoep</generatePackage>
 							<schemas>
@@ -288,7 +318,7 @@
 					<execution>
 						<id>execution-genoutputcapapbility</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.genoutputcapability</generatePackage>
 							<schemas>
@@ -307,7 +337,7 @@
 					<execution>
 						<id>execution-globaladjustment</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.globaladjustment</generatePackage>
 							<schemas>
@@ -326,7 +356,7 @@
 					<execution>
 						<id>execution-iomspublichistoricoutagehour</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.iomspublichistoricoutagehour</generatePackage>
 							<schemas>
@@ -345,7 +375,7 @@
 					<execution>
 						<id>execution-iomspublicplannedoutageday</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.iomspublicplannedoutageday</generatePackage>
 							<schemas>
@@ -364,7 +394,7 @@
 					<execution>
 						<id>execution-iomspublicplanneodutagemonth</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.iomspublicplanneodutagemonth</generatePackage>
 							<schemas>
@@ -383,7 +413,7 @@
 					<execution>
 						<id>execution-iomspublicplannedoutagesixmonths</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.iomspublicplannedoutagesixmonths</generatePackage>
 							<schemas>
@@ -402,7 +432,7 @@
 					<execution>
 						<id>execution-intertiescheduleflow</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.intertiescheduleflow</generatePackage>
 							<schemas>
@@ -421,7 +451,7 @@
 					<execution>
 						<id>execution-nislshadowprices</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.nislshadowprices</generatePackage>
 							<schemas>
@@ -440,7 +470,7 @@
 					<execution>
 						<id>execution-predispareaopresshortfalls</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.predispareaopresshortfalls</generatePackage>
 							<schemas>
@@ -459,7 +489,7 @@
 					<execution>
 						<id>execution-predispareareserveconst</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.predispareareserveconst</generatePackage>
 							<schemas>
@@ -478,7 +508,7 @@
 					<execution>
 						<id>execution-predispconsttotals</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.predispconsttotals</generatePackage>
 							<schemas>
@@ -497,7 +527,7 @@
 					<execution>
 						<id>execution-predispintertieschedlimits</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.predispintertieschedlimits</generatePackage>
 							<schemas>
@@ -516,7 +546,7 @@
 					<execution>
 						<id>execution-predispmktprice</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.predispmktprice</generatePackage>
 							<schemas>
@@ -535,7 +565,7 @@
 					<execution>
 						<id>execution-predispmkttotals</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.predispmkttotals</generatePackage>
 							<schemas>
@@ -554,7 +584,7 @@
 					<execution>
 						<id>execution-predispsecurityconstraints</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.predispsecurityconstraints</generatePackage>
 							<schemas>
@@ -573,7 +603,7 @@
 					<execution>
 						<id>execution-predispshadowprices</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.predispshadowprices</generatePackage>
 							<schemas>
@@ -592,7 +622,7 @@
 					<execution>
 						<id>execution-realtimeareareserveconst</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.realtimeareareserveconst</generatePackage>
 							<schemas>
@@ -611,7 +641,7 @@
 					<execution>
 						<id>execution-realtimeconsttotals</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.realtimeconsttotals</generatePackage>
 							<schemas>
@@ -630,7 +660,7 @@
 					<execution>
 						<id>execution-realtimeintertieschedlimits</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.realtimeintertieschedlimits</generatePackage>
 							<schemas>
@@ -649,7 +679,7 @@
 					<execution>
 						<id>execution-realtimemktprice</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.realtimemktprice</generatePackage>
 							<schemas>
@@ -668,7 +698,7 @@
 					<execution>
 						<id>execution-realtimemkttotals</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.realtimemkttotals</generatePackage>
 							<schemas>
@@ -687,7 +717,7 @@
 					<execution>
 						<id>execution-realtimeorim</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.realtimeorim</generatePackage>
 							<schemas>
@@ -706,7 +736,7 @@
 					<execution>
 						<id>execution-realtimeshadowprices</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.realtimeshadowprices</generatePackage>
 							<schemas>
@@ -725,7 +755,7 @@
 					<execution>
 						<id>execution-sbg</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.sbg</generatePackage>
 							<schemas>
@@ -741,7 +771,7 @@
 					<execution>
 						<id>execution-trapostauctionmcptr1</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.trapostauctionmcpltr1</generatePackage>
 							<schemas>
@@ -760,7 +790,7 @@
 					<execution>
 						<id>execution-trapostauctionmcpltr2</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.trapostauctionmcpltr2</generatePackage>
 							<schemas>
@@ -779,7 +809,7 @@
 					<execution>
 						<id>execution-trapostauctionmcpstr1</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.trapostauctionmcpstr1</generatePackage>
 							<schemas>
@@ -798,7 +828,7 @@
 					<execution>
 						<id>execution-trapreauctionhzmcpmonthly</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.trapreauctionhzmcpmonthly</generatePackage>
 							<schemas>
@@ -817,7 +847,7 @@
 					<execution>
 						<id>execution-trapreauctioninterfacehistorymonthly</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.trapreauctioninterfacehistorymonthly</generatePackage>
 							<schemas>
@@ -836,7 +866,7 @@
 					<execution>
 						<id>execution-trapreauctionmcplt</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.trapreauctionmcplt</generatePackage>
 							<schemas>
@@ -855,7 +885,7 @@
 					<execution>
 						<id>execution-trapreauctionmcpst</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.trapreauctionmcpst</generatePackage>
 							<schemas>
@@ -874,7 +904,7 @@
 					<execution>
 						<id>execution-trapreauctionttclt</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.trapreauctionttclt</generatePackage>
 							<schemas>
@@ -890,7 +920,7 @@
 					<execution>
 						<id>execution-trapreauctionttcst</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.trapreauctionttcst</generatePackage>
 							<schemas>
@@ -906,7 +936,7 @@
 					<execution>
 						<id>execution-uplift</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.uplift</generatePackage>
 							<schemas>
@@ -925,7 +955,7 @@
 					<execution>
 						<id>execution-vgforecastsummary</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.vgforecastsummary</generatePackage>
 							<schemas>
@@ -944,7 +974,7 @@
 					<execution>
 						<id>execution-vgtiebreakingrankings</id>
 						<configuration>
-							<forceRegenerate>true</forceRegenerate>
+							<forceRegenerate>false</forceRegenerate>
 							<generateDirectory>src/main/java</generateDirectory>
 							<generatePackage>ca.ieso.reports.schema.vgtiebreakingrankings</generatePackage>
 							<schemas>
