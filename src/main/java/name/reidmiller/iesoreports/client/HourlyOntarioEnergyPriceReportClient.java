@@ -16,13 +16,13 @@ import ca.ieso.reports.schema.dispunconshoep.IMODocHeader;
 import ca.ieso.reports.schema.dispunconshoep.IMODocument;
 
 public class HourlyOntarioEnergyPriceReportClient {
-	private URL genOutputCapabilityURL;
+	private URL url;
 	private Marshaller marshaller;
 	private Unmarshaller unmarshaller;
 
-	public HourlyOntarioEnergyPriceReportClient(URL genOutputCapabilityURL,
+	public HourlyOntarioEnergyPriceReportClient(URL url,
 			Marshaller marshaller, Unmarshaller unmarshaller) {
-		this.genOutputCapabilityURL = genOutputCapabilityURL;
+		this.url = url;
 		this.marshaller = marshaller;
 		this.unmarshaller = unmarshaller;
 	}
@@ -37,7 +37,7 @@ public class HourlyOntarioEnergyPriceReportClient {
 		Object unmarshalledObj = null;
 
 		try {
-			InputStream input = this.genOutputCapabilityURL.openStream();
+			InputStream input = this.url.openStream();
 			StreamSource source = new StreamSource(input);
 			unmarshalledObj = this.unmarshaller.unmarshal(source);
 		} catch (XmlMappingException e) {
@@ -98,4 +98,16 @@ public class HourlyOntarioEnergyPriceReportClient {
 
 		return imoDocBody;
 	}
+
+	public URL getUrl() {
+		return url;
+	}
+
+	public void setUrl(URL url) {
+		this.url = url;
+	}
+
+
+	
+	
 }

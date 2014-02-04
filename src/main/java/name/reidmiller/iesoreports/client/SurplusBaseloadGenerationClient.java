@@ -26,9 +26,9 @@ public class SurplusBaseloadGenerationClient {
 	private Marshaller marshaller;
 	private Unmarshaller unmarshaller;
 
-	public SurplusBaseloadGenerationClient(SimpleDateFormat sbgDateFormat, Date urlDate,
-			String urlBase, String urlTail, Marshaller marshaller,
-			Unmarshaller unmarshaller) {
+	public SurplusBaseloadGenerationClient(SimpleDateFormat sbgDateFormat,
+			Date urlDate, String urlBase, String urlTail,
+			Marshaller marshaller, Unmarshaller unmarshaller) {
 		this.sbgDateFormat = sbgDateFormat;
 		this.urlDate = urlDate;
 		this.urlBase = urlBase;
