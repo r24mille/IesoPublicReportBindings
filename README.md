@@ -8,7 +8,8 @@ I've now set up a poor-man's Maven repository that I am using for my projects wh
 ```xml
 <repositories>
 	<repository>
-		<id>IesoPublicReportBindings-mvn-repo</id>	<url>https://raw.github.com/r24mille/IesoPublicReportBindings/mvn-repo/</url>
+		<id>IesoPublicReportBindings-mvn-repo</id>
+		<url>https://raw.github.com/r24mille/IesoPublicReportBindings/mvn-repo/</url>
 		<snapshots>
 			<enabled>true</enabled>
 			<updatePolicy>always</updatePolicy>
