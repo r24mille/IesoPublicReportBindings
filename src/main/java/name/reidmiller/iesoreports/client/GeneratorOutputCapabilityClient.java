@@ -12,6 +12,7 @@ import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.XmlMappingException;
 
 import ca.ieso.reports.schema.genoutputcapability.IMODocBody;
+import ca.ieso.reports.schema.genoutputcapability.IMODocBody.Generators.Generator;
 import ca.ieso.reports.schema.genoutputcapability.IMODocHeader;
 import ca.ieso.reports.schema.genoutputcapability.IMODocument;
 
@@ -97,5 +98,12 @@ public class GeneratorOutputCapabilityClient {
 		}
 
 		return imoDocBody;
+	}
+
+	/**
+	 * All possible values from {@link Generator#getFuelType()}.
+	 */
+	static enum FuelType {
+		COAL, GAS, HYDRO, NUCLEAR, OTHER, WIND;
 	}
 }
