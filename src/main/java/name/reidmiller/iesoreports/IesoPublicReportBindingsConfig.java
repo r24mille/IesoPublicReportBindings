@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -24,6 +23,7 @@ import name.reidmiller.iesoreports.client.GlobalAdjustmentRatesClient;
 import name.reidmiller.iesoreports.client.HistoricalTransmissionOutagesClient;
 import name.reidmiller.iesoreports.client.HourlyOntarioEnergyPriceReportClient;
 import name.reidmiller.iesoreports.client.HourlyUpliftAndIntertieOfferGuaranteeEstimatesClient;
+import name.reidmiller.iesoreports.client.IesoPublicReportClientUtil;
 import name.reidmiller.iesoreports.client.IntertieScheduleAndFlowClient;
 import name.reidmiller.iesoreports.client.NetInterchangeSchedulingLimitClient;
 import name.reidmiller.iesoreports.client.PlannedTransmissionOutagesDayClient;
@@ -61,7 +61,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 @Configuration
 public class IesoPublicReportBindingsConfig {
@@ -77,7 +76,8 @@ public class IesoPublicReportBindingsConfig {
 	public static AdequacyClient adequacyClient() {
 		return new AdequacyClient(
 				"http://reports.ieso.ca/public/Adequacy/PUB_Adequacy.xml",
-				buildMarshaller("ca.ieso.reports.schema.adequacy"));
+				IesoPublicReportClientUtil
+						.buildMarshaller("ca.ieso.reports.schema.adequacy"));
 	}
 
 	/**
@@ -788,8 +788,8 @@ public class IesoPublicReportBindingsConfig {
 		for (int i = 0; i < 5; i++) {
 			boolean success = false;
 			String urlString = urlBase
-					+ surplusBaseloadGenerationDateFormat().format(
-							urlCalendar.getTime()) + urlTail;
+					+ IesoPublicReportClientUtil.REPORT_DATE_FORMAT
+							.format(urlCalendar.getTime()) + urlTail;
 
 			try {
 				HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(
@@ -825,11 +825,6 @@ public class IesoPublicReportBindingsConfig {
 				buildMarshaller("ca.ieso.reports.schema.sbg"));
 
 		return surplusBaseloadGenerationClient;
-	}
-
-	@Bean
-	public static SimpleDateFormat surplusBaseloadGenerationDateFormat() {
-		return new SimpleDateFormat("yyyyMMdd");
 	}
 
 	/**
@@ -1068,6 +1063,5 @@ public class IesoPublicReportBindingsConfig {
 
 		return variableGenerationTieBreakingRankingsClient;
 	}
-
 
 }
