@@ -1,34 +1,27 @@
 package name.reidmiller.iesoreports.client;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.transform.stream.StreamSource;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 import ca.ieso.reports.schema.adequacy.DocBody;
 import ca.ieso.reports.schema.adequacy.DocHeader;
 import ca.ieso.reports.schema.adequacy.Document;
 
-public class AdequacyClient {
+public class AdequacyClient extends BaseIesoPublicReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
-
 	private String defaultUrlString;
-	private Jaxb2Marshaller jaxb2Marshaller;
+	private String jaxb2ContextPath;
 
-	public AdequacyClient(String defaultUrlString,
-			Jaxb2Marshaller jaxb2Marshaller) {
+	public AdequacyClient(String defaultUrlString, String jaxb2ContextPath) {
 		this.defaultUrlString = defaultUrlString;
-		this.jaxb2Marshaller = jaxb2Marshaller;
+		this.jaxb2ContextPath = jaxb2ContextPath;
 	}
 
 	/**
@@ -41,13 +34,14 @@ public class AdequacyClient {
 	 * @throws IOException
 	 * @throws ClassCastException
 	 */
-	public Document unmarshal() throws MalformedURLException, IOException,
-			ClassCastException {
-		return this.unmarshal(defaultUrlString);
+	public Document unmarshalDefaultUrl() throws MalformedURLException,
+			IOException, ClassCastException {
+		return this.unmarshal(this.defaultUrlString);
 	}
 
 	/**
-	 * Unmarshals XML text into an {@link Document} using JAXB2.
+	 * Unmarshals XML text into an {@link Document} using JAXB2, into the
+	 * package name specified by {@link #jaxb2ContextPath}.
 	 * 
 	 * @param urlString
 	 *            The URL that will be unmarshalled into a {@link Document}.
@@ -58,9 +52,8 @@ public class AdequacyClient {
 	 */
 	public Document unmarshal(String urlString) throws MalformedURLException,
 			IOException, ClassCastException {
-		InputStream input = new URL(urlString).openStream();
-		StreamSource source = new StreamSource(input);
-		Object unmarshalledObj = this.jaxb2Marshaller.unmarshal(source);
+		Object unmarshalledObj = super.unmarshal(this.jaxb2ContextPath,
+				urlString);
 
 		if (unmarshalledObj instanceof Document) {
 			return (Document) unmarshalledObj;
@@ -119,9 +112,8 @@ public class AdequacyClient {
 	 * @throws ClassCastException
 	 * @throws IOException
 	 */
-	public DocBody getDefaultDocBody() throws MalformedURLException,
-			ClassCastException, IOException {
-		Document document = this.unmarshal();
+	public DocBody getDefaultDocBody() throws MalformedURLException, ClassCastException, IOException  {
+		Document document = this.unmarshalDefaultUrl();
 		return this.getDocBody(document);
 	}
 
@@ -136,7 +128,7 @@ public class AdequacyClient {
 	 */
 	public DocHeader getDefaultDocHeader() throws MalformedURLException,
 			ClassCastException, IOException {
-		Document document = this.unmarshal();
+		Document document = this.unmarshalDefaultUrl();
 		return this.getDocHeader(document);
 	}
 
@@ -154,8 +146,8 @@ public class AdequacyClient {
 	 */
 	public DocHeader getDocHeaderForDate(Date historyDate)
 			throws MalformedURLException, ClassCastException, IOException {
-		String historyUrlString = IesoPublicReportClientUtil.historyUrlString(
-				this.defaultUrlString, historyDate);
+		String historyUrlString = super.historyUrlString(this.defaultUrlString,
+				historyDate);
 		Document document = this.unmarshal(historyUrlString);
 		return this.getDocHeader(document);
 	}
@@ -174,8 +166,9 @@ public class AdequacyClient {
 	 */
 	public DocBody getDocBodyForDate(Date historyDate)
 			throws MalformedURLException, ClassCastException, IOException {
-		String historyUrlString = IesoPublicReportClientUtil.historyUrlString(
-				this.defaultUrlString, historyDate);
+		logger.debug("Creating URL for Date=" + historyDate.toString());
+		String historyUrlString = super.historyUrlString(this.defaultUrlString,
+				historyDate);
 		Document document = this.unmarshal(historyUrlString);
 		return this.getDocBody(document);
 	}
@@ -199,13 +192,12 @@ public class AdequacyClient {
 		List<DocBody> docBodies = new ArrayList<DocBody>();
 
 		// Get dates at 00:00:00 for accurate comparison
-		Date today = IesoPublicReportClientUtil.getDateAtMidnight(new Date());
-		Date endDateCopy = IesoPublicReportClientUtil
-				.getDateAtMidnight(endDate);
+		Date today = super.getDateAtMidnight(new Date());
+		Date endDateCopy = super.getDateAtMidnight(endDate);
 
 		// Step through Dates in range
 		Calendar calStep = Calendar.getInstance();
-		calStep.setTime(IesoPublicReportClientUtil.getDateAtMidnight(startDate));
+		calStep.setTime(super.getDateAtMidnight(startDate));
 		while (calStep.getTime().before(endDateCopy)
 				|| calStep.getTime().equals(endDateCopy)) {
 			// If the step is greater than or equal to the current Date,
@@ -242,13 +234,12 @@ public class AdequacyClient {
 		List<DocHeader> docHeaders = new ArrayList<DocHeader>();
 
 		// Get dates at 00:00:00 for accurate comparison
-		Date today = IesoPublicReportClientUtil.getDateAtMidnight(new Date());
-		Date endDateCopy = IesoPublicReportClientUtil
-				.getDateAtMidnight(endDate);
+		Date today = super.getDateAtMidnight(new Date());
+		Date endDateCopy = super.getDateAtMidnight(endDate);
 
 		// Step through Dates in range
 		Calendar calStep = Calendar.getInstance();
-		calStep.setTime(IesoPublicReportClientUtil.getDateAtMidnight(startDate));
+		calStep.setTime(super.getDateAtMidnight(startDate));
 		while (calStep.getTime().before(endDateCopy)
 				|| calStep.getTime().equals(endDateCopy)) {
 			// If the step is greater than or equal to the current Date,

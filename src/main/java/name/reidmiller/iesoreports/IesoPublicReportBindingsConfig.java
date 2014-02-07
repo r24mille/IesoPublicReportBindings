@@ -76,8 +76,7 @@ public class IesoPublicReportBindingsConfig {
 	public static AdequacyClient adequacyClient() {
 		return new AdequacyClient(
 				"http://reports.ieso.ca/public/Adequacy/PUB_Adequacy.xml",
-				IesoPublicReportClientUtil
-						.buildMarshaller("ca.ieso.reports.schema.adequacy"));
+				"ca.ieso.reports.schema.adequacy");
 	}
 
 	/**
