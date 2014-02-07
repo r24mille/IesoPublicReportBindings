@@ -2,51 +2,58 @@ package name.reidmiller.iesoreports.client;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
 import javax.xml.transform.stream.StreamSource;
 
-import org.springframework.oxm.Marshaller;
-import org.springframework.oxm.Unmarshaller;
-import org.springframework.oxm.XmlMappingException;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 import ca.ieso.reports.schema.adequacy.DocBody;
 import ca.ieso.reports.schema.adequacy.DocHeader;
 import ca.ieso.reports.schema.adequacy.Document;
 
 public class AdequacyClient {
-	private URL url;
-	private Marshaller marshaller;
-	private Unmarshaller unmarshaller;
+	private String defaultUrlString;
+	private Jaxb2Marshaller jaxb2Marshaller;
 
-	public AdequacyClient(URL url, Marshaller marshaller,
-			Unmarshaller unmarshaller) {
-		this.url = url;
-		this.marshaller = marshaller;
-		this.unmarshaller = unmarshaller;
+	public AdequacyClient(String defaultUrlString,
+			Jaxb2Marshaller jaxb2Marshaller) {
+		this.defaultUrlString = defaultUrlString;
+		this.jaxb2Marshaller = jaxb2Marshaller;
 	}
 
 	/**
-	 * Unmarshals the XML text into an {@link Document} using JAXB2.
+	 * Unmarshals XML text from {@link #defaultUrlString} into an
+	 * {@link Document} using JAXB2. This method is a wrapper around
+	 * {@link #unmarshal(String)}.
 	 * 
 	 * @return {@link Document}
+	 * @throws MalformedURLException
+	 * @throws IOException
 	 * @throws ClassCastException
 	 */
-	public Document unmarshal() throws ClassCastException {
-		Object unmarshalledObj = null;
+	public Document unmarshal() throws MalformedURLException, IOException,
+			ClassCastException {
+		return this.unmarshal(defaultUrlString);
+	}
 
-		try {
-			InputStream input = this.url.openStream();
-			StreamSource source = new StreamSource(input);
-			unmarshalledObj = this.unmarshaller.unmarshal(source);
-		} catch (XmlMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	/**
+	 * Unmarshals XML text into an {@link Document} using JAXB2.
+	 * 
+	 * @param urlString
+	 *            The URL that will be unmarshalled into a {@link Document}.
+	 * @return {@link Document}
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 * @throws ClassCastException
+	 */
+	public Document unmarshal(String urlString) throws MalformedURLException,
+			IOException, ClassCastException {
+		InputStream input = new URL(urlString).openStream();
+		StreamSource source = new StreamSource(input);
+		Object unmarshalledObj = this.jaxb2Marshaller.unmarshal(source);
 
 		if (unmarshalledObj instanceof Document) {
 			return (Document) unmarshalledObj;
@@ -61,9 +68,8 @@ public class AdequacyClient {
 	 * 
 	 * @return {@link DocHeader}
 	 */
-	public DocHeader getDocHeader() {
-		Document Document = this.unmarshal();
-		List<Object> docHeaderAndDocBody = Document.getDocHeaderAndDocBody();
+	public DocHeader getDocHeader(Document document) {
+		List<Object> docHeaderAndDocBody = document.getDocHeaderAndDocBody();
 
 		DocHeader docHeader = null;
 		for (Object part : docHeaderAndDocBody) {
@@ -77,14 +83,14 @@ public class AdequacyClient {
 	}
 
 	/**
-	 * Calls {@link #unmarshal()} and returns only the {@link DocBody} portion
-	 * of the {@link Document}.
+	 * Returns only the {@link DocBody} portion of the {@link Document}.
 	 * 
+	 * @param document
+	 *            Unmarshalled {@link Document}
 	 * @return {@link DocBody}
 	 */
-	public DocBody getDocBody() {
-		Document Document = this.unmarshal();
-		List<Object> docHeaderAndDocBody = Document.getDocHeaderAndDocBody();
+	public DocBody getDocBody(Document document) {
+		List<Object> docHeaderAndDocBody = document.getDocHeaderAndDocBody();
 
 		DocBody docBody = null;
 		for (Object part : docHeaderAndDocBody) {

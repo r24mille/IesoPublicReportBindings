@@ -75,17 +75,9 @@ public class IesoPublicReportBindingsConfig {
 	 */
 	@Bean
 	public static AdequacyClient adequacyClient() {
-		AdequacyClient adequacyClient = null;
-		try {
-			adequacyClient = new AdequacyClient(
-					buildURL("http://reports.ieso.ca/public/Adequacy/PUB_Adequacy.xml"),
-					buildMarshaller("ca.ieso.reports.schema.adequacy"),
-					buildMarshaller("ca.ieso.reports.schema.adequacy"));
-		} catch (MalformedURLException e) {
-			logger.error(e.getLocalizedMessage());
-		}
-
-		return adequacyClient;
+		return new AdequacyClient(
+				"http://reports.ieso.ca/public/Adequacy/PUB_Adequacy.xml",
+				buildMarshaller("ca.ieso.reports.schema.adequacy"));
 	}
 
 	/**
@@ -1068,26 +1060,14 @@ public class IesoPublicReportBindingsConfig {
 	@Bean
 	public static VariableGenerationTieBreakingRankingsClient variableGenerationTieBreakingRankingsClient() {
 		VariableGenerationTieBreakingRankingsClient variableGenerationTieBreakingRankingsClient = null;
-		try {
-			variableGenerationTieBreakingRankingsClient = new VariableGenerationTieBreakingRankingsClient(
-					buildURL("http://reports.ieso.ca/public/VGTieBreakingRankings/PUB_VGTieBreakingRankings.xml"),
-					buildMarshaller("ca.ieso.reports.schema.vgtiebreakingrankings"),
-					buildMarshaller("ca.ieso.reports.schema.vgtiebreakingrankings"));
-		} catch (MalformedURLException e) {
-			logger.error(e.getLocalizedMessage());
-		}
+
+		variableGenerationTieBreakingRankingsClient = new VariableGenerationTieBreakingRankingsClient(
+				buildURL("http://reports.ieso.ca/public/VGTieBreakingRankings/PUB_VGTieBreakingRankings.xml"),
+				buildMarshaller("ca.ieso.reports.schema.vgtiebreakingrankings"),
+				buildMarshaller("ca.ieso.reports.schema.vgtiebreakingrankings"));
 
 		return variableGenerationTieBreakingRankingsClient;
 	}
 
-	private static Jaxb2Marshaller buildMarshaller(String contextPath) {
-		Jaxb2Marshaller jaxb2Marshaller = new Jaxb2Marshaller();
-		jaxb2Marshaller.setContextPath(contextPath);
-		return jaxb2Marshaller;
-	}
 
-	private static URL buildURL(String urlString) throws MalformedURLException {
-		URL url = new URL(urlString);
-		return url;
-	}
 }
