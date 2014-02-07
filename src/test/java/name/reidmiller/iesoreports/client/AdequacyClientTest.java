@@ -1,14 +1,23 @@
 package name.reidmiller.iesoreports.client;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import name.reidmiller.iesoreports.IesoPublicReportBindingsConfig;
-import name.reidmiller.iesoreports.client.AdequacyClient;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.ieso.reports.schema.adequacy.DocBody;
+import ca.ieso.reports.schema.adequacy.DocHeader;
 import ca.ieso.reports.schema.adequacy.Document;
 
 public class AdequacyClientTest {
@@ -20,27 +29,127 @@ public class AdequacyClientTest {
 	}
 
 	@Test
-	public void testUnmarshal() {
+	public void testUnmarshalDefaultUrl() {
 		try {
+			Document document = adequacyClient.unmarshalDefaultUrl();
 			assertTrue(
-					"Could not unmaral a ca.ieso.reports.schema.adequacy.Document",
-					adequacyClient.unmarshal() instanceof Document);
+					"Unmarshalled Object is " + document.getClass().getName()
+							+ " not " + Document.class.getName(),
+					adequacyClient.unmarshalDefaultUrl() instanceof Document);
+		} catch (MalformedURLException e) {
+			fail(e.getMessage());
 		} catch (ClassCastException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
 			fail(e.getMessage());
 		}
 	}
 
 	@Test
-	public void testGetDocHeader() {
-		assertNotNull(
-				"ca.ieso.reports.schema.adequacy.DocHeader could not be retrieved from XML",
-				adequacyClient.getDocHeader());
+	public void testGetDefaultDocHeader() {
+		try {
+			assertNotNull(DocHeader.class.getName()
+					+ " could not be retrieved from XML",
+					adequacyClient.getDefaultDocHeader());
+		} catch (MalformedURLException e) {
+			fail(e.getMessage());
+		} catch (ClassCastException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
 	}
 
 	@Test
-	public void testGetDocBody() {
-		assertNotNull(
-				"ca.ieso.reports.schema.adequacy.DocBody could not be retrieved from XML",
-				adequacyClient.getDocBody());
+	public void testGetDocHeaderForDate() {
+		Calendar cal = Calendar.getInstance();
+		cal.roll(Calendar.DATE, false);
+		Date yesterday = cal.getTime();
+		try {
+			assertNotNull(DocHeader.class.getName()
+					+ " could not be retrieved from XML",
+					adequacyClient.getDocHeaderForDate(yesterday));
+		} catch (MalformedURLException e) {
+			fail(e.getMessage());
+		} catch (ClassCastException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testGetDocHeadersInDateRange() {
+		Calendar calStart = Calendar.getInstance();
+		calStart.add(Calendar.DATE, -3);
+
+		try {
+			List<DocHeader> docHeaders = adequacyClient
+					.getDocHeadersInDateRange(calStart.getTime(), new Date());
+			assertNotNull("List of " + DocHeader.class.getName()
+					+ " Objects could not be retrieved from XML", docHeaders);
+			assertEquals("Unexpected number of " + DocHeader.class.getName()
+					+ " Objects returned.", docHeaders.size(), 4);
+		} catch (MalformedURLException e) {
+			fail(e.getMessage());
+		} catch (ClassCastException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testGetDocBodiesInDateRange() {
+		Calendar calStart = Calendar.getInstance();
+		calStart.add(Calendar.DATE, -3);
+
+		try {
+			List<DocBody> docBodies = adequacyClient.getDocBodiesInDateRange(
+					calStart.getTime(), new Date());
+			assertNotNull("List of " + DocBody.class.getName()
+					+ " Objects could not be retrieved from XML", docBodies);
+			assertEquals("Unexpected number of " + DocBody.class.getName()
+					+ " Objects returned.", docBodies.size(), 4);
+		} catch (MalformedURLException e) {
+			fail(e.getMessage());
+		} catch (ClassCastException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testGetDefaultDocBody() {
+		try {
+			assertNotNull(DocBody.class.getName()
+					+ " could not be retrieved from XML",
+					adequacyClient.getDefaultDocBody());
+		} catch (MalformedURLException e) {
+			fail(e.getMessage());
+		} catch (ClassCastException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testGetDocBodyForDate() {
+		Calendar cal = Calendar.getInstance();
+		cal.roll(Calendar.DATE, false);
+		Date yesterday = cal.getTime();
+		try {
+			assertNotNull(DocBody.class.getName()
+					+ " could not be retrieved from XML",
+					adequacyClient.getDocBodyForDate(yesterday));
+		} catch (MalformedURLException e) {
+			fail(e.getMessage());
+		} catch (ClassCastException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
 	}
 }
