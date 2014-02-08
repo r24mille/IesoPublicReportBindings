@@ -8,12 +8,16 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+
+import ca.ieso.reports.schema.adequacy.DocHeader;
+import ca.ieso.reports.schema.adequacy.Document;
 
 public class BaseIesoPublicReportClient {
 	protected Logger logger = LogManager
@@ -23,6 +27,46 @@ public class BaseIesoPublicReportClient {
 	 */
 	public static final DateFormat REPORT_DATE_FORMAT = new SimpleDateFormat(
 			"yyyyMMdd");
+
+	/**
+	 * Returns only the {@link DocBody} portion of the {@link Document}.
+	 * 
+	 * @param document
+	 *            Unmarshalled {@link Document}
+	 * @return {@link DocBody}
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> T getDocBody(List<Object> docHeaderAndDocBody,
+			Class<T> docBodyClazz) {
+		T docBody = null;
+		for (Object part : docHeaderAndDocBody) {
+			if (part != null && docBodyClazz.isInstance(part)) {
+				docBody = (T) part;
+				break;
+			}
+		}
+
+		return docBody;
+	}
+	
+	/**
+	 * Calls {@link #unmarshal()} and returns only the {@link DocHeader} portion
+	 * of the {@link Document}.
+	 * 
+	 * @return {@link DocHeader}
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> T getDocHeader(List<Object> docHeaderAndDocBody,
+			Class<T> docHeaderClazz) {
+		T docHeader = null;
+		for (Object part : docHeaderAndDocBody) {
+			if (part != null && docHeaderClazz.isInstance(part)) {
+				docHeader = (T) part;
+				break;
+			}
+		}
+		return docHeader;
+	}
 
 	/**
 	 * Unmarshals XML text into an Document using JAXB2.
@@ -37,12 +81,28 @@ public class BaseIesoPublicReportClient {
 	 * @throws IOException
 	 * @throws ClassCastException
 	 */
-	protected Object unmarshal(String jaxb2ContextPath, String urlString)
-			throws MalformedURLException, IOException, ClassCastException {
+	protected <T> T unmarshal(String jaxb2ContextPath, String urlString,
+			Class<T> documentClazz) throws MalformedURLException, IOException,
+			ClassCastException {
+		T document = null;
 		logger.debug("Unmarshalling the URL " + urlString);
 		InputStream input = new URL(urlString).openStream();
 		StreamSource source = new StreamSource(input);
-		return this.buildMarshaller(jaxb2ContextPath).unmarshal(source);
+		Jaxb2Marshaller marshaller = this.buildMarshaller(jaxb2ContextPath);
+		Object unmarshalledObj = marshaller.unmarshal(source);
+
+		if (unmarshalledObj != null
+				&& documentClazz.isInstance(unmarshalledObj)) {
+			document = (T) unmarshalledObj;
+		} else {
+			logger.warn("Expected to unmarshal object of type "
+					+ documentClazz.getName()
+					+ " but the actual object unmarhsalled is of type "
+					+ unmarshalledObj.getClass().getName()
+					+ ". Returning null object.");
+		}
+
+		return document;
 	}
 
 	/**

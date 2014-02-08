@@ -25,64 +25,6 @@ public class AdequacyClient extends BaseIesoPublicReportClient {
 	}
 
 	/**
-	 * Unmarshals XML text from {@link #defaultUrlString} into an
-	 * {@link Document} using JAXB2. This method is a wrapper around
-	 * {@link #unmarshal(String)}.
-	 * 
-	 * @return {@link Document}
-	 * @throws MalformedURLException
-	 * @throws IOException
-	 * @throws ClassCastException
-	 */
-	public Document unmarshalDefaultUrl() throws MalformedURLException,
-			IOException, ClassCastException {
-		return this.unmarshal(this.defaultUrlString);
-	}
-
-	/**
-	 * Unmarshals XML text into an {@link Document} using JAXB2, into the
-	 * package name specified by {@link #jaxb2ContextPath}.
-	 * 
-	 * @param urlString
-	 *            The URL that will be unmarshalled into a {@link Document}.
-	 * @return {@link Document}
-	 * @throws MalformedURLException
-	 * @throws IOException
-	 * @throws ClassCastException
-	 */
-	public Document unmarshal(String urlString) throws MalformedURLException,
-			IOException, ClassCastException {
-		Object unmarshalledObj = super.unmarshal(this.jaxb2ContextPath,
-				urlString);
-
-		if (unmarshalledObj instanceof Document) {
-			return (Document) unmarshalledObj;
-		} else {
-			throw new ClassCastException();
-		}
-	}
-
-	/**
-	 * Calls {@link #unmarshal()} and returns only the {@link DocHeader} portion
-	 * of the {@link Document}.
-	 * 
-	 * @return {@link DocHeader}
-	 */
-	public DocHeader getDocHeader(Document document) {
-		List<Object> docHeaderAndDocBody = document.getDocHeaderAndDocBody();
-
-		DocHeader docHeader = null;
-		for (Object part : docHeaderAndDocBody) {
-			if (part instanceof DocHeader) {
-				docHeader = (DocHeader) part;
-				break;
-			}
-		}
-
-		return docHeader;
-	}
-
-	/**
 	 * Returns only the {@link DocBody} portion of the {@link Document}.
 	 * 
 	 * @param document
@@ -91,16 +33,7 @@ public class AdequacyClient extends BaseIesoPublicReportClient {
 	 */
 	public DocBody getDocBody(Document document) {
 		List<Object> docHeaderAndDocBody = document.getDocHeaderAndDocBody();
-
-		DocBody docBody = null;
-		for (Object part : docHeaderAndDocBody) {
-			if (part instanceof DocBody) {
-				docBody = (DocBody) part;
-				break;
-			}
-		}
-
-		return docBody;
+		return super.getDocBody(docHeaderAndDocBody, DocBody.class);
 	}
 
 	/**
@@ -112,44 +45,10 @@ public class AdequacyClient extends BaseIesoPublicReportClient {
 	 * @throws ClassCastException
 	 * @throws IOException
 	 */
-	public DocBody getDefaultDocBody() throws MalformedURLException, ClassCastException, IOException  {
-		Document document = this.unmarshalDefaultUrl();
-		return this.getDocBody(document);
-	}
-
-	/**
-	 * This method uses {@link #defaultUrlString} to request the current
-	 * (default) {@link DocHeader}.
-	 * 
-	 * @return {@link DocHeader} for the current (default) report.
-	 * @throws MalformedURLException
-	 * @throws ClassCastException
-	 * @throws IOException
-	 */
-	public DocHeader getDefaultDocHeader() throws MalformedURLException,
+	public DocBody getDefaultDocBody() throws MalformedURLException,
 			ClassCastException, IOException {
 		Document document = this.unmarshalDefaultUrl();
-		return this.getDocHeader(document);
-	}
-
-	/**
-	 * Get a {@link DocHeader} for a date in past.
-	 * 
-	 * @param historyDate
-	 *            Date in the past that a report header is being requested for.
-	 * @return Returns a {@link DocHeader} using {@link #historyUrlString(Date)}
-	 *         rather than using {@link #defaultUrlString} for the
-	 *         {@link #unmarshal(String)} request.
-	 * @throws MalformedURLException
-	 * @throws ClassCastException
-	 * @throws IOException
-	 */
-	public DocHeader getDocHeaderForDate(Date historyDate)
-			throws MalformedURLException, ClassCastException, IOException {
-		String historyUrlString = super.historyUrlString(this.defaultUrlString,
-				historyDate);
-		Document document = this.unmarshal(historyUrlString);
-		return this.getDocHeader(document);
+		return this.getDocBody(document);
 	}
 
 	/**
@@ -216,6 +115,52 @@ public class AdequacyClient extends BaseIesoPublicReportClient {
 	}
 
 	/**
+	 * Calls {@link #unmarshal()} and returns only the {@link DocHeader} portion
+	 * of the {@link Document}.
+	 * 
+	 * @return {@link DocHeader}
+	 */
+	public DocHeader getDocHeader(Document document) {
+		List<Object> docHeaderAndDocBody = document.getDocHeaderAndDocBody();
+		return super.getDocHeader(docHeaderAndDocBody, DocHeader.class);
+	}
+
+	/**
+	 * This method uses {@link #defaultUrlString} to request the current
+	 * (default) {@link DocHeader}.
+	 * 
+	 * @return {@link DocHeader} for the current (default) report.
+	 * @throws MalformedURLException
+	 * @throws ClassCastException
+	 * @throws IOException
+	 */
+	public DocHeader getDefaultDocHeader() throws MalformedURLException,
+			ClassCastException, IOException {
+		Document document = this.unmarshalDefaultUrl();
+		return this.getDocHeader(document);
+	}
+
+	/**
+	 * Get a {@link DocHeader} for a date in past.
+	 * 
+	 * @param historyDate
+	 *            Date in the past that a report header is being requested for.
+	 * @return Returns a {@link DocHeader} using {@link #historyUrlString(Date)}
+	 *         rather than using {@link #defaultUrlString} for the
+	 *         {@link #unmarshal(String)} request.
+	 * @throws MalformedURLException
+	 * @throws ClassCastException
+	 * @throws IOException
+	 */
+	public DocHeader getDocHeaderForDate(Date historyDate)
+			throws MalformedURLException, ClassCastException, IOException {
+		String historyUrlString = super.historyUrlString(this.defaultUrlString,
+				historyDate);
+		Document document = this.unmarshal(historyUrlString);
+		return this.getDocHeader(document);
+	}
+
+	/**
 	 * Makes a request for each Date in the provided range (inclusive) building
 	 * out a {@link List} of {@link DocHeader} Objects.
 	 * 
@@ -255,5 +200,37 @@ public class AdequacyClient extends BaseIesoPublicReportClient {
 		}
 
 		return docHeaders;
+	}
+
+	/**
+	 * Unmarshals XML text into a {@link Document} using JAXB2, into the
+	 * package name specified by {@link #jaxb2ContextPath}.
+	 * 
+	 * @param urlString
+	 *            The URL that will be unmarshalled into a {@link Document}.
+	 * @return {@link Document}
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 * @throws ClassCastException
+	 */
+	private Document unmarshal(String urlString) throws MalformedURLException,
+			IOException, ClassCastException {
+		return super
+				.unmarshal(this.jaxb2ContextPath, urlString, Document.class);
+	}
+
+	/**
+	 * Unmarshals XML text from {@link #defaultUrlString} into an
+	 * {@link Document} using JAXB2. This method is a wrapper around
+	 * {@link #unmarshal(String)}.
+	 * 
+	 * @return {@link Document}
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 * @throws ClassCastException
+	 */
+	public Document unmarshalDefaultUrl() throws MalformedURLException,
+			IOException, ClassCastException {
+		return this.unmarshal(this.defaultUrlString);
 	}
 }
