@@ -87,7 +87,7 @@ public class BaseReportClient {
 			throws MalformedURLException, IOException {
 		String historyUrlString = this.historyUrlString(defaultUrlString,
 				historyDate);
-		return this.getDocument(jaxb2ContextPath, historyUrlString,
+		return this.getDocument(historyUrlString, jaxb2ContextPath,
 				documentClazz);
 	}
 
@@ -161,7 +161,7 @@ public class BaseReportClient {
 	 * @throws IOException
 	 */
 	@SuppressWarnings("unchecked")
-	protected <T> T getDocument(String jaxb2ContextPath, String urlString,
+	protected <T> T getDocument(String urlString, String jaxb2ContextPath,
 			Class<T> documentClazz) throws MalformedURLException, IOException {
 		T document = null;
 		logger.debug("Unmarshalling the URL " + urlString);

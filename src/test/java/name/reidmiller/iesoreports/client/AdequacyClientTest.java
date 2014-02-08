@@ -13,6 +13,8 @@ import java.util.List;
 
 import name.reidmiller.iesoreports.IesoPublicReportBindingsConfig;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,6 +24,7 @@ import ca.ieso.reports.schema.adequacy.Document;
 
 public class AdequacyClientTest {
 	private AdequacyClient adequacyClient;
+	private Logger logger = LogManager.getLogger(this.getClass());
 
 	@Before
 	public void setUp() throws Exception {
@@ -30,15 +33,17 @@ public class AdequacyClientTest {
 
 	@Test
 	public void testUnmarshalDefaultUrl() {
+
 		try {
-			Document document = adequacyClient.unmarshalDefaultUrl();
+			Document document = adequacyClient.getDefaultDocument();
+			logger.debug("Unmarshalled Object is "
+					+ document.getClass().getName() + ", checking for "
+					+ Document.class.getName());
 			assertTrue(
 					"Unmarshalled Object is " + document.getClass().getName()
 							+ " not " + Document.class.getName(),
-					adequacyClient.unmarshalDefaultUrl() instanceof Document);
+					adequacyClient.getDefaultDocument() instanceof Document);
 		} catch (MalformedURLException e) {
-			fail(e.getMessage());
-		} catch (ClassCastException e) {
 			fail(e.getMessage());
 		} catch (IOException e) {
 			fail(e.getMessage());
@@ -52,8 +57,6 @@ public class AdequacyClientTest {
 					+ " could not be retrieved from XML",
 					adequacyClient.getDefaultDocHeader());
 		} catch (MalformedURLException e) {
-			fail(e.getMessage());
-		} catch (ClassCastException e) {
 			fail(e.getMessage());
 		} catch (IOException e) {
 			fail(e.getMessage());
@@ -70,8 +73,6 @@ public class AdequacyClientTest {
 					+ " could not be retrieved from XML",
 					adequacyClient.getDocHeaderForDate(yesterday));
 		} catch (MalformedURLException e) {
-			fail(e.getMessage());
-		} catch (ClassCastException e) {
 			fail(e.getMessage());
 		} catch (IOException e) {
 			fail(e.getMessage());
@@ -92,8 +93,6 @@ public class AdequacyClientTest {
 					+ " Objects returned.", docHeaders.size(), 4);
 		} catch (MalformedURLException e) {
 			fail(e.getMessage());
-		} catch (ClassCastException e) {
-			fail(e.getMessage());
 		} catch (IOException e) {
 			fail(e.getMessage());
 		}
@@ -113,8 +112,6 @@ public class AdequacyClientTest {
 					+ " Objects returned.", docBodies.size(), 4);
 		} catch (MalformedURLException e) {
 			fail(e.getMessage());
-		} catch (ClassCastException e) {
-			fail(e.getMessage());
 		} catch (IOException e) {
 			fail(e.getMessage());
 		}
@@ -127,8 +124,6 @@ public class AdequacyClientTest {
 					+ " could not be retrieved from XML",
 					adequacyClient.getDefaultDocBody());
 		} catch (MalformedURLException e) {
-			fail(e.getMessage());
-		} catch (ClassCastException e) {
 			fail(e.getMessage());
 		} catch (IOException e) {
 			fail(e.getMessage());
@@ -145,8 +140,6 @@ public class AdequacyClientTest {
 					+ " could not be retrieved from XML",
 					adequacyClient.getDocBodyForDate(yesterday));
 		} catch (MalformedURLException e) {
-			fail(e.getMessage());
-		} catch (ClassCastException e) {
 			fail(e.getMessage());
 		} catch (IOException e) {
 			fail(e.getMessage());

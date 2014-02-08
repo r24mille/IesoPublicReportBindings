@@ -202,7 +202,7 @@ public class AdequacyClient extends BaseReportClient {
 	 */
 	private Document getDocument(String urlString)
 			throws MalformedURLException, IOException {
-		return super.getDocument(this.jaxb2ContextPath, urlString,
+		return super.getDocument(urlString, this.jaxb2ContextPath,
 				Document.class);
 	}
 }
