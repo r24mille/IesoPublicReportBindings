@@ -2,7 +2,6 @@ package name.reidmiller.iesoreports.client;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
@@ -23,8 +22,8 @@ import ca.ieso.reports.schema.adequacy.DocHeader;
 import ca.ieso.reports.schema.adequacy.Document;
 
 public class AdequacyClientTest {
-	private AdequacyClient adequacyClient;
 	private Logger logger = LogManager.getLogger(this.getClass());
+	private AdequacyClient adequacyClient;
 
 	@Before
 	public void setUp() throws Exception {
@@ -32,17 +31,11 @@ public class AdequacyClientTest {
 	}
 
 	@Test
-	public void testUnmarshalDefaultUrl() {
-
+	public void testGetDefaultDocument() {
 		try {
-			Document document = adequacyClient.getDefaultDocument();
-			logger.debug("Unmarshalled Object is "
-					+ document.getClass().getName() + ", checking for "
-					+ Document.class.getName());
-			assertTrue(
-					"Unmarshalled Object is " + document.getClass().getName()
-							+ " not " + Document.class.getName(),
-					adequacyClient.getDefaultDocument() instanceof Document);
+			assertNotNull(Document.class.getName()
+					+ " could not be retrieved from XML",
+					adequacyClient.getDefaultDocument());
 		} catch (MalformedURLException e) {
 			fail(e.getMessage());
 		} catch (IOException e) {

@@ -1,16 +1,28 @@
 package name.reidmiller.iesoreports.client;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import name.reidmiller.iesoreports.IesoPublicReportBindingsConfig;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
 import ca.ieso.reports.schema.trapostauctionmcpstr1.Document;
+import ca.ieso.reports.schema.trapostauctionmcpstr1.DocHeader;
+import ca.ieso.reports.schema.trapostauctionmcpstr1.DocBody;
 
 public class TraPostAuctionMcpStRoundOneClientTest {
+	private Logger logger = LogManager.getLogger(this.getClass());
 	private TraPostAuctionMcpStRoundOneClient traPostAuctionMcpStRoundOneClient;
 
 	@Before
@@ -20,27 +32,111 @@ public class TraPostAuctionMcpStRoundOneClientTest {
 	}
 
 	@Test
-	public void testUnmarshal() {
+	public void testGetDefaultDocument() {
 		try {
-			assertTrue(
-					"Could not unmaral a ca.ieso.reports.schema.trapostauctionmcpstr1.Document",
-					traPostAuctionMcpStRoundOneClient.unmarshal() instanceof Document);
-		} catch (ClassCastException e) {
+			assertNotNull(Document.class.getName()
+					+ " could not be retrieved from XML",
+					traPostAuctionMcpStRoundOneClient.getDefaultDocument());
+		} catch (MalformedURLException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
 			fail(e.getMessage());
 		}
 	}
 
 	@Test
-	public void testGetDocHeader() {
-		assertNotNull(
-				"ca.ieso.reports.schema.trapostauctionmcpstr1.DocHeader could not be retrieved from XML",
-				traPostAuctionMcpStRoundOneClient.getDocHeader());
+	public void testGetDefaultDocHeader() {
+		try {
+			assertNotNull(DocHeader.class.getName()
+					+ " could not be retrieved from XML",
+					traPostAuctionMcpStRoundOneClient.getDefaultDocHeader());
+		} catch (MalformedURLException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
 	}
 
 	@Test
-	public void testGetDocBody() {
-		assertNotNull(
-				"ca.ieso.reports.schema.trapostauctionmcpstr1.DocBody could not be retrieved from XML",
-				traPostAuctionMcpStRoundOneClient.getDocBody());
+	public void testGetDocHeaderForDate() {
+		Calendar cal = Calendar.getInstance();
+		cal.roll(Calendar.DATE, false);
+		Date yesterday = cal.getTime();
+		try {
+			assertNotNull(DocHeader.class.getName()
+					+ " could not be retrieved from XML",
+					traPostAuctionMcpStRoundOneClient.getDocHeaderForDate(yesterday));
+		} catch (MalformedURLException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testGetDocHeadersInDateRange() {
+		Calendar calStart = Calendar.getInstance();
+		calStart.add(Calendar.DATE, -3);
+
+		try {
+			List<DocHeader> docHeaders = traPostAuctionMcpStRoundOneClient
+					.getDocHeadersInDateRange(calStart.getTime(), new Date());
+			assertNotNull("List of " + DocHeader.class.getName()
+					+ " Objects could not be retrieved from XML", docHeaders);
+			assertEquals("Unexpected number of " + DocHeader.class.getName()
+					+ " Objects returned.", docHeaders.size(), 4);
+		} catch (MalformedURLException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testGetDocBodiesInDateRange() {
+		Calendar calStart = Calendar.getInstance();
+		calStart.add(Calendar.DATE, -3);
+
+		try {
+			List<DocBody> docBodies = traPostAuctionMcpStRoundOneClient.getDocBodiesInDateRange(
+					calStart.getTime(), new Date());
+			assertNotNull("List of " + DocBody.class.getName()
+					+ " Objects could not be retrieved from XML", docBodies);
+			assertEquals("Unexpected number of " + DocBody.class.getName()
+					+ " Objects returned.", docBodies.size(), 4);
+		} catch (MalformedURLException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testGetDefaultDocBody() {
+		try {
+			assertNotNull(DocBody.class.getName()
+					+ " could not be retrieved from XML",
+					traPostAuctionMcpStRoundOneClient.getDefaultDocBody());
+		} catch (MalformedURLException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testGetDocBodyForDate() {
+		Calendar cal = Calendar.getInstance();
+		cal.roll(Calendar.DATE, false);
+		Date yesterday = cal.getTime();
+		try {
+			assertNotNull(DocBody.class.getName()
+					+ " could not be retrieved from XML",
+					traPostAuctionMcpStRoundOneClient.getDocBodyForDate(yesterday));
+		} catch (MalformedURLException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
 	}
 }
