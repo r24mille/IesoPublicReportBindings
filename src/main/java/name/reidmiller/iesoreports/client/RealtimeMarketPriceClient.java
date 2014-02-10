@@ -79,52 +79,6 @@ public class RealtimeMarketPriceClient extends BaseReportClient {
 	}
 
 	/**
-	 * Get a {@link DocBody} for a date in past.
-	 * 
-	 * @param historyDate
-	 *            Date in the past that a report is being requested for.
-	 * @return Returns the {@link DocBody} of a past report.
-	 * @throws MalformedURLException
-	 * @throws IOException
-	 */
-	public DocBody getDocBodyForDate(Date historyDate)
-			throws MalformedURLException, IOException {
-		Document document = super.getDocumentForDate(historyDate,
-				Document.class);
-		return this.getDocBody(document);
-	}
-
-	/**
-	 * Makes a request for each Date in the provided range (inclusive) building
-	 * out a {@link List} of {@link DocBody} objects.
-	 * 
-	 * @param startDate
-	 *            Start point (inclusive) of the date range (ie. date furthest
-	 *            in the past).
-	 * @param endDate
-	 *            End point (inclusive) of the date range (ie. date closest to
-	 *            present).
-	 * @return If the startDate is in the future, a one-item {@link List} of
-	 *         {@link DocBody} Objects will be returned. If endDate is in the
-	 *         future the {@link List} will stop at the current (default)
-	 *         report.
-	 * @throws MalformedURLException
-	 * @throws IOException
-	 */
-	public List<DocBody> getDocBodiesInDateRange(Date startDate, Date endDate)
-			throws MalformedURLException, IOException {
-		List<DocBody> docBodies = new ArrayList<DocBody>();
-
-		List<Document> documents = super.getDocumentsInDateRange(startDate,
-				endDate, Document.class);
-		for (Document document : documents) {
-			docBodies.add(this.getDocBody(document));
-		}
-
-		return docBodies;
-	}
-
-	/**
 	 * Returns only the {@link DocHeader} portion of the {@link Document}.
 	 * 
 	 * @param document
@@ -136,53 +90,6 @@ public class RealtimeMarketPriceClient extends BaseReportClient {
 	public DocHeader getDocHeader(Document document) {
 		List<Object> docHeaderAndDocBody = document.getDocHeaderAndDocBody();
 		return super.getDocPart(docHeaderAndDocBody, DocHeader.class);
-	}
-
-	/**
-	 * Get a {@link DocHeader} for a date in past.
-	 * 
-	 * @param historyDate
-	 *            Date in the past that a report header is being requested for.
-	 * @return Returns the {@link DocHeader} of a past report.
-	 * @throws MalformedURLException
-	 * 
-	 * @throws IOException
-	 */
-	public DocHeader getDocHeaderForDate(Date historyDate)
-			throws MalformedURLException, IOException {
-		Document document = super.getDocumentForDate(historyDate,
-				Document.class);
-		return this.getDocHeader(document);
-	}
-
-	/**
-	 * Makes a request for each Date in the provided range (inclusive) building
-	 * out a {@link List} of {@link DocHeader} Objects.
-	 * 
-	 * @param startDate
-	 *            Start point (inclusive) of the date range (ie. date furthest
-	 *            in the past).
-	 * @param endDate
-	 *            End point (inclusive) of the date range (ie. date closest to
-	 *            present).
-	 * @return If the startDate is in the future, a one-item {@link List} of
-	 *         {@link DocHeader} Objects will be returned. If endDate is in the
-	 *         future the {@link List} will stop at the current (default)
-	 *         report.
-	 * @throws MalformedURLException
-	 * @throws IOException
-	 */
-	public List<DocHeader> getDocHeadersInDateRange(Date startDate, Date endDate)
-			throws MalformedURLException, IOException {
-		List<DocHeader> docHeaders = new ArrayList<DocHeader>();
-
-		List<Document> documents = super.getDocumentsInDateRange(startDate,
-				endDate, Document.class);
-		for (Document document : documents) {
-			docHeaders.add(this.getDocHeader(document));
-		}
-
-		return docHeaders;
 	}
 
 	/**

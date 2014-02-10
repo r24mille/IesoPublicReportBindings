@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.daintertieschedlimits.DocBody;
 import ca.ieso.reports.schema.daintertieschedlimits.DocHeader;
 import ca.ieso.reports.schema.daintertieschedlimits.Document;
 
-public class DayAheadIntertieSchedulingLimitsClient extends BaseReportClient {
+public class DayAheadIntertieSchedulingLimitsClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public DayAheadIntertieSchedulingLimitsClient(String defaultUrlString, String jaxb2ContextPath) {
