@@ -31,7 +31,9 @@ import ca.ieso.reports.schema.adequacy.DocHeader;
  * </p>
  */
 public class BaseReportClient {
-	protected Logger logger = LogManager.getLogger(BaseReportClient.class);
+	protected Logger logger = LogManager.getLogger(this.getClass());
+	private String defaultUrlString;
+	private String jaxb2ContextPath;
 	/**
 	 * IESO's date format in the past report URLs.
 	 */
@@ -66,12 +68,6 @@ public class BaseReportClient {
 	/**
 	 * Get a document for a date in the past.
 	 * 
-	 * @param defaultUrlString
-	 *            The URL to the default XML report. This is used as a starting
-	 *            point for {@link #historyUrlString(String, Date)}.
-	 * @param jaxb2ContextPath
-	 *            The package containing Java objects which the XML will be
-	 *            unmarshalled into.
 	 * @param historyDate
 	 *            Date in the past that a report header is being requested for.
 	 * @param documentClazz
@@ -82,24 +78,16 @@ public class BaseReportClient {
 	 * @throws MalformedURLException
 	 * @throws IOException
 	 */
-	protected <T> T getDocumentForDate(String defaultUrlString,
-			String jaxb2ContextPath, Date historyDate, Class<T> documentClazz)
+	protected <T> T getDocumentForDate(Date historyDate, Class<T> documentClazz)
 			throws MalformedURLException, IOException {
-		String historyUrlString = this.historyUrlString(defaultUrlString,
-				historyDate);
-		return this.getDocument(historyUrlString, jaxb2ContextPath,
-				documentClazz);
+		String historyUrlString = this.historyUrlString(historyDate);
+		return this.getDocument(historyUrlString, documentClazz);
 	}
 
 	/**
 	 * Makes a request for each Date in the provided range (inclusive) building
 	 * out a {@link List} of {@link DocHeader} Objects.
 	 * 
-	 * @param defaultUrlString
-	 *            The URL to the default XML report.
-	 * @param jaxb2ContextPath
-	 *            The package containing Java objects which the XML will be
-	 *            unmarshalled into.
 	 * @param startDate
 	 *            Start point (inclusive) of the date range (ie. date furthest
 	 *            in the past).
@@ -115,8 +103,7 @@ public class BaseReportClient {
 	 * @throws MalformedURLException
 	 * @throws IOException
 	 */
-	protected <T> List<T> getDocumentsInDateRange(String defaultUrlString,
-			String jaxb2ContextPath, Date startDate, Date endDate,
+	protected <T> List<T> getDocumentsInDateRange(Date startDate, Date endDate,
 			Class<T> documentClazz) throws MalformedURLException, IOException {
 		List<T> documents = new ArrayList<T>();
 
@@ -132,12 +119,12 @@ public class BaseReportClient {
 			// If the step is greater than or equal to the current Date,
 			// add the default report as the last item in the List and stop.
 			if (calStep.getTime().equals(today) || calStep.after(today)) {
-				documents.add(this.getDocument(defaultUrlString,
-						jaxb2ContextPath, documentClazz));
+				documents.add(this.getDocument(this.defaultUrlString,
+						documentClazz));
 				break;
 			} else {
-				documents.add(this.getDocumentForDate(defaultUrlString,
-						jaxb2ContextPath, calStep.getTime(), documentClazz));
+				documents.add(this.getDocumentForDate(calStep.getTime(),
+						documentClazz));
 			}
 
 			calStep.roll(Calendar.DATE, true);
@@ -149,9 +136,6 @@ public class BaseReportClient {
 	/**
 	 * Unmarshals XML text into an document object using JAXB2.
 	 * 
-	 * @param jaxb2ContextPath
-	 *            The package containing Java objects which the XML will be
-	 *            unmarshalled into.
 	 * @param urlString
 	 *            The URL to an XML report.
 	 * @param documentClazz
@@ -161,13 +145,14 @@ public class BaseReportClient {
 	 * @throws IOException
 	 */
 	@SuppressWarnings("unchecked")
-	protected <T> T getDocument(String urlString, String jaxb2ContextPath,
-			Class<T> documentClazz) throws MalformedURLException, IOException {
+	protected <T> T getDocument(String urlString, Class<T> documentClazz)
+			throws MalformedURLException, IOException {
 		T document = null;
 		logger.debug("Unmarshalling the URL " + urlString);
 		InputStream input = new URL(urlString).openStream();
 		StreamSource source = new StreamSource(input);
-		Jaxb2Marshaller marshaller = this.buildMarshaller(jaxb2ContextPath);
+		Jaxb2Marshaller marshaller = this
+				.buildMarshaller(this.jaxb2ContextPath);
 		Object unmarshalledObj = marshaller.unmarshal(source);
 
 		if (unmarshalledObj != null
@@ -218,30 +203,46 @@ public class BaseReportClient {
 	 * Using defaultUrlString as a starting point, this method and converts it
 	 * to a URL string appropriate to request a past report.
 	 * 
-	 * @param defaultUrlString
-	 *            The default report URL passed in by the client class.
 	 * @param historyDate
 	 *            Date in the past that a URL string will be created for.
 	 * @return String appropriate to request a past report. If the
 	 *         defaultUrlString cannot be parsed according to the history date
 	 *         format, then the defaultUrlString is returned.
 	 */
-	protected String historyUrlString(String defaultUrlString, Date historyDate) {
+	protected String historyUrlString(Date historyDate) {
 		logger.debug("Creating URL for Date=" + historyDate.toString());
-		String historyUrlString = defaultUrlString;
+		String historyUrlString = this.defaultUrlString;
 
-		int extensionIndex = defaultUrlString.lastIndexOf(".xml");
+		int extensionIndex = this.defaultUrlString.lastIndexOf(".xml");
 		if (extensionIndex > 0) {
 			logger.debug("Injecting " + REPORT_DATE_FORMAT.format(historyDate)
-					+ " into default URL " + defaultUrlString);
-			historyUrlString = defaultUrlString.substring(0, extensionIndex)
-					+ "_" + REPORT_DATE_FORMAT.format(historyDate)
-					+ defaultUrlString.substring(extensionIndex);
+					+ " into default URL " + this.defaultUrlString);
+			historyUrlString = this.defaultUrlString.substring(0,
+					extensionIndex)
+					+ "_"
+					+ REPORT_DATE_FORMAT.format(historyDate)
+					+ this.defaultUrlString.substring(extensionIndex);
 		} else {
-			logger.warn("No index of \".xml\" in " + defaultUrlString
+			logger.warn("No index of \".xml\" in " + this.defaultUrlString
 					+ ". Returning defaultUrlString as historyUrlString.");
 		}
 
 		return historyUrlString;
+	}
+
+	public String getDefaultUrlString() {
+		return defaultUrlString;
+	}
+
+	public void setDefaultUrlString(String defaultUrlString) {
+		this.defaultUrlString = defaultUrlString;
+	}
+
+	public String getJaxb2ContextPath() {
+		return jaxb2ContextPath;
+	}
+
+	public void setJaxb2ContextPath(String jaxb2ContextPath) {
+		this.jaxb2ContextPath = jaxb2ContextPath;
 	}
 }

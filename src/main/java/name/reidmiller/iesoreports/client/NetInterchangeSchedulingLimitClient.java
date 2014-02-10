@@ -15,16 +15,14 @@ import ca.ieso.reports.schema.nislshadowprices.Document;
 
 public class NetInterchangeSchedulingLimitClient extends BaseReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
-	private String defaultUrlString;
-	private String jaxb2ContextPath;
 
 	public NetInterchangeSchedulingLimitClient(String defaultUrlString, String jaxb2ContextPath) {
-		this.defaultUrlString = defaultUrlString;
-		this.jaxb2ContextPath = jaxb2ContextPath;
+		super.setDefaultUrlString(defaultUrlString);
+		super.setJaxb2ContextPath(jaxb2ContextPath);
 	}
 
 	/**
-	 * Unmarshals XML text from {@link #defaultUrlString} into a
+	 * Unmarshals XML text from {@link #getDefaultUrlString()} into a
 	 * {@link Document} using JAXB2. This method is a wrapper around
 	 * {@link #getDocument(String)}.
 	 * 
@@ -35,11 +33,11 @@ public class NetInterchangeSchedulingLimitClient extends BaseReportClient {
 	 */
 	public Document getDefaultDocument() throws MalformedURLException,
 			IOException, ClassCastException {
-		return this.getDocument(this.defaultUrlString);
+		return this.getDocument(super.getDefaultUrlString());
 	}
 
 	/**
-	 * This method uses {@link #defaultUrlString} to request the current
+	 * This method uses {@link #getDefaultUrlString()} to request the current
 	 * (default) {@link DocBody}.
 	 * 
 	 * @return {@link DocBody} for the current (default) report.
@@ -54,7 +52,7 @@ public class NetInterchangeSchedulingLimitClient extends BaseReportClient {
 	}
 
 	/**
-	 * This method uses {@link #defaultUrlString} to request the current
+	 * This method uses {@link #getDefaultUrlString()} to request the current
 	 * (default) {@link DocHeader}.
 	 * 
 	 * @return {@link DocHeader} for the current (default) report.
@@ -91,8 +89,8 @@ public class NetInterchangeSchedulingLimitClient extends BaseReportClient {
 	 */
 	public DocBody getDocBodyForDate(Date historyDate)
 			throws MalformedURLException, IOException {
-		Document document = super.getDocumentForDate(this.defaultUrlString,
-				this.jaxb2ContextPath, historyDate, Document.class);
+		Document document = super.getDocumentForDate(historyDate,
+				Document.class);
 		return this.getDocBody(document);
 	}
 
@@ -117,8 +115,7 @@ public class NetInterchangeSchedulingLimitClient extends BaseReportClient {
 			throws MalformedURLException, IOException {
 		List<DocBody> docBodies = new ArrayList<DocBody>();
 
-		List<Document> documents = super.getDocumentsInDateRange(
-				this.defaultUrlString, this.jaxb2ContextPath, startDate,
+		List<Document> documents = super.getDocumentsInDateRange(startDate,
 				endDate, Document.class);
 		for (Document document : documents) {
 			docBodies.add(this.getDocBody(document));
@@ -153,8 +150,8 @@ public class NetInterchangeSchedulingLimitClient extends BaseReportClient {
 	 */
 	public DocHeader getDocHeaderForDate(Date historyDate)
 			throws MalformedURLException, IOException {
-		Document document = super.getDocumentForDate(this.defaultUrlString,
-				this.jaxb2ContextPath, historyDate, Document.class);
+		Document document = super.getDocumentForDate(historyDate,
+				Document.class);
 		return this.getDocHeader(document);
 	}
 
@@ -179,8 +176,7 @@ public class NetInterchangeSchedulingLimitClient extends BaseReportClient {
 			throws MalformedURLException, IOException {
 		List<DocHeader> docHeaders = new ArrayList<DocHeader>();
 
-		List<Document> documents = super.getDocumentsInDateRange(
-				this.defaultUrlString, this.jaxb2ContextPath, startDate,
+		List<Document> documents = super.getDocumentsInDateRange(startDate,
 				endDate, Document.class);
 		for (Document document : documents) {
 			docHeaders.add(this.getDocHeader(document));
@@ -191,7 +187,7 @@ public class NetInterchangeSchedulingLimitClient extends BaseReportClient {
 
 	/**
 	 * Unmarshals XML text into a {@link Document} using JAXB2, into the package
-	 * name specified by {@link #jaxb2ContextPath}.
+	 * name specified by {@link #getJaxb2ContextPath()}.
 	 * 
 	 * @param urlString
 	 *            The URL that will be unmarshalled into a {@link Document}.
@@ -202,7 +198,6 @@ public class NetInterchangeSchedulingLimitClient extends BaseReportClient {
 	 */
 	private Document getDocument(String urlString)
 			throws MalformedURLException, IOException {
-		return super.getDocument(urlString, this.jaxb2ContextPath,
-				Document.class);
+		return super.getDocument(urlString, Document.class);
 	}
 }

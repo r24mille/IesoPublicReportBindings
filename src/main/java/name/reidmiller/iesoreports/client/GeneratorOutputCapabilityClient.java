@@ -10,19 +10,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import ca.ieso.reports.schema.genoutputcapability.IMODocBody;
-import ca.ieso.reports.schema.genoutputcapability.IMODocBody.Generators.Generator;
 import ca.ieso.reports.schema.genoutputcapability.IMODocHeader;
 import ca.ieso.reports.schema.genoutputcapability.IMODocument;
 
 public class GeneratorOutputCapabilityClient extends BaseReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
-	private String defaultUrlString;
-	private String jaxb2ContextPath;
 
 	public GeneratorOutputCapabilityClient(String defaultUrlString,
 			String jaxb2ContextPath) {
-		this.defaultUrlString = defaultUrlString;
-		this.jaxb2ContextPath = jaxb2ContextPath;
+		super.setDefaultUrlString(defaultUrlString);
+		super.setJaxb2ContextPath(jaxb2ContextPath);
 	}
 
 	/**
@@ -37,7 +34,7 @@ public class GeneratorOutputCapabilityClient extends BaseReportClient {
 	 */
 	public IMODocument getDefaultIMODocument() throws MalformedURLException,
 			IOException, ClassCastException {
-		return this.getIMODocument(this.defaultUrlString);
+		return this.getIMODocument(super.getDefaultUrlString());
 	}
 
 	/**
@@ -94,8 +91,7 @@ public class GeneratorOutputCapabilityClient extends BaseReportClient {
 	 */
 	public IMODocBody getIMODocBodyForDate(Date historyDate)
 			throws MalformedURLException, IOException {
-		IMODocument imoDocument = super.getDocumentForDate(
-				this.defaultUrlString, this.jaxb2ContextPath, historyDate,
+		IMODocument imoDocument = super.getDocumentForDate(historyDate,
 				IMODocument.class);
 		return this.getIMODocBody(imoDocument);
 	}
@@ -121,8 +117,7 @@ public class GeneratorOutputCapabilityClient extends BaseReportClient {
 			Date endDate) throws MalformedURLException, IOException {
 		List<IMODocBody> imoDocBodies = new ArrayList<IMODocBody>();
 
-		List<IMODocument> documents = super.getDocumentsInDateRange(
-				this.defaultUrlString, this.jaxb2ContextPath, startDate,
+		List<IMODocument> documents = super.getDocumentsInDateRange(startDate,
 				endDate, IMODocument.class);
 		for (IMODocument imoDocument : documents) {
 			imoDocBodies.add(this.getIMODocBody(imoDocument));
@@ -158,8 +153,7 @@ public class GeneratorOutputCapabilityClient extends BaseReportClient {
 	 */
 	public IMODocHeader getIMODocHeaderForDate(Date historyDate)
 			throws MalformedURLException, IOException {
-		IMODocument imoDocument = super.getDocumentForDate(
-				this.defaultUrlString, this.jaxb2ContextPath, historyDate,
+		IMODocument imoDocument = super.getDocumentForDate(historyDate,
 				IMODocument.class);
 		return this.getIMODocHeader(imoDocument);
 	}
@@ -186,8 +180,7 @@ public class GeneratorOutputCapabilityClient extends BaseReportClient {
 		List<IMODocHeader> imoDocHeaders = new ArrayList<IMODocHeader>();
 
 		List<IMODocument> imoDocuments = super.getDocumentsInDateRange(
-				this.defaultUrlString, this.jaxb2ContextPath, startDate,
-				endDate, IMODocument.class);
+				startDate, endDate, IMODocument.class);
 		for (IMODocument imoDocument : imoDocuments) {
 			imoDocHeaders.add(this.getIMODocHeader(imoDocument));
 		}
@@ -208,8 +201,7 @@ public class GeneratorOutputCapabilityClient extends BaseReportClient {
 	 */
 	private IMODocument getIMODocument(String urlString)
 			throws MalformedURLException, IOException {
-		return super.getDocument(urlString, this.jaxb2ContextPath,
-				IMODocument.class);
+		return super.getDocument(urlString, IMODocument.class);
 	}
 
 	/**

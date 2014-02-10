@@ -16,16 +16,15 @@ import ca.ieso.reports.schema.sbg.Document.DocBody;
 
 public class SurplusBaseloadGenerationClient extends BaseReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
-	private String defaultUrlString;
-	private String jaxb2ContextPath;
 
-	public SurplusBaseloadGenerationClient(String defaultUrlString, String jaxb2ContextPath) {
-		this.defaultUrlString = defaultUrlString;
-		this.jaxb2ContextPath = jaxb2ContextPath;
+	public SurplusBaseloadGenerationClient(String defaultUrlString,
+			String jaxb2ContextPath) {
+		super.setDefaultUrlString(defaultUrlString);
+		super.setJaxb2ContextPath(jaxb2ContextPath);
 	}
 
 	/**
-	 * Unmarshals XML text from {@link #defaultUrlString} into a
+	 * Unmarshals XML text from {@link #getDefaultUrlString()} into a
 	 * {@link Document} using JAXB2. This method is a wrapper around
 	 * {@link #getDocument(String)}.
 	 * 
@@ -36,11 +35,11 @@ public class SurplusBaseloadGenerationClient extends BaseReportClient {
 	 */
 	public Document getDefaultDocument() throws MalformedURLException,
 			IOException, ClassCastException {
-		return this.getDocument(this.defaultUrlString);
+		return this.getDocument(super.getDefaultUrlString());
 	}
 
 	/**
-	 * This method uses {@link #defaultUrlString} to request the current
+	 * This method uses {@link #getDefaultUrlString()} to request the current
 	 * (default) {@link DocBody}.
 	 * 
 	 * @return {@link DocBody} for the current (default) report.
@@ -55,7 +54,7 @@ public class SurplusBaseloadGenerationClient extends BaseReportClient {
 	}
 
 	/**
-	 * This method uses {@link #defaultUrlString} to request the current
+	 * This method uses {@link #getDefaultUrlString()} to request the current
 	 * (default) {@link DocHeader}.
 	 * 
 	 * @return {@link DocHeader} for the current (default) report.
@@ -92,8 +91,8 @@ public class SurplusBaseloadGenerationClient extends BaseReportClient {
 	 */
 	public DocBody getDocBodyForDate(Date historyDate)
 			throws MalformedURLException, IOException {
-		Document document = this.getDocumentForDate(this.defaultUrlString,
-				this.jaxb2ContextPath, historyDate, Document.class);
+		Document document = super.getDocumentForDate(historyDate,
+				Document.class);
 		return this.getDocBody(document);
 	}
 
@@ -118,8 +117,7 @@ public class SurplusBaseloadGenerationClient extends BaseReportClient {
 			throws MalformedURLException, IOException {
 		List<DocBody> docBodies = new ArrayList<DocBody>();
 
-		List<Document> documents = this.getDocumentsInDateRange(
-				this.defaultUrlString, this.jaxb2ContextPath, startDate,
+		List<Document> documents = super.getDocumentsInDateRange(startDate,
 				endDate, Document.class);
 		for (Document document : documents) {
 			docBodies.add(this.getDocBody(document));
@@ -154,8 +152,8 @@ public class SurplusBaseloadGenerationClient extends BaseReportClient {
 	 */
 	public DocHeader getDocHeaderForDate(Date historyDate)
 			throws MalformedURLException, IOException {
-		Document document = this.getDocumentForDate(this.defaultUrlString,
-				this.jaxb2ContextPath, historyDate, Document.class);
+		Document document = super.getDocumentForDate(historyDate,
+				Document.class);
 		return this.getDocHeader(document);
 	}
 
@@ -180,8 +178,7 @@ public class SurplusBaseloadGenerationClient extends BaseReportClient {
 			throws MalformedURLException, IOException {
 		List<DocHeader> docHeaders = new ArrayList<DocHeader>();
 
-		List<Document> documents = this.getDocumentsInDateRange(
-				this.defaultUrlString, this.jaxb2ContextPath, startDate,
+		List<Document> documents = super.getDocumentsInDateRange(startDate,
 				endDate, Document.class);
 		for (Document document : documents) {
 			docHeaders.add(this.getDocHeader(document));
@@ -192,7 +189,7 @@ public class SurplusBaseloadGenerationClient extends BaseReportClient {
 
 	/**
 	 * Unmarshals XML text into a {@link Document} using JAXB2, into the package
-	 * name specified by {@link #jaxb2ContextPath}.
+	 * name specified by {@link #getJaxb2ContextPath()}.
 	 * 
 	 * @param urlString
 	 *            The URL that will be unmarshalled into a {@link Document}.
@@ -203,19 +200,12 @@ public class SurplusBaseloadGenerationClient extends BaseReportClient {
 	 */
 	private Document getDocument(String urlString)
 			throws MalformedURLException, IOException {
-		return super.getDocument(urlString, this.jaxb2ContextPath,
-				Document.class);
+		return super.getDocument(urlString, Document.class);
 	}
 
 	/**
 	 * Get a document for a date in the past.
 	 * 
-	 * @param defaultUrlString
-	 *            The URL to the default XML report. This is used as a starting
-	 *            point for {@link #historyUrlString(String, Date)}.
-	 * @param jaxb2ContextPath
-	 *            The package containing Java objects which the XML will be
-	 *            unmarshalled into.
 	 * @param historyDate
 	 *            Date in the past that a report header is being requested for.
 	 * @param documentClazz
@@ -227,24 +217,16 @@ public class SurplusBaseloadGenerationClient extends BaseReportClient {
 	 * @throws IOException
 	 */
 	@Override
-	protected <T> T getDocumentForDate(String defaultUrlString,
-			String jaxb2ContextPath, Date historyDate, Class<T> documentClazz)
+	protected <T> T getDocumentForDate(Date historyDate, Class<T> documentClazz)
 			throws MalformedURLException, IOException {
-		String historyUrlString = this.historyUrlString(defaultUrlString,
-				historyDate);
-		return super.getDocument(historyUrlString, jaxb2ContextPath,
-				documentClazz);
+		String historyUrlString = this.historyUrlString(historyDate);
+		return super.getDocument(historyUrlString, documentClazz);
 	}
-	
+
 	/**
 	 * Makes a request for each Date in the provided range (inclusive) building
 	 * out a {@link List} of {@link DocHeader} Objects.
 	 * 
-	 * @param defaultUrlString
-	 *            The URL to the default XML report.
-	 * @param jaxb2ContextPath
-	 *            The package containing Java objects which the XML will be
-	 *            unmarshalled into.
 	 * @param startDate
 	 *            Start point (inclusive) of the date range (ie. date furthest
 	 *            in the past).
@@ -261,8 +243,7 @@ public class SurplusBaseloadGenerationClient extends BaseReportClient {
 	 * @throws IOException
 	 */
 	@Override
-	protected <T> List<T> getDocumentsInDateRange(String defaultUrlString,
-			String jaxb2ContextPath, Date startDate, Date endDate,
+	protected <T> List<T> getDocumentsInDateRange(Date startDate, Date endDate,
 			Class<T> documentClazz) throws MalformedURLException, IOException {
 		List<T> documents = new ArrayList<T>();
 
@@ -278,12 +259,12 @@ public class SurplusBaseloadGenerationClient extends BaseReportClient {
 			// If the step is greater than or equal to the current Date,
 			// add the default report as the last item in the List and stop.
 			if (calStep.getTime().equals(today) || calStep.after(today)) {
-				documents.add(super.getDocument(defaultUrlString,
-						jaxb2ContextPath, documentClazz));
+				documents.add(super.getDocument(super.getDefaultUrlString(),
+						documentClazz));
 				break;
 			} else {
-				documents.add(this.getDocumentForDate(defaultUrlString,
-						jaxb2ContextPath, calStep.getTime(), documentClazz));
+				documents.add(this.getDocumentForDate(calStep.getTime(),
+						documentClazz));
 			}
 
 			calStep.roll(Calendar.DATE, true);
@@ -291,13 +272,11 @@ public class SurplusBaseloadGenerationClient extends BaseReportClient {
 
 		return documents;
 	}
-	
+
 	/**
 	 * Using defaultUrlString as a starting point, this method and converts it
 	 * to a URL string appropriate to request a past report.
 	 * 
-	 * @param defaultUrlString
-	 *            The default report URL passed in by the client class.
 	 * @param historyDate
 	 *            Date in the past that a URL string will be created for.
 	 * @return String appropriate to request a past report. If the
@@ -305,19 +284,22 @@ public class SurplusBaseloadGenerationClient extends BaseReportClient {
 	 *         format, then the defaultUrlString is returned.
 	 */
 	@Override
-	protected String historyUrlString(String defaultUrlString, Date historyDate) {
+	protected String historyUrlString(Date historyDate) {
 		logger.debug("Creating URL for Date=" + historyDate.toString());
-		String historyUrlString = defaultUrlString;
+		String historyUrlString = super.getDefaultUrlString();
 
-		int extensionIndex = defaultUrlString.lastIndexOf("_v1.xml");
+		int extensionIndex = super.getDefaultUrlString().lastIndexOf("_v1.xml");
 		if (extensionIndex > 0) {
 			logger.debug("Injecting " + REPORT_DATE_FORMAT.format(historyDate)
-					+ " into default URL " + defaultUrlString);
-			historyUrlString = defaultUrlString.substring(0, extensionIndex)
-					+ "_" + REPORT_DATE_FORMAT.format(historyDate)
-					+ defaultUrlString.substring(extensionIndex);
+					+ " into default URL " + super.getDefaultUrlString());
+			historyUrlString = super.getDefaultUrlString().substring(0,
+					extensionIndex)
+					+ "_"
+					+ REPORT_DATE_FORMAT.format(historyDate)
+					+ super.getDefaultUrlString().substring(extensionIndex);
 		} else {
-			logger.warn("No index of \".xml\" in " + defaultUrlString
+			logger.warn("No index of \"_v1.xml\" in "
+					+ super.getDefaultUrlString()
 					+ ". Returning defaultUrlString as historyUrlString.");
 		}
 
