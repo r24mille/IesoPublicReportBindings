@@ -3,7 +3,6 @@ package name.reidmiller.iesoreports.client;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +13,7 @@ import ca.ieso.reports.schema.daadequacy.DocBody;
 import ca.ieso.reports.schema.daadequacy.DocHeader;
 import ca.ieso.reports.schema.daadequacy.Document;
 
-public class DayAheadAdequacyClient extends BaseIesoPublicReportClient {
+public class DayAheadAdequacyClient extends BaseReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 	private String defaultUrlString;
 	private String jaxb2ContextPath;
@@ -25,24 +24,18 @@ public class DayAheadAdequacyClient extends BaseIesoPublicReportClient {
 	}
 
 	/**
-	 * Returns only the {@link DocBody} portion of the {@link Document}.
+	 * Unmarshals XML text from {@link #defaultUrlString} into a
+	 * {@link Document} using JAXB2. This method is a wrapper around
+	 * {@link #getDocument(String)}.
 	 * 
-	 * @param document
-	 *            Unmarshalled {@link Document}
-	 * @return {@link DocBody}
+	 * @return {@link Document}
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 * 
 	 */
-	public DocBody getDocBody(Document document) {
-		List<Object> docHeaderAndDocBody = document.getDocHeaderAndDocBody();
-
-		DocBody docBody = null;
-		for (Object part : docHeaderAndDocBody) {
-			if (part instanceof DocBody) {
-				docBody = (DocBody) part;
-				break;
-			}
-		}
-
-		return docBody;
+	public Document getDefaultDocument() throws MalformedURLException,
+			IOException, ClassCastException {
+		return this.getDocument(this.defaultUrlString);
 	}
 
 	/**
@@ -51,96 +44,13 @@ public class DayAheadAdequacyClient extends BaseIesoPublicReportClient {
 	 * 
 	 * @return {@link DocBody} for the current (default) report.
 	 * @throws MalformedURLException
-	 * @throws ClassCastException
+	 * 
 	 * @throws IOException
 	 */
 	public DocBody getDefaultDocBody() throws MalformedURLException,
-			ClassCastException, IOException {
-		Document document = this.unmarshalDefaultUrl();
+			IOException {
+		Document document = this.getDefaultDocument();
 		return this.getDocBody(document);
-	}
-
-	/**
-	 * Get a {@link DocBody} for a date in past.
-	 * 
-	 * @param historyDate
-	 *            Date in the past that a report is being requested for.
-	 * @return Returns a {@link DocBody} using {@link #historyUrlString(Date)}
-	 *         rather than using {@link #defaultUrlString} for the
-	 *         {@link #unmarshal(String)} request.
-	 * @throws MalformedURLException
-	 * @throws ClassCastException
-	 * @throws IOException
-	 */
-	public DocBody getDocBodyForDate(Date historyDate)
-			throws MalformedURLException, ClassCastException, IOException {
-		logger.debug("Creating URL for Date=" + historyDate.toString());
-		String historyUrlString = super.historyUrlString(this.defaultUrlString,
-				historyDate);
-		Document document = this.unmarshal(historyUrlString);
-		return this.getDocBody(document);
-	}
-
-	/**
-	 * Makes a request for each Date in the provided range (inclusive) building
-	 * out a {@link List} of {@link DocBody} Objects.
-	 * 
-	 * @param startDate
-	 * @param endDate
-	 * @return If the startDate is in the future, a one-item {@link List} of
-	 *         {@link DocBody} Objects will be returned. If endDate is in the
-	 *         future the {@link List} will stop at the current (default)
-	 *         report.
-	 * @throws MalformedURLException
-	 * @throws ClassCastException
-	 * @throws IOException
-	 */
-	public List<DocBody> getDocBodiesInDateRange(Date startDate, Date endDate)
-			throws MalformedURLException, ClassCastException, IOException {
-		List<DocBody> docBodies = new ArrayList<DocBody>();
-
-		// Get dates at 00:00:00 for accurate comparison
-		Date today = super.getDateAtMidnight(new Date());
-		Date endDateCopy = super.getDateAtMidnight(endDate);
-
-		// Step through Dates in range
-		Calendar calStep = Calendar.getInstance();
-		calStep.setTime(super.getDateAtMidnight(startDate));
-		while (calStep.getTime().before(endDateCopy)
-				|| calStep.getTime().equals(endDateCopy)) {
-			// If the step is greater than or equal to the current Date,
-			// add the default report as the last item in the List and stop.
-			if (calStep.getTime().equals(today) || calStep.after(today)) {
-				docBodies.add(this.getDefaultDocBody());
-				break;
-			} else {
-				docBodies.add(this.getDocBodyForDate(calStep.getTime()));
-			}
-
-			calStep.roll(Calendar.DATE, true);
-		}
-
-		return docBodies;
-	}
-
-	/**
-	 * Calls {@link #unmarshal()} and returns only the {@link DocHeader} portion
-	 * of the {@link Document}.
-	 * 
-	 * @return {@link DocHeader}
-	 */
-	public DocHeader getDocHeader(Document document) {
-		List<Object> docHeaderAndDocBody = document.getDocHeaderAndDocBody();
-
-		DocHeader docHeader = null;
-		for (Object part : docHeaderAndDocBody) {
-			if (part instanceof DocHeader) {
-				docHeader = (DocHeader) part;
-				break;
-			}
-		}
-
-		return docHeader;
 	}
 
 	/**
@@ -149,13 +59,86 @@ public class DayAheadAdequacyClient extends BaseIesoPublicReportClient {
 	 * 
 	 * @return {@link DocHeader} for the current (default) report.
 	 * @throws MalformedURLException
-	 * @throws ClassCastException
 	 * @throws IOException
 	 */
 	public DocHeader getDefaultDocHeader() throws MalformedURLException,
-			ClassCastException, IOException {
-		Document document = this.unmarshalDefaultUrl();
+			IOException {
+		Document document = this.getDefaultDocument();
 		return this.getDocHeader(document);
+	}
+
+	/**
+	 * Returns only the {@link DocBody} portion of the {@link Document}.
+	 * 
+	 * @param document
+	 *            {@link Document} comprised of two parts: {@link DocHeader} and
+	 *            {@link DocBody}.
+	 * @return {@link DocBody}
+	 */
+	public DocBody getDocBody(Document document) {
+		List<Object> docHeaderAndDocBody = document.getDocHeaderAndDocBody();
+		return super.getDocPart(docHeaderAndDocBody, DocBody.class);
+	}
+
+	/**
+	 * Get a {@link DocBody} for a date in past.
+	 * 
+	 * @param historyDate
+	 *            Date in the past that a report is being requested for.
+	 * @return Returns the {@link DocBody} of a past report.
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 */
+	public DocBody getDocBodyForDate(Date historyDate)
+			throws MalformedURLException, IOException {
+		Document document = super.getDocumentForDate(this.defaultUrlString,
+				this.jaxb2ContextPath, historyDate, Document.class);
+		return this.getDocBody(document);
+	}
+
+	/**
+	 * Makes a request for each Date in the provided range (inclusive) building
+	 * out a {@link List} of {@link DocBody} objects.
+	 * 
+	 * @param startDate
+	 *            Start point (inclusive) of the date range (ie. date furthest
+	 *            in the past).
+	 * @param endDate
+	 *            End point (inclusive) of the date range (ie. date closest to
+	 *            present).
+	 * @return If the startDate is in the future, a one-item {@link List} of
+	 *         {@link DocBody} Objects will be returned. If endDate is in the
+	 *         future the {@link List} will stop at the current (default)
+	 *         report.
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 */
+	public List<DocBody> getDocBodiesInDateRange(Date startDate, Date endDate)
+			throws MalformedURLException, IOException {
+		List<DocBody> docBodies = new ArrayList<DocBody>();
+
+		List<Document> documents = super.getDocumentsInDateRange(
+				this.defaultUrlString, this.jaxb2ContextPath, startDate,
+				endDate, Document.class);
+		for (Document document : documents) {
+			docBodies.add(this.getDocBody(document));
+		}
+
+		return docBodies;
+	}
+
+	/**
+	 * Returns only the {@link DocHeader} portion of the {@link Document}.
+	 * 
+	 * @param document
+	 *            {@link Document} comprised of two parts: {@link DocHeader} and
+	 *            {@link DocBody}.
+	 * 
+	 * @return {@link DocHeader}
+	 */
+	public DocHeader getDocHeader(Document document) {
+		List<Object> docHeaderAndDocBody = document.getDocHeaderAndDocBody();
+		return super.getDocPart(docHeaderAndDocBody, DocHeader.class);
 	}
 
 	/**
@@ -163,18 +146,15 @@ public class DayAheadAdequacyClient extends BaseIesoPublicReportClient {
 	 * 
 	 * @param historyDate
 	 *            Date in the past that a report header is being requested for.
-	 * @return Returns a {@link DocHeader} using {@link #historyUrlString(Date)}
-	 *         rather than using {@link #defaultUrlString} for the
-	 *         {@link #unmarshal(String)} request.
+	 * @return Returns the {@link DocHeader} of a past report.
 	 * @throws MalformedURLException
-	 * @throws ClassCastException
+	 * 
 	 * @throws IOException
 	 */
 	public DocHeader getDocHeaderForDate(Date historyDate)
-			throws MalformedURLException, ClassCastException, IOException {
-		String historyUrlString = super.historyUrlString(this.defaultUrlString,
-				historyDate);
-		Document document = this.unmarshal(historyUrlString);
+			throws MalformedURLException, IOException {
+		Document document = super.getDocumentForDate(this.defaultUrlString,
+				this.jaxb2ContextPath, historyDate, Document.class);
 		return this.getDocHeader(document);
 	}
 
@@ -183,78 +163,46 @@ public class DayAheadAdequacyClient extends BaseIesoPublicReportClient {
 	 * out a {@link List} of {@link DocHeader} Objects.
 	 * 
 	 * @param startDate
+	 *            Start point (inclusive) of the date range (ie. date furthest
+	 *            in the past).
 	 * @param endDate
+	 *            End point (inclusive) of the date range (ie. date closest to
+	 *            present).
 	 * @return If the startDate is in the future, a one-item {@link List} of
 	 *         {@link DocHeader} Objects will be returned. If endDate is in the
 	 *         future the {@link List} will stop at the current (default)
 	 *         report.
 	 * @throws MalformedURLException
-	 * @throws ClassCastException
 	 * @throws IOException
 	 */
 	public List<DocHeader> getDocHeadersInDateRange(Date startDate, Date endDate)
-			throws MalformedURLException, ClassCastException, IOException {
+			throws MalformedURLException, IOException {
 		List<DocHeader> docHeaders = new ArrayList<DocHeader>();
 
-		// Get dates at 00:00:00 for accurate comparison
-		Date today = super.getDateAtMidnight(new Date());
-		Date endDateCopy = super.getDateAtMidnight(endDate);
-
-		// Step through Dates in range
-		Calendar calStep = Calendar.getInstance();
-		calStep.setTime(super.getDateAtMidnight(startDate));
-		while (calStep.getTime().before(endDateCopy)
-				|| calStep.getTime().equals(endDateCopy)) {
-			// If the step is greater than or equal to the current Date,
-			// add the default report as the last item in the List and stop.
-			if (calStep.getTime().equals(today) || calStep.after(today)) {
-				docHeaders.add(this.getDefaultDocHeader());
-				break;
-			} else {
-				docHeaders.add(this.getDocHeaderForDate(calStep.getTime()));
-			}
-
-			calStep.roll(Calendar.DATE, true);
+		List<Document> documents = super.getDocumentsInDateRange(
+				this.defaultUrlString, this.jaxb2ContextPath, startDate,
+				endDate, Document.class);
+		for (Document document : documents) {
+			docHeaders.add(this.getDocHeader(document));
 		}
 
 		return docHeaders;
 	}
 
 	/**
-	 * Unmarshals XML text into an {@link Document} using JAXB2, into the
-	 * package name specified by {@link #jaxb2ContextPath}.
+	 * Unmarshals XML text into a {@link Document} using JAXB2, into the package
+	 * name specified by {@link #jaxb2ContextPath}.
 	 * 
 	 * @param urlString
 	 *            The URL that will be unmarshalled into a {@link Document}.
 	 * @return {@link Document}
 	 * @throws MalformedURLException
 	 * @throws IOException
-	 * @throws ClassCastException
-	 */
-	public Document unmarshal(String urlString) throws MalformedURLException,
-			IOException, ClassCastException {
-		Object unmarshalledObj = super.unmarshal(this.jaxb2ContextPath,
-				urlString);
-
-		if (unmarshalledObj instanceof Document) {
-			return (Document) unmarshalledObj;
-		} else {
-			throw new ClassCastException();
-		}
-	}
-
-	/**
-	 * Unmarshals XML text from {@link #defaultUrlString} into an
-	 * {@link Document} using JAXB2. This method is a wrapper around
-	 * {@link #unmarshal(String)}.
 	 * 
-	 * @return {@link Document}
-	 * @throws MalformedURLException
-	 * @throws IOException
-	 * @throws ClassCastException
 	 */
-	public Document unmarshalDefaultUrl() throws MalformedURLException,
-			IOException, ClassCastException {
-		return this.unmarshal(this.defaultUrlString);
+	private Document getDocument(String urlString)
+			throws MalformedURLException, IOException {
+		return super.getDocument(urlString, this.jaxb2ContextPath,
+				Document.class);
 	}
 }

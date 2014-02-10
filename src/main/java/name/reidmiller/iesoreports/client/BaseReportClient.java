@@ -190,7 +190,7 @@ public class BaseReportClient {
 	 *            unmarshalled into.
 	 * @return {@link Jaxb2Marshaller} for the package name specified.
 	 */
-	private Jaxb2Marshaller buildMarshaller(String contextPath) {
+	protected Jaxb2Marshaller buildMarshaller(String contextPath) {
 		Jaxb2Marshaller jaxb2Marshaller = new Jaxb2Marshaller();
 		jaxb2Marshaller.setContextPath(contextPath);
 		return jaxb2Marshaller;
@@ -204,7 +204,7 @@ public class BaseReportClient {
 	 * @param date
 	 * @return Date object at 00:00:00.
 	 */
-	private Date getDateAtMidnight(Date date) {
+	protected Date getDateAtMidnight(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		cal.set(Calendar.HOUR, 0);
@@ -226,7 +226,7 @@ public class BaseReportClient {
 	 *         defaultUrlString cannot be parsed according to the history date
 	 *         format, then the defaultUrlString is returned.
 	 */
-	private String historyUrlString(String defaultUrlString, Date historyDate) {
+	protected String historyUrlString(String defaultUrlString, Date historyDate) {
 		logger.debug("Creating URL for Date=" + historyDate.toString());
 		String historyUrlString = defaultUrlString;
 

@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import name.reidmiller.iesoreports.client.AdequacyClient;
+import name.reidmiller.iesoreports.client.BaseReportClient;
 import name.reidmiller.iesoreports.client.DayAheadAdequacyClient;
 import name.reidmiller.iesoreports.client.DayAheadAreaOperatingReserveShortfallClient;
 import name.reidmiller.iesoreports.client.DayAheadAreaReserveConstraintsClient;
@@ -505,21 +506,23 @@ public class IesoPublicReportBindingsConfig {
 	 */
 	@Bean
 	public static SurplusBaseloadGenerationClient surplusBaseloadGenerationClient() {
-		String urlBase = "http://www.ieso.ca/weather/mkt4/sbg/PUB_SurplusBaseloadGen_";
-		String urlTail = "_v1.xml";
 		Calendar urlCalendar = Calendar.getInstance();
-		SurplusBaseloadGenerationClient surplusBaseloadGenerationClient = null;
+		String urlBaseString = "http://www.ieso.ca/weather/mkt4/sbg/PUB_SurplusBaseloadGen_";
+		String urlTailString = "_v1.xml";
+		String defaultUrlString = urlBaseString
+				+ BaseReportClient.REPORT_DATE_FORMAT.format(urlCalendar
+						.getTime()) + urlTailString;
 
 		// Check URL for today, if not then check up to five days in the past.
 		for (int i = 0; i < 5; i++) {
 			boolean success = false;
-			String urlString = urlBase
-					+ IesoPublicReportClientUtil.REPORT_DATE_FORMAT
-							.format(urlCalendar.getTime()) + urlTail;
+			defaultUrlString = urlBaseString
+					+ BaseReportClient.REPORT_DATE_FORMAT.format(urlCalendar
+							.getTime()) + urlTailString;
 
 			try {
 				HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(
-						urlString).openConnection();
+						defaultUrlString).openConnection();
 				httpURLConnection.setRequestMethod("HEAD");
 				int responseCode = httpURLConnection.getResponseCode();
 				if (responseCode == 200) {
@@ -544,11 +547,8 @@ public class IesoPublicReportBindingsConfig {
 		logger.debug("Default Date used to set urlDate "
 				+ urlCalendar.getTime().toString());
 
-		surplusBaseloadGenerationClient = new SurplusBaseloadGenerationClient(
-				surplusBaseloadGenerationDateFormat(), urlCalendar.getTime(),
-				urlBase, urlTail, "ca.ieso.reports.schema.sbg");
-
-		return surplusBaseloadGenerationClient;
+		return new SurplusBaseloadGenerationClient(defaultUrlString,
+				"ca.ieso.reports.schema.sbg");
 	}
 
 	/**

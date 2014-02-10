@@ -1,113 +1,213 @@
 package name.reidmiller.iesoreports.client;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import javax.xml.transform.stream.StreamSource;
-
-import org.springframework.oxm.Marshaller;
-import org.springframework.oxm.Unmarshaller;
-import org.springframework.oxm.XmlMappingException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import ca.ieso.reports.schema.dispunconshoep.IMODocBody;
 import ca.ieso.reports.schema.dispunconshoep.IMODocHeader;
 import ca.ieso.reports.schema.dispunconshoep.IMODocument;
 
-public class HourlyOntarioEnergyPriceReportClient {
-	private URL url;
-	private Marshaller marshaller;
-	private Unmarshaller unmarshaller;
+public class HourlyOntarioEnergyPriceReportClient extends BaseReportClient {
+	private Logger logger = LogManager.getLogger(this.getClass());
+	private String defaultUrlString;
+	private String jaxb2ContextPath;
 
-	public HourlyOntarioEnergyPriceReportClient(URL url,
-			Marshaller marshaller, Unmarshaller unmarshaller) {
-		this.url = url;
-		this.marshaller = marshaller;
-		this.unmarshaller = unmarshaller;
+	public HourlyOntarioEnergyPriceReportClient(String defaultUrlString,
+			String jaxb2ContextPath) {
+		this.defaultUrlString = defaultUrlString;
+		this.jaxb2ContextPath = jaxb2ContextPath;
 	}
 
 	/**
-	 * Unmarshals the XML text into an {@link IMODocument} using JAXB2.
+	 * Unmarshals XML text from {@link #defaultUrlString} into a
+	 * {@link IMODocument} using JAXB2. This method is a wrapper around
+	 * {@link #getIMODocument(String)}.
 	 * 
 	 * @return {@link IMODocument}
-	 * @throws ClassCastException
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 * 
 	 */
-	public IMODocument unmarshal() throws ClassCastException {
-		Object unmarshalledObj = null;
-
-		try {
-			InputStream input = this.url.openStream();
-			StreamSource source = new StreamSource(input);
-			unmarshalledObj = this.unmarshaller.unmarshal(source);
-		} catch (XmlMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		if (unmarshalledObj instanceof IMODocument) {
-			return (IMODocument) unmarshalledObj;
-		} else {
-			throw new ClassCastException();
-		}
+	public IMODocument getDefaultIMODocument() throws MalformedURLException,
+			IOException, ClassCastException {
+		return this.getIMODocument(this.defaultUrlString);
 	}
 
 	/**
-	 * Calls {@link #unmarshal()} and returns only the {@link IMODocHeader}
-	 * portion of the {@link IMODocument}.
+	 * This method uses {@link #defaultUrlString} to request the current
+	 * (default) {@link IMODocBody}.
+	 * 
+	 * @return {@link IMODocBody} for the current (default) report.
+	 * @throws MalformedURLException
+	 * 
+	 * @throws IOException
+	 */
+	public IMODocBody getDefaultIMODocBody() throws MalformedURLException,
+			IOException {
+		IMODocument imoDocument = this.getDefaultIMODocument();
+		return this.getIMODocBody(imoDocument);
+	}
+
+	/**
+	 * This method uses {@link #defaultUrlString} to request the current
+	 * (default) {@link IMODocHeader}.
+	 * 
+	 * @return {@link IMODocHeader} for the current (default) report.
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 */
+	public IMODocHeader getDefaultIMODocHeader() throws MalformedURLException,
+			IOException {
+		IMODocument imoDocument = this.getDefaultIMODocument();
+		return this.getIMODocHeader(imoDocument);
+	}
+
+	/**
+	 * Returns only the {@link IMODocBody} portion of the {@link IMODocument}.
+	 * 
+	 * @param imoDocument
+	 *            {@link IMODocument} comprised of two parts:
+	 *            {@link IMODocHeader} and {@link IMODocBody}.
+	 * @return {@link IMODocBody}
+	 */
+	public IMODocBody getIMODocBody(IMODocument imoDocument) {
+		List<Object> imoDocHeaderAndImoDocBody = imoDocument
+				.getIMODocHeaderAndIMODocBody();
+		return super.getDocPart(imoDocHeaderAndImoDocBody, IMODocBody.class);
+	}
+
+	/**
+	 * Get a {@link IMODocBody} for a date in past.
+	 * 
+	 * @param historyDate
+	 *            Date in the past that a report is being requested for.
+	 * @return Returns the {@link IMODocBody} of a past report.
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 */
+	public IMODocBody getIMODocBodyForDate(Date historyDate)
+			throws MalformedURLException, IOException {
+		IMODocument imoDocument = super.getDocumentForDate(
+				this.defaultUrlString, this.jaxb2ContextPath, historyDate,
+				IMODocument.class);
+		return this.getIMODocBody(imoDocument);
+	}
+
+	/**
+	 * Makes a request for each Date in the provided range (inclusive) building
+	 * out a {@link List} of {@link IMODocBody} objects.
+	 * 
+	 * @param startDate
+	 *            Start point (inclusive) of the date range (ie. date furthest
+	 *            in the past).
+	 * @param endDate
+	 *            End point (inclusive) of the date range (ie. date closest to
+	 *            present).
+	 * @return If the startDate is in the future, a one-item {@link List} of
+	 *         {@link IMODocBody} Objects will be returned. If endDate is in the
+	 *         future the {@link List} will stop at the current (default)
+	 *         report.
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 */
+	public List<IMODocBody> getIMODocBodiesInDateRange(Date startDate,
+			Date endDate) throws MalformedURLException, IOException {
+		List<IMODocBody> imoDocBodies = new ArrayList<IMODocBody>();
+
+		List<IMODocument> documents = super.getDocumentsInDateRange(
+				this.defaultUrlString, this.jaxb2ContextPath, startDate,
+				endDate, IMODocument.class);
+		for (IMODocument imoDocument : documents) {
+			imoDocBodies.add(this.getIMODocBody(imoDocument));
+		}
+
+		return imoDocBodies;
+	}
+
+	/**
+	 * Returns only the {@link IMODocHeader} portion of the {@link IMODocument}.
+	 * 
+	 * @param imoDocument
+	 *            {@link IMODocument} comprised of two parts:
+	 *            {@link IMODocHeader} and {@link IMODocBody}.
 	 * 
 	 * @return {@link IMODocHeader}
 	 */
-	public IMODocHeader getIMODocHeader() {
-		IMODocument imoDocument = this.unmarshal();
-		List<Object> imoDocHeaderAndDocBody = imoDocument
+	public IMODocHeader getIMODocHeader(IMODocument imoDocument) {
+		List<Object> imoDocHeaderAndImoDocBody = imoDocument
 				.getIMODocHeaderAndIMODocBody();
-
-		IMODocHeader imoDocHeader = null;
-		for (Object imoPart : imoDocHeaderAndDocBody) {
-			if (imoPart instanceof IMODocHeader) {
-				imoDocHeader = (IMODocHeader) imoPart;
-				break;
-			}
-		}
-
-		return imoDocHeader;
+		return super.getDocPart(imoDocHeaderAndImoDocBody, IMODocHeader.class);
 	}
 
 	/**
-	 * Calls {@link #unmarshal()} and returns only the {@link IMODocBody}
-	 * portion of the {@link IMODocument}.
+	 * Get a {@link IMODocHeader} for a date in past.
 	 * 
-	 * @return {@link IMODocBody}
+	 * @param historyDate
+	 *            Date in the past that a report header is being requested for.
+	 * @return Returns the {@link IMODocHeader} of a past report.
+	 * @throws MalformedURLException
+	 * 
+	 * @throws IOException
 	 */
-	public IMODocBody getIMODocBody() {
-		IMODocument imoDocument = this.unmarshal();
-		List<Object> imoDocHeaderAndDocBody = imoDocument
-				.getIMODocHeaderAndIMODocBody();
+	public IMODocHeader getIMODocHeaderForDate(Date historyDate)
+			throws MalformedURLException, IOException {
+		IMODocument imoDocument = super.getDocumentForDate(
+				this.defaultUrlString, this.jaxb2ContextPath, historyDate,
+				IMODocument.class);
+		return this.getIMODocHeader(imoDocument);
+	}
 
-		IMODocBody imoDocBody = null;
-		for (Object imoPart : imoDocHeaderAndDocBody) {
-			if (imoPart instanceof IMODocBody) {
-				imoDocBody = (IMODocBody) imoPart;
-				break;
-			}
+	/**
+	 * Makes a request for each Date in the provided range (inclusive) building
+	 * out a {@link List} of {@link IMODocHeader} Objects.
+	 * 
+	 * @param startDate
+	 *            Start point (inclusive) of the date range (ie. date furthest
+	 *            in the past).
+	 * @param endDate
+	 *            End point (inclusive) of the date range (ie. date closest to
+	 *            present).
+	 * @return If the startDate is in the future, a one-item {@link List} of
+	 *         {@link IMODocHeader} Objects will be returned. If endDate is in
+	 *         the future the {@link List} will stop at the current (default)
+	 *         report.
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 */
+	public List<IMODocHeader> getIMODocHeadersInDateRange(Date startDate,
+			Date endDate) throws MalformedURLException, IOException {
+		List<IMODocHeader> imoDocHeaders = new ArrayList<IMODocHeader>();
+
+		List<IMODocument> imoDocuments = super.getDocumentsInDateRange(
+				this.defaultUrlString, this.jaxb2ContextPath, startDate,
+				endDate, IMODocument.class);
+		for (IMODocument imoDocument : imoDocuments) {
+			imoDocHeaders.add(this.getIMODocHeader(imoDocument));
 		}
 
-		return imoDocBody;
+		return imoDocHeaders;
 	}
 
-	public URL getUrl() {
-		return url;
+	/**
+	 * Unmarshals XML text into a {@link IMODocument} using JAXB2, into the
+	 * package name specified by {@link #jaxb2ContextPath}.
+	 * 
+	 * @param urlString
+	 *            The URL that will be unmarshalled into a {@link IMODocument}.
+	 * @return {@link IMODocument}
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 * 
+	 */
+	private IMODocument getIMODocument(String urlString)
+			throws MalformedURLException, IOException {
+		return super.getDocument(urlString, this.jaxb2ContextPath,
+				IMODocument.class);
 	}
-
-	public void setUrl(URL url) {
-		this.url = url;
-	}
-
-
-	
-	
 }
