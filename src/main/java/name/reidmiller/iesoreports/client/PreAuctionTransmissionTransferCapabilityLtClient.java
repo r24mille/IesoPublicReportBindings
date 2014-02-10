@@ -11,12 +11,11 @@ import org.apache.logging.log4j.Logger;
 
 import ca.ieso.reports.schema.trapreauctionttclt.DocHeader;
 import ca.ieso.reports.schema.trapreauctionttclt.Document;
+import ca.ieso.reports.schema.trapreauctionttclt.Document.DocBody;
 
 
 public class PreAuctionTransmissionTransferCapabilityLtClient extends BaseReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
-	private String defaultUrlString;
-	private String jaxb2ContextPath;
 
 	public PreAuctionTransmissionTransferCapabilityLtClient(String defaultUrlString, String jaxb2ContextPath) {
 		super.setDefaultUrlString(defaultUrlString);
@@ -40,6 +39,21 @@ public class PreAuctionTransmissionTransferCapabilityLtClient extends BaseReport
 
 	/**
 	 * This method uses {@link #getDefaultUrlString()} to request the current
+	 * (default) {@link DocBody}.
+	 * 
+	 * @return {@link DocBody} for the current (default) report.
+	 * @throws MalformedURLException
+	 * 
+	 * @throws IOException
+	 */
+	public DocBody getDefaultDocBody() throws MalformedURLException,
+			IOException {
+		Document document = this.getDefaultDocument();
+		return this.getDocBody(document);
+	}
+
+	/**
+	 * This method uses {@link #getDefaultUrlString()} to request the current
 	 * (default) {@link DocHeader}.
 	 * 
 	 * @return {@link DocHeader} for the current (default) report.
@@ -50,6 +64,65 @@ public class PreAuctionTransmissionTransferCapabilityLtClient extends BaseReport
 			IOException {
 		Document document = this.getDefaultDocument();
 		return this.getDocHeader(document);
+	}
+
+	/**
+	 * Returns only the {@link DocBody} portion of the {@link Document}.
+	 * 
+	 * @param document
+	 *            {@link Document} comprised of two parts: {@link DocHeader} and
+	 *            {@link DocBody}.
+	 * @return {@link DocBody}
+	 */
+	public DocBody getDocBody(Document document) {
+		List<Object> docHeaderAndDocBody = document.getDocHeaderAndDocBody();
+		return super.getDocPart(docHeaderAndDocBody, DocBody.class);
+	}
+
+	/**
+	 * Get a {@link DocBody} for a date in past.
+	 * 
+	 * @param historyDate
+	 *            Date in the past that a report is being requested for.
+	 * @return Returns the {@link DocBody} of a past report.
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 */
+	public DocBody getDocBodyForDate(Date historyDate)
+			throws MalformedURLException, IOException {
+		Document document = super.getDocumentForDate(historyDate,
+				Document.class);
+		return this.getDocBody(document);
+	}
+
+	/**
+	 * Makes a request for each Date in the provided range (inclusive) building
+	 * out a {@link List} of {@link DocBody} objects.
+	 * 
+	 * @param startDate
+	 *            Start point (inclusive) of the date range (ie. date furthest
+	 *            in the past).
+	 * @param endDate
+	 *            End point (inclusive) of the date range (ie. date closest to
+	 *            present).
+	 * @return If the startDate is in the future, a one-item {@link List} of
+	 *         {@link DocBody} Objects will be returned. If endDate is in the
+	 *         future the {@link List} will stop at the current (default)
+	 *         report.
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 */
+	public List<DocBody> getDocBodiesInDateRange(Date startDate, Date endDate)
+			throws MalformedURLException, IOException {
+		List<DocBody> docBodies = new ArrayList<DocBody>();
+
+		List<Document> documents = super.getDocumentsInDateRange(startDate,
+				endDate, Document.class);
+		for (Document document : documents) {
+			docBodies.add(this.getDocBody(document));
+		}
+
+		return docBodies;
 	}
 
 	/**
