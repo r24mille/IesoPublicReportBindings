@@ -18,6 +18,10 @@ local.properties
 .settings/
 .loadpath
 
+### JAXB2 ###
+sun-jaxb.episode
+
+
 # External tool builders
 .externalToolBuilders/
 
