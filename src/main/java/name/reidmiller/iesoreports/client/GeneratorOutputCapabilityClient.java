@@ -277,7 +277,7 @@ public class GeneratorOutputCapabilityClient extends DailyReportClient {
 							+ clockHour + ":00:00";
 
 					LinkedHashMap<String, Float> fuelHourMap = fuelTypeMap
-							.get(generator.getFuelType());
+							.get(FuelType.valueOf(generator.getFuelType()));
 					if (fuelHourMap.keySet().contains(timeString)) {
 						float fuelHourVal = fuelHourMap.get(timeString);
 						logger.debug("generatorName="
