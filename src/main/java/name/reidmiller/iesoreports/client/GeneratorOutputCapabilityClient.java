@@ -214,7 +214,7 @@ public class GeneratorOutputCapabilityClient extends DailyReportClient {
 	/**
 	 * All possible values from {@link Generator#getFuelType()}.
 	 */
-	static enum FuelType {
+	public static enum FuelType {
 		COAL, GAS, HYDRO, NUCLEAR, OTHER, WIND;
 	}
 
