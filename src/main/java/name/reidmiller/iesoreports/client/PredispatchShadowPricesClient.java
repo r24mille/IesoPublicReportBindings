@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.predispshadowprices.DocBody;
 import ca.ieso.reports.schema.predispshadowprices.DocHeader;
 import ca.ieso.reports.schema.predispshadowprices.Document;
 
-public class PredispatchShadowPricesClient extends BaseReportClient {
+public class PredispatchShadowPricesClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public PredispatchShadowPricesClient(String defaultUrlString, String jaxb2ContextPath) {

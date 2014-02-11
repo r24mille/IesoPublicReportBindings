@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.intertiescheduleflow.IMODocBody;
 import ca.ieso.reports.schema.intertiescheduleflow.IMODocHeader;
 import ca.ieso.reports.schema.intertiescheduleflow.IMODocument;
 
-public class IntertieScheduleAndFlowClient extends BaseReportClient {
+public class IntertieScheduleAndFlowClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public IntertieScheduleAndFlowClient(String defaultUrlString,

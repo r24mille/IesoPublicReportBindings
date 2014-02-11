@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.realtimemkttotals.DocBody;
 import ca.ieso.reports.schema.realtimemkttotals.DocHeader;
 import ca.ieso.reports.schema.realtimemkttotals.Document;
 
-public class RealtimeMarketTotalsClient extends BaseReportClient {
+public class RealtimeMarketTotalsClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public RealtimeMarketTotalsClient(String defaultUrlString, String jaxb2ContextPath) {

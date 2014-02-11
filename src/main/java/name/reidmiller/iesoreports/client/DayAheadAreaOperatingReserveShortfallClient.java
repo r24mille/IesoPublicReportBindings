@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.daareaopresshortfall.DocBody;
 import ca.ieso.reports.schema.daareaopresshortfall.DocHeader;
 import ca.ieso.reports.schema.daareaopresshortfall.Document;
 
-public class DayAheadAreaOperatingReserveShortfallClient extends BaseReportClient {
+public class DayAheadAreaOperatingReserveShortfallClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public DayAheadAreaOperatingReserveShortfallClient(String defaultUrlString, String jaxb2ContextPath) {

@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.predispintertieschedlimits.DocBody;
 import ca.ieso.reports.schema.predispintertieschedlimits.DocHeader;
 import ca.ieso.reports.schema.predispintertieschedlimits.Document;
 
-public class PredispatchIntertieSchedulingLimitsClient extends BaseReportClient {
+public class PredispatchIntertieSchedulingLimitsClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public PredispatchIntertieSchedulingLimitsClient(String defaultUrlString, String jaxb2ContextPath) {

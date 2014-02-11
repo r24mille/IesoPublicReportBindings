@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.dispunconshoep.IMODocBody;
 import ca.ieso.reports.schema.dispunconshoep.IMODocHeader;
 import ca.ieso.reports.schema.dispunconshoep.IMODocument;
 
-public class HourlyOntarioEnergyPriceReportClient extends BaseReportClient {
+public class HourlyOntarioEnergyPriceReportClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public HourlyOntarioEnergyPriceReportClient(String defaultUrlString,

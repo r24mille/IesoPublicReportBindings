@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.daadequacy.DocBody;
 import ca.ieso.reports.schema.daadequacy.DocHeader;
 import ca.ieso.reports.schema.daadequacy.Document;
 
-public class DayAheadAdequacyClient extends BaseReportClient {
+public class DayAheadAdequacyClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public DayAheadAdequacyClient(String defaultUrlString, String jaxb2ContextPath) {

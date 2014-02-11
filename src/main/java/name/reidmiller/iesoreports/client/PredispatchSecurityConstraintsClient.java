@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.predispsecurityconstraints.DocBody;
 import ca.ieso.reports.schema.predispsecurityconstraints.DocHeader;
 import ca.ieso.reports.schema.predispsecurityconstraints.Document;
 
-public class PredispatchSecurityConstraintsClient extends BaseReportClient {
+public class PredispatchSecurityConstraintsClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public PredispatchSecurityConstraintsClient(String defaultUrlString, String jaxb2ContextPath) {

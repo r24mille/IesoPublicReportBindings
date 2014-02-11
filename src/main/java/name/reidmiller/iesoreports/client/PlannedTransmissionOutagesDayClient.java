@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.iomspublicplannedoutageday.DocBody;
 import ca.ieso.reports.schema.iomspublicplannedoutageday.DocHeader;
 import ca.ieso.reports.schema.iomspublicplannedoutageday.Document;
 
-public class PlannedTransmissionOutagesDayClient extends BaseReportClient {
+public class PlannedTransmissionOutagesDayClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public PlannedTransmissionOutagesDayClient(String defaultUrlString, String jaxb2ContextPath) {

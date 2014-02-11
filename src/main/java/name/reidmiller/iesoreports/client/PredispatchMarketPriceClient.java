@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.predispmktprice.DocBody;
 import ca.ieso.reports.schema.predispmktprice.DocHeader;
 import ca.ieso.reports.schema.predispmktprice.Document;
 
-public class PredispatchMarketPriceClient extends BaseReportClient {
+public class PredispatchMarketPriceClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public PredispatchMarketPriceClient(String defaultUrlString, String jaxb2ContextPath) {

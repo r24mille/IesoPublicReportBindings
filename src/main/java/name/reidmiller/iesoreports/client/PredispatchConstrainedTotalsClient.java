@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.predispconsttotals.DocBody;
 import ca.ieso.reports.schema.predispconsttotals.DocHeader;
 import ca.ieso.reports.schema.predispconsttotals.Document;
 
-public class PredispatchConstrainedTotalsClient extends BaseReportClient {
+public class PredispatchConstrainedTotalsClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public PredispatchConstrainedTotalsClient(String defaultUrlString, String jaxb2ContextPath) {

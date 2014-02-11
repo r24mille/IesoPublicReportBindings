@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.nislshadowprices.DocBody;
 import ca.ieso.reports.schema.nislshadowprices.DocHeader;
 import ca.ieso.reports.schema.nislshadowprices.Document;
 
-public class NetInterchangeSchedulingLimitClient extends BaseReportClient {
+public class NetInterchangeSchedulingLimitClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public NetInterchangeSchedulingLimitClient(String defaultUrlString, String jaxb2ContextPath) {

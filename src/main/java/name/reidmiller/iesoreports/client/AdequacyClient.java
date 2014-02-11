@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.adequacy.DocBody;
 import ca.ieso.reports.schema.adequacy.DocHeader;
 import ca.ieso.reports.schema.adequacy.Document;
 
-public class AdequacyClient extends BaseReportClient {
+public class AdequacyClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public AdequacyClient(String defaultUrlString, String jaxb2ContextPath) {

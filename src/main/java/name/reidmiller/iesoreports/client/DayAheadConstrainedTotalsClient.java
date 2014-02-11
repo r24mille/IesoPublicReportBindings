@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.daconsttotals.DocBody;
 import ca.ieso.reports.schema.daconsttotals.DocHeader;
 import ca.ieso.reports.schema.daconsttotals.Document;
 
-public class DayAheadConstrainedTotalsClient extends BaseReportClient {
+public class DayAheadConstrainedTotalsClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public DayAheadConstrainedTotalsClient(String defaultUrlString, String jaxb2ContextPath) {

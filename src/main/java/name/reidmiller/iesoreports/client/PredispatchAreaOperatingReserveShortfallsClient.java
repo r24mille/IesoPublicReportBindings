@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.predispareaopresshortfalls.DocBody;
 import ca.ieso.reports.schema.predispareaopresshortfalls.DocHeader;
 import ca.ieso.reports.schema.predispareaopresshortfalls.Document;
 
-public class PredispatchAreaOperatingReserveShortfallsClient extends BaseReportClient {
+public class PredispatchAreaOperatingReserveShortfallsClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public PredispatchAreaOperatingReserveShortfallsClient(String defaultUrlString, String jaxb2ContextPath) {

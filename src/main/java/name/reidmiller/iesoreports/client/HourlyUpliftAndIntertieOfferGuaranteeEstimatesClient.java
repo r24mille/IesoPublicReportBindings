@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.uplift.DocBody;
 import ca.ieso.reports.schema.uplift.DocHeader;
 import ca.ieso.reports.schema.uplift.Document;
 
-public class HourlyUpliftAndIntertieOfferGuaranteeEstimatesClient extends BaseReportClient {
+public class HourlyUpliftAndIntertieOfferGuaranteeEstimatesClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public HourlyUpliftAndIntertieOfferGuaranteeEstimatesClient(String defaultUrlString, String jaxb2ContextPath) {

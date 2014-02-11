@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.genoutputcapability.IMODocBody;
 import ca.ieso.reports.schema.genoutputcapability.IMODocHeader;
 import ca.ieso.reports.schema.genoutputcapability.IMODocument;
 
-public class GeneratorOutputCapabilityClient extends BaseReportClient {
+public class GeneratorOutputCapabilityClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public GeneratorOutputCapabilityClient(String defaultUrlString,

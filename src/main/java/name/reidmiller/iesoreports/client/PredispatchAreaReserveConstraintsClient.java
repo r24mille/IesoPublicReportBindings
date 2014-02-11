@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.predispareareserveconst.DocBody;
 import ca.ieso.reports.schema.predispareareserveconst.DocHeader;
 import ca.ieso.reports.schema.predispareareserveconst.Document;
 
-public class PredispatchAreaReserveConstraintsClient extends BaseReportClient {
+public class PredispatchAreaReserveConstraintsClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public PredispatchAreaReserveConstraintsClient(String defaultUrlString, String jaxb2ContextPath) {

@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.dashadowprices.DocBody;
 import ca.ieso.reports.schema.dashadowprices.DocHeader;
 import ca.ieso.reports.schema.dashadowprices.Document;
 
-public class DayAheadShadowPricesClient extends BaseReportClient {
+public class DayAheadShadowPricesClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public DayAheadShadowPricesClient(String defaultUrlString, String jaxb2ContextPath) {

@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.daareareserveconst.DocBody;
 import ca.ieso.reports.schema.daareareserveconst.DocHeader;
 import ca.ieso.reports.schema.daareareserveconst.Document;
 
-public class DayAheadAreaReserveConstraintsClient extends BaseReportClient {
+public class DayAheadAreaReserveConstraintsClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public DayAheadAreaReserveConstraintsClient(String defaultUrlString, String jaxb2ContextPath) {

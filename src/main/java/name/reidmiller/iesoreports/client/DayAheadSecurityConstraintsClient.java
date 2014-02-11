@@ -13,7 +13,7 @@ import ca.ieso.reports.schema.dasecurityconstraints.DocBody;
 import ca.ieso.reports.schema.dasecurityconstraints.DocHeader;
 import ca.ieso.reports.schema.dasecurityconstraints.Document;
 
-public class DayAheadSecurityConstraintsClient extends BaseReportClient {
+public class DayAheadSecurityConstraintsClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public DayAheadSecurityConstraintsClient(String defaultUrlString, String jaxb2ContextPath) {

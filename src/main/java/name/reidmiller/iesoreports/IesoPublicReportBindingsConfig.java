@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import name.reidmiller.iesoreports.client.AdequacyClient;
-import name.reidmiller.iesoreports.client.BaseReportClient;
+import name.reidmiller.iesoreports.client.DailyReportClient;
 import name.reidmiller.iesoreports.client.DayAheadAdequacyClient;
 import name.reidmiller.iesoreports.client.DayAheadAreaOperatingReserveShortfallClient;
 import name.reidmiller.iesoreports.client.DayAheadAreaReserveConstraintsClient;
@@ -510,14 +510,14 @@ public class IesoPublicReportBindingsConfig {
 		String urlBaseString = "http://www.ieso.ca/weather/mkt4/sbg/PUB_SurplusBaseloadGen_";
 		String urlTailString = "_v1.xml";
 		String defaultUrlString = urlBaseString
-				+ BaseReportClient.REPORT_DATE_FORMAT.format(urlCalendar
+				+ DailyReportClient.REPORT_DATE_FORMAT.format(urlCalendar
 						.getTime()) + urlTailString;
 
 		// Check URL for today, if not then check up to five days in the past.
 		for (int i = 0; i < 5; i++) {
 			boolean success = false;
 			defaultUrlString = urlBaseString
-					+ BaseReportClient.REPORT_DATE_FORMAT.format(urlCalendar
+					+ DailyReportClient.REPORT_DATE_FORMAT.format(urlCalendar
 							.getTime()) + urlTailString;
 
 			try {
@@ -548,7 +548,7 @@ public class IesoPublicReportBindingsConfig {
 				+ urlCalendar.getTime().toString());
 
 		return new SurplusBaseloadGenerationClient(defaultUrlString,
-				"ca.ieso.reports.schema.sbg");
+				urlBaseString, urlTailString, "ca.ieso.reports.schema.sbg");
 	}
 
 	/**

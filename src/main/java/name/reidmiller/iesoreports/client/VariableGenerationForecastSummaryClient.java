@@ -17,7 +17,7 @@ import ca.ieso.reports.schema.vgforecastsummary.Document;
  * Reads the current "Variable Generation Forecast Summary Report" from
  * Ontario's Independent Electricity System Operator (IESO).
  */
-public class VariableGenerationForecastSummaryClient extends BaseReportClient {
+public class VariableGenerationForecastSummaryClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public VariableGenerationForecastSummaryClient(String defaultUrlString, String jaxb2ContextPath) {

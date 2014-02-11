@@ -14,12 +14,16 @@ import ca.ieso.reports.schema.sbg.DocHeader;
 import ca.ieso.reports.schema.sbg.Document;
 import ca.ieso.reports.schema.sbg.Document.DocBody;
 
-public class SurplusBaseloadGenerationClient extends BaseReportClient {
+public class SurplusBaseloadGenerationClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
+	private String urlBaseString;
+	private String urlTailString;
 
 	public SurplusBaseloadGenerationClient(String defaultUrlString,
-			String jaxb2ContextPath) {
+			String urlBaseString, String urlTailString, String jaxb2ContextPath) {
 		super.setDefaultUrlString(defaultUrlString);
+		this.urlBaseString = urlBaseString;
+		this.urlTailString = urlTailString;
 		super.setJaxb2ContextPath(jaxb2ContextPath);
 	}
 
@@ -286,23 +290,10 @@ public class SurplusBaseloadGenerationClient extends BaseReportClient {
 	@Override
 	protected String historyUrlString(Date historyDate) {
 		logger.debug("Creating URL for Date=" + historyDate.toString());
-		String historyUrlString = super.getDefaultUrlString();
-
-		int extensionIndex = super.getDefaultUrlString().lastIndexOf("_v1.xml");
-		if (extensionIndex > 0) {
-			logger.debug("Injecting " + REPORT_DATE_FORMAT.format(historyDate)
-					+ " into default URL " + super.getDefaultUrlString());
-			historyUrlString = super.getDefaultUrlString().substring(0,
-					extensionIndex)
-					+ "_"
-					+ REPORT_DATE_FORMAT.format(historyDate)
-					+ super.getDefaultUrlString().substring(extensionIndex);
-		} else {
-			logger.warn("No index of \"_v1.xml\" in "
-					+ super.getDefaultUrlString()
-					+ ". Returning defaultUrlString as historyUrlString.");
-		}
-
+		logger.debug("Injecting " + REPORT_DATE_FORMAT.format(historyDate)
+				+ " into default URL " + super.getDefaultUrlString());
+		String historyUrlString = this.urlBaseString
+				+ REPORT_DATE_FORMAT.format(historyDate) + this.urlTailString;
 		return historyUrlString;
 	}
 }
