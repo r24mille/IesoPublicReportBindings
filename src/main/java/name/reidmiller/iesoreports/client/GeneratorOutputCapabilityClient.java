@@ -2,19 +2,26 @@ package name.reidmiller.iesoreports.client;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import ca.ieso.reports.schema.genoutputcapability.IMODocBody;
+import ca.ieso.reports.schema.genoutputcapability.IMODocBody.Generators.Generator;
+import ca.ieso.reports.schema.genoutputcapability.IMODocBody.Generators.Generator.Outputs.Output;
 import ca.ieso.reports.schema.genoutputcapability.IMODocHeader;
 import ca.ieso.reports.schema.genoutputcapability.IMODocument;
 
 public class GeneratorOutputCapabilityClient extends DailyReportClient {
 	private Logger logger = LogManager.getLogger(this.getClass());
+	public static SimpleDateFormat FUEL_TYPE_TOTALS_TIMESTAMP_FORMAT = new SimpleDateFormat(
+			"yyyy-MM-dd H:mm:ss");
 
 	public GeneratorOutputCapabilityClient(String defaultUrlString,
 			String jaxb2ContextPath) {
@@ -209,5 +216,93 @@ public class GeneratorOutputCapabilityClient extends DailyReportClient {
 	 */
 	static enum FuelType {
 		COAL, GAS, HYDRO, NUCLEAR, OTHER, WIND;
+	}
+
+	/**
+	 * <p>
+	 * Iterates over the {@link Generator} objects in the {@link IMODocBody} and
+	 * tabulates the total MW output by {@link FuelType} for each hour.
+	 * </p>
+	 * 
+	 * @param imoDocBody
+	 * @return A {@link HashMap} keyed by {@link FuelType} and the value is a
+	 *         {@link LinkedHashMap} of timestamp:total for that
+	 *         {@link FuelType}.
+	 */
+	public HashMap<FuelType, LinkedHashMap<String, Float>> getHourlyFuelTypeTotals(
+			IMODocBody imoDocBody) {
+		List<IMODocBody> imoDocBodies = new ArrayList<IMODocBody>(1);
+		imoDocBodies.add(imoDocBody);
+		return this.getHourlyFuelTypeTotals(imoDocBodies);
+	}
+
+	/**
+	 * Iterates over a list of {@link IMODocBody} objects and tabulates the
+	 * total MW output by {@link FuelType} for each hour.
+	 * 
+	 * @param imoDocBodies
+	 * @return A {@link HashMap} keyed by {@link FuelType} and the value is a
+	 *         {@link LinkedHashMap} of timestamp:total for that
+	 *         {@link FuelType}.
+	 */
+	public HashMap<FuelType, LinkedHashMap<String, Float>> getHourlyFuelTypeTotals(
+			List<IMODocBody> imoDocBodies) {
+		int fuelHourMapInitCapacity = imoDocBodies.size() * 24;
+
+		// Initial HashMap by FuelType without any timestamp:total values
+		HashMap<FuelType, LinkedHashMap<String, Float>> fuelTypeMap = new HashMap<FuelType, LinkedHashMap<String, Float>>(
+				6);
+		fuelTypeMap.put(FuelType.COAL, new LinkedHashMap<String, Float>(
+				fuelHourMapInitCapacity));
+		fuelTypeMap.put(FuelType.GAS, new LinkedHashMap<String, Float>(
+				fuelHourMapInitCapacity));
+		fuelTypeMap.put(FuelType.HYDRO, new LinkedHashMap<String, Float>(
+				fuelHourMapInitCapacity));
+		fuelTypeMap.put(FuelType.NUCLEAR, new LinkedHashMap<String, Float>(
+				fuelHourMapInitCapacity));
+		fuelTypeMap.put(FuelType.OTHER, new LinkedHashMap<String, Float>(
+				fuelHourMapInitCapacity));
+		fuelTypeMap.put(FuelType.WIND, new LinkedHashMap<String, Float>(
+				fuelHourMapInitCapacity));
+
+		// Iterate over each imoDocBody in the list (ie. a day)
+		for (IMODocBody imoDocBody : imoDocBodies) {
+			List<Generator> generators = imoDocBody.getGenerators()
+					.getGenerator();
+
+			for (Generator generator : generators) {
+				for (Output hourlyOutput : generator.getOutputs().getOutput()) {
+					int clockHour = hourlyOutput.getHour() - 1;
+					String timeString = imoDocBody.getDate().toString() + " "
+							+ clockHour + ":00:00";
+
+					LinkedHashMap<String, Float> fuelHourMap = fuelTypeMap
+							.get(generator.getFuelType());
+					if (fuelHourMap.keySet().contains(timeString)) {
+						float fuelHourVal = fuelHourMap.get(timeString);
+						logger.debug("generatorName="
+								+ generator.getGeneratorName());
+						logger.debug("fuelHourVal=" + fuelHourVal);
+						logger.debug("hourlyOutput=" + hourlyOutput);
+						logger.debug("energyMW=" + hourlyOutput.getEnergyMW());
+						if (hourlyOutput.getEnergyMW() != null) {
+							fuelHourVal = fuelHourVal
+									+ hourlyOutput.getEnergyMW();
+						}
+						fuelHourMap.put(timeString, fuelHourVal);
+						fuelTypeMap.put(
+								FuelType.valueOf(generator.getFuelType()),
+								fuelHourMap);
+					} else {
+						fuelHourMap.put(timeString, hourlyOutput.getEnergyMW());
+						fuelTypeMap.put(
+								FuelType.valueOf(generator.getFuelType()),
+								fuelHourMap);
+					}
+				}
+			}
+		}
+
+		return fuelTypeMap;
 	}
 }
