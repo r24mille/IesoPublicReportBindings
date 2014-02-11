@@ -20,7 +20,7 @@ I've now set up a poor-man's Maven repository that I am using for my projects wh
 	<dependency>
 		<groupId>name.reidmiller</groupId>
 		<artifactId>ieso-public-report-bindings</artifactId>
-		<version>0.0.3-SNAPSHOT</version>
+		<version>0.0.4-SNAPSHOT</version>
 	</dependency>
 </dependencies>
 ```
