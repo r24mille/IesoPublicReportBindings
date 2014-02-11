@@ -4,8 +4,8 @@
   <artifactId>ieso-public-report-bindings</artifactId>
   <versioning>
     <versions>
-      <version>0.0.4-SNAPSHOT</version>
+      <version>0.0.5-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20140211160616</lastUpdated>
+    <lastUpdated>20140211164952</lastUpdated>
   </versioning>
 </metadata>
