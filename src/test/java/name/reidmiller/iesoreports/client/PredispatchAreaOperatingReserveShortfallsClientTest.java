@@ -61,7 +61,7 @@ public class PredispatchAreaOperatingReserveShortfallsClientTest {
 	@Test
 	public void testGetDocHeaderForDate() {
 		Calendar cal = Calendar.getInstance();
-		cal.roll(Calendar.DATE, false);
+		cal.add(Calendar.DATE, -1);
 		Date yesterday = cal.getTime();
 		try {
 			assertNotNull(DocHeader.class.getName()
@@ -128,7 +128,7 @@ public class PredispatchAreaOperatingReserveShortfallsClientTest {
 	@Test
 	public void testGetDocBodyForDate() {
 		Calendar cal = Calendar.getInstance();
-		cal.roll(Calendar.DATE, false);
+		cal.add(Calendar.DATE, -1);
 		Date yesterday = cal.getTime();
 		try {
 			assertNotNull(DocBody.class.getName()

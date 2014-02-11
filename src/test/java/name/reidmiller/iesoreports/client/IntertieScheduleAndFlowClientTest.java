@@ -60,7 +60,7 @@ public class IntertieScheduleAndFlowClientTest {
 	@Test
 	public void testGetDocHeaderForDate() {
 		Calendar cal = Calendar.getInstance();
-		cal.roll(Calendar.DATE, false);
+		cal.add(Calendar.DATE, -1);
 		Date yesterday = cal.getTime();
 		try {
 			assertNotNull(IMODocHeader.class.getName()
@@ -127,7 +127,7 @@ public class IntertieScheduleAndFlowClientTest {
 	@Test
 	public void testGetDocBodyForDate() {
 		Calendar cal = Calendar.getInstance();
-		cal.roll(Calendar.DATE, false);
+		cal.add(Calendar.DATE, -1);
 		Date yesterday = cal.getTime();
 		try {
 			assertNotNull(IMODocBody.class.getName()

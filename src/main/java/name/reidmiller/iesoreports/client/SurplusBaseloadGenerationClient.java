@@ -271,7 +271,7 @@ public class SurplusBaseloadGenerationClient extends DailyReportClient {
 						documentClazz));
 			}
 
-			calStep.roll(Calendar.DATE, true);
+			calStep.add(Calendar.DATE, 1);
 		}
 
 		return documents;

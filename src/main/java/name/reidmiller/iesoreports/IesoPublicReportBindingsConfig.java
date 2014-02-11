@@ -539,7 +539,7 @@ public class IesoPublicReportBindingsConfig {
 			if (success) {
 				break;
 			} else {
-				urlCalendar.roll(Calendar.DATE, false);
+				urlCalendar.add(Calendar.DATE, -1);
 			}
 
 		}
