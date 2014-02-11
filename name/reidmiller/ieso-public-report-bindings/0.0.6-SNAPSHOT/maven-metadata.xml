@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>name.reidmiller</groupId>
+  <artifactId>ieso-public-report-bindings</artifactId>
+  <version>0.0.6-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20140211.191934</timestamp>
+      <buildNumber>1</buildNumber>
+    </snapshot>
+    <lastUpdated>20140211191934</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>0.0.6-20140211.191934-1</value>
+        <updated>20140211191934</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>0.0.6-20140211.191934-1</value>
+        <updated>20140211191934</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>
