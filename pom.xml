@@ -8,7 +8,7 @@
 	<packaging>jar</packaging>
 
 	<name>IESO Public Report Bindings</name>
-	<description>Java bindings for public IESO XML reports.</description>
+	<description>Java libraries for unmarshalling public XML reports from Ontario's Independent Electricity System Operator (IESO).</description>
 	<url>https://github.com/r24mille/IesoPublicReportBindings</url>
 
 	<issueManagement>
